@@ -1,5 +1,6 @@
 package com.moneyAppV5.category.repository;
 
+import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.SubCategory;
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface SubCategoryRepository
     boolean existsById(int id);
 
     SubCategory save(SubCategory entity);
+
+    List<SubCategory> findSubCategoriesByMainId(Integer id);
+//    List<SubCategory> findExpensesByMainId();
 }

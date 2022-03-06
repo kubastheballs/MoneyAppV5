@@ -5,16 +5,23 @@ import java.util.Set;
 
 @Entity
 @Table(name = "sub_categories")
-public
-class SubCategory
+public class SubCategory
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String subCategory;
-    private String description;
+//    TODO prawdopodobnie opis będzie można wyeliminować ponieważ będzie na poziomie category
+//    private String description;
     @OneToMany(mappedBy = "subCategory")
     private Set<Category> categories;
+//    @ManyToOne
+//    @JoinColumn(name = "category_id")
+//    private Category category;
+    @ManyToOne
+    @JoinColumn(name = "main_category_id")
+    private MainCategory mainCategory;
+
 
 
     public int getId()
@@ -37,17 +44,25 @@ class SubCategory
         this.subCategory = mainCategory;
     }
 
-    public String getDescription()
-    {
-        return description;
-    }
+//    public String getDescription()
+//    {
+//        return description;
+//    }
+//
+//    public void setDescription(String description)
+//    {
+//        this.description = description;
+//    }
+//
+//    public Category getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(Category category) {
+//        this.category = category;
+//    }
 
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-
-    Set<Category> getCategories()
+        Set<Category> getCategories()
     {
         return categories;
     }
@@ -55,5 +70,13 @@ class SubCategory
     void setCategories(Set<Category> categories)
     {
         this.categories = categories;
+    }
+
+    public MainCategory getMainCategory() {
+        return mainCategory;
+    }
+
+    public void setMainCategory(MainCategory mainCategory) {
+        this.mainCategory = mainCategory;
     }
 }

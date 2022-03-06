@@ -15,17 +15,17 @@ import java.util.Optional;
 @Repository
 interface SqlTransactionRepository extends TransactionRepository, JpaRepository<Transaction, Integer>
 {
-    @Override
-    @Query(nativeQuery = true, value = "select * from GAINERS where ID = :id")
-    Optional<Gainer> findGainerById(Integer id);
-
-    @Override
-    @Query(nativeQuery = true, value = "select * from PAYEES where ID = :id")
-    Optional<Payee> findPayeeById(Integer id);
-
-    @Override
-    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where ACCOUNT_ID = :account.id")
-    List<Transaction> getTransactionsByAccount(Account account);
+//    @Override
+//    @Query(nativeQuery = true, value = "select * from GAINERS where ID = :id")
+//    Optional<Gainer> findGainerById(Integer id);
+//
+//    @Override
+//    @Query(nativeQuery = true, value = "select * from PAYEES where ID = :id")
+//    Optional<Payee> findPayeeById(Integer id);
+//
+//    @Override
+//    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where ACCOUNT_ID = :account.id")
+//    List<Transaction> getTransactionsByAccount(Account account);
 
 //    TODO tu chyba musi być jakieś złączenie żeby wyciągnąć z tabeli type z category
 //    TODO po account.id ma być and i warunek na type
@@ -33,11 +33,11 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
 //    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where ACCOUNT_ID = :account.id")
 //    List<Transaction> getTransactionsByTypeAndAccount(Account account, Type type);
 
-    @Override
-    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where PAYEE_ID = :payee.id")
-    List<Transaction> getTransactionsByPayee(Payee payee);
-
-    @Override
-    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where GAINER_ID = :gainer.id")
-    List<Transaction> getTransactionsByGainer(Gainer gainer);
+//    @Override
+//    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where PAYEE_ID = :payee.id")
+//    List<Transaction> getTransactionsByPayee(Payee payee);
+//
+//    @Override
+//    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where GAINER_ID = :gainer.id")
+//    List<Transaction> getTransactionsByGainer(Gainer gainer);
 }

@@ -1,28 +1,34 @@
 create table if not exists main_categories
 (
     id int primary key auto_increment,
-    main_category varchar not null,
-    description varchar
+    main_category varchar not null
+--     category_id int not null
+--     description varchar
 );
 
 create table if not exists sub_categories
 (
     id int primary key auto_increment,
     sub_category varchar not null,
-    description varchar
+--     category_id int not null,
+    main_category_id int not null
+--     description varchar
 );
 
 create table if not exists categories
 (
     id int primary key auto_increment,
+--     category varchar not null,
     main_category_id int not null,
     sub_category_id int not null,
     type varchar not null,
     description varchar
 );
 
+-- alter table sub_categories add foreign key (category_id) references categories (id);
 alter table categories add foreign key (main_category_id) references main_categories (id);
 alter table categories add foreign key (sub_category_id) references sub_categories (id);
+alter table sub_categories add foreign key (main_category_id) references main_categories (id);
 
 create table if not exists payees
 (
@@ -62,8 +68,8 @@ alter table month_balances add foreign key (account_id) references accounts (id)
 create table if not exists budgets
 (
     id int primary key auto_increment,
-    month binary(255) not null,
-    year int not null,
+    month int not null,
+    year binary(255) not null,
     description varchar
 );
 
