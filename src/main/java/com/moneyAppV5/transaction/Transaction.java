@@ -3,6 +3,7 @@ package com.moneyAppV5.transaction;
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.Category;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ public class Transaction
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate transactionDate;
     @ManyToOne
     @JoinColumn(name = "account_id")

@@ -18,4 +18,7 @@ public interface CategoryRepository
 
     Category save(Category entity);
 
+    List<Category> findAllExpenses();
+
+    List<Category> findAllIncomes();
 }

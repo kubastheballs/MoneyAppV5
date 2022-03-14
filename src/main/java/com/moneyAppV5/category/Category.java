@@ -13,6 +13,7 @@ public class Category
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String category;
 //    private String mainCategory;
 //    private String subCategory;
     @ManyToOne
@@ -69,7 +70,21 @@ public class Category
 //        this.subCategories = subCategories;
 //    }
 
-        public MainCategory getMainCategory()
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setCategory(String main, String sub)
+    {
+        this.category = String.format("%s : %s", main, sub);
+    }
+
+    public MainCategory getMainCategory()
     {
         return mainCategory;
     }
@@ -127,5 +142,10 @@ public class Category
     public void setBudgetPositions(Set<BudgetPosition> budgetPositions)
     {
         this.budgetPositions = budgetPositions;
+    }
+
+    public String toDisplay()
+    {
+        return String.format("%s : %s", this.mainCategory.getMainCategory(), this.subCategory.getSubCategory());
     }
 }

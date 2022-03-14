@@ -1,0 +1,1 @@
+alter table CATEGORIES add column category varchar;

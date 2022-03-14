@@ -20,10 +20,17 @@ public class MainCategoryDTO
     {
     }
 
+
+
     public MainCategoryDTO(String mainCategory)
     {
-        new MainCategoryDTO(mainCategory, null);
+        this.mainCategory = mainCategory;
     }
+//TODO dlaczego taki konstruktor wyrzuca "main_category cannot be null" przy tworzeniu nowego?
+    //    public MainCategoryDTO(String mainCategory)
+//    {
+//        new MainCategoryDTO(mainCategory, null);
+//    }
 
     public MainCategoryDTO(String mainCategory, List<SubCategory> subCategories)
     {

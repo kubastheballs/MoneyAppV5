@@ -65,7 +65,21 @@ public class CategoryService
         if (!isMain)
             main = createMainCategory(new MainCategoryDTO(toSave.getMain()));
 
-        SubCategory sub = createSubCategory(new SubCategoryDTO(toSave.getSub(), main));
+        SubCategory sub = null;
+        boolean isSub = false;
+
+        for (SubCategory s : this.subCategoryRepository.findAll())
+        {
+            if ((toSave.getSub()).equals(s.getSubCategory()))
+            {
+                sub = s;
+                isSub = true;
+                break;
+            }
+        }
+
+        if (!isSub)
+            sub = createSubCategory(new SubCategoryDTO(toSave.getSub(), main));
 
         var result = new CategoryDTO(main , sub, toSave.getType(), toSave.getDescription());
 
@@ -130,9 +144,43 @@ public class CategoryService
 
     public List<MainCategoryDTO> readMainCategoriesDtoOfIncomes()
     {
+//        List<MainCategoryDTO> dtos = new ArrayList<>();
+//
+//        for(MainCategory cat : readMainCategoriesOfIncomes())
+//        {
+//            var dto = new MainCategoryDTO(cat, readSubCategoriesByMainId(cat.getId()));
+//
+//            if (!dtos.contains(dto))
+//                dtos.add(dto);
+//        }
+//
+//        return dtos;
+
+        return createMainCategoriesDtoList(readMainCategoriesOfIncomes());
+    }
+
+    public List<MainCategoryDTO> readMainCategoriesDtoOfExpenses()
+    {
+//        List<MainCategoryDTO> dtos = new ArrayList<>();
+//
+//        for(MainCategory cat : readMainCategoriesOfExpenses())
+//        {
+//            var dto = new MainCategoryDTO(cat, readSubCategoriesByMainId(cat.getId()));
+//
+//            if (!dtos.contains(dto))
+//                dtos.add(dto);
+//        }
+//
+//        return dtos;
+
+        return createMainCategoriesDtoList(readMainCategoriesOfExpenses());
+    }
+
+    private List<MainCategoryDTO> createMainCategoriesDtoList(List<MainCategory> list)
+    {
         List<MainCategoryDTO> dtos = new ArrayList<>();
 
-        for(MainCategory cat : readMainCategoriesOfIncomes())
+        for(MainCategory cat : list)
         {
             var dto = new MainCategoryDTO(cat, readSubCategoriesByMainId(cat.getId()));
 
@@ -146,6 +194,11 @@ public class CategoryService
     public List<MainCategory> readMainCategoriesOfIncomes()
     {
          return this.mainCategoryRepository.findAllIncomes();
+    }
+
+    public List<MainCategory> readMainCategoriesOfExpenses()
+    {
+        return this.mainCategoryRepository.findAllExpenses();
     }
 
     public List<MainCategory> readAllMainCategories()
@@ -193,6 +246,16 @@ public class CategoryService
         return dtos;
     }
 
+    public List<Category> readExpenseCategories()
+    {
+        return this.repository.findAllExpenses();
+    }
+
+    public List<Category> readIncomeCategories()
+    {
+        return this.repository.findAllIncomes();
+    }
+
 //    public List<String> readSubCategoriesByMainCategory(String main)
 //    {
 //        List<String> subs = new ArrayList<>();
@@ -203,4 +266,6 @@ public class CategoryService
 //
 //        return subs;
 //    }
+
+
 }

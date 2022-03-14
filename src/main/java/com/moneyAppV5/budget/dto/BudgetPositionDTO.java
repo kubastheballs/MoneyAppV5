@@ -7,13 +7,14 @@ import com.moneyAppV5.transaction.Transaction;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-class BudgetPositionDTO
+public class BudgetPositionDTO
 {
     private Category category;
     private Budget budget;
-    private List<Transaction> transactions;
+    private Set<Transaction> transactions;
     private double plannedAmount;
     private double actualAmount;
     private double balance;
@@ -25,7 +26,7 @@ class BudgetPositionDTO
 
 //    TODO czy transakcje są potrzebne?
 
-    BudgetPositionDTO(Category category, Budget budget, List<Transaction> transactions, double plannedAmount, double actualAmount, double balance, String description)
+    BudgetPositionDTO(Category category, Budget budget, Set<Transaction> transactions, double plannedAmount, double actualAmount, double balance, String description)
     {
         this.category = category;
         this.budget = budget;
@@ -34,6 +35,17 @@ class BudgetPositionDTO
         this.actualAmount = actualAmount;
         this.balance = balance;
         this.description = description;
+    }
+
+    public BudgetPositionDTO(BudgetPosition position)
+    {
+        this.category = position.getCategory();
+//        this.budget = position.getBudget();
+        this.transactions = position.getTransactions();
+        this.plannedAmount = position.getPlannedAmount();
+        this.actualAmount = position.getActualAmount();
+        this.balance = position.getBalance();
+        this.description = position.getDescription();
     }
 
     BudgetPosition toBudgetPosition()
@@ -48,5 +60,61 @@ class BudgetPositionDTO
         result.setDescription(this.description);
 
         return result;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Budget getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public double getPlannedAmount() {
+        return plannedAmount;
+    }
+
+    public void setPlannedAmount(double plannedAmount) {
+        this.plannedAmount = plannedAmount;
+    }
+
+    public double getActualAmount() {
+        return actualAmount;
+    }
+
+    public void setActualAmount(double actualAmount) {
+        this.actualAmount = actualAmount;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -3,8 +3,11 @@ package com.moneyAppV5.account.service;
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.dto.AccountDTO;
 import com.moneyAppV5.account.repository.AccountRepository;
+import com.moneyAppV5.category.Category;
+import com.moneyAppV5.category.dto.CategoryDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,13 +36,28 @@ public class AccountService
         return this.repository.findAll();
     }
 
-    public Account createAccount(final Account toSave)
+    public Account createAccount(final AccountDTO toSave)
     {
-        return this.repository.save(toSave);
+        return this.repository.save(toSave.toAccount());
     }
 
     public double getActualBalanceByAccount(Account account)
     {
         return this.repository.getAccountActualBalance(account);
+    }
+
+    public List<AccountDTO> readAllAccountsDTO()
+    {
+        List<AccountDTO> dtos = new ArrayList<>();
+
+        for(Account acc : readAllAccounts())
+            dtos.add(new AccountDTO(acc));
+
+        return dtos;
+    }
+
+    public void changeBalance(Integer id, double amount)
+    {
+        this.repository.changeBalance(id, amount);
     }
 }

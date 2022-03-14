@@ -13,6 +13,16 @@ import java.util.Optional;
 @Repository
 interface SqlCategoryRepository extends CategoryRepository, JpaRepository<Category, Integer>
 {
+//    TODO jak zrobić aby przekazywać enum type jako parametr
+
+    @Override
+    @Query(nativeQuery = true, value = "select * from CATEGORIES where type = 'EXPENSE'")
+    List<Category> findAllExpenses();
+
+    @Override
+    @Query(nativeQuery = true, value = "select * from CATEGORIES where type = 'INCOME'")
+    List<Category> findAllIncomes();
+
 //    @Override
 //    @Query(nativeQuery = true, value = "select * from MAIN_CATEGORIES")
 //    List<MainCategory> findAllMainCategories();

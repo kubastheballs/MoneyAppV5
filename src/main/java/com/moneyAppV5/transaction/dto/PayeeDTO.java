@@ -6,15 +6,20 @@ import com.moneyAppV5.transaction.Transaction;
 import javax.persistence.OneToMany;
 import java.util.Set;
 
-class PayeeDTO
+public class PayeeDTO
 {
     private String payee;
     private String description;
 //    private Set<Transaction> transactions;
 
 
-    PayeeDTO()
+    public PayeeDTO()
     {
+    }
+
+    public PayeeDTO(String payee)
+    {
+        this.payee = payee;
     }
 
     PayeeDTO(String payee, String description)
@@ -23,12 +28,34 @@ class PayeeDTO
         this.description = description;
     }
 
-    Payee toPayee()
+     public PayeeDTO(Payee payee)
+    {
+        this.payee = payee.getPayee();
+        this.description = payee.getDescription();
+    }
+
+    public Payee toPayee()
     {
         var result = new Payee();
         result.setPayee(this.payee);
         result.setDescription(this.description);
 
         return result;
+    }
+
+    public String getPayee() {
+        return payee;
+    }
+
+    public void setPayee(String payee) {
+        this.payee = payee;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

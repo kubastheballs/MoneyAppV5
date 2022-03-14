@@ -15,4 +15,6 @@ public interface AccountRepository
     Account save(Account entity);
 
     double getAccountActualBalance(Account account);
+
+    void changeBalance(Integer id, double amount);
 }

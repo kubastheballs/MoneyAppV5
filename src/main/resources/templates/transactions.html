@@ -1,16 +1,109 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoneyApp : transactions</title>
+    <title>Transakcje</title>
     <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_black.css">
+    <style>
+            .leftFrom
+            {
+                width: 50%;
+                float: left;
+            }
+            .list
+            {
+                width: 200%;
+            }
+    </style>
 </head>
 <body>
 <main>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <h1 th:if="${message != null}" th:text="${message}"></h1>
+    <!--/*@thymesVar id="transaction" type="com.moneyAppV5.transaction.dto.TransactionDTO"*/-->
+    <!--/*@thymesVar id="payee" type="com.moneyAppV5.transaction.Payee"*/-->
+    <!--/*@thymesVar id="gainer" type="com.moneyAppV5.transaction.Gainer"*/-->
+    <!--/*@thymesVar id="account" type="com.moneyAppV5.account.Account"*/-->
+    <!--/*@thymesVar id="category" type="com.moneyAppV5.category.Category"*/-->
+    <!--/*@thymesVar id="t" type="com.moneyAppV5.category.Type"*/-->
+    <form action="#" method="post" th:action="@{/transactions}" th:object="${transaction}">
     <fieldset>
         <legend>Nowa transakcja</legend>
+        <label>Data transakcji
+          <input type="text"  th:field="${transaction.date}" />
+        </label>
+        <label>Konto
+            <select th:field="${transaction.account}">
+                <option value="0">Proszę wybrać konto</option>
+                <option th:each="account : ${accountsList}" th:value="${account.id}" th:text="${account.name}"></option>
+            </select>
+        </label>
+        <label>Kwota transakcji [zł]
+            <input type="number" step="0.01" th:field="${transaction.amount}" />
+<!--            <input type="text" th:field="${transaction.amount}" />-->
+        </label>
+<!--        <label>Typ transakcji-->
+<!--            <select name="type">-->
+<!--                <option value="0" >Proszę wybrać typ transakcji</option>-->
+
+<!--                <option th:each="t : ${T(com.moneyAppV5.category.Type).values()}" th:value="${t.name()}" th:text="${t.name}"></option>-->
+<!--            </select>-->
+<!--        </label>-->
+        <label>Kategoria transakcji
+<!--            <select name="cat" >-->
+<!--                <option value="0">Proszę wybrać kategorię</option>-->
+<!--                <option th:each="category : ${categoriesList}" th:value="${category.getId()}" th:text="${category.toDisplay()}"></option>-->
+<!--            </select>-->
+            <input list="cats" name="catsList" th:field="${transaction.category}" />
+            <datalist id="cats" >
+                <option th:each="category : ${categoriesList}" th:value="${category.id}" th:text="${category.category}"></option>
+            </datalist>
+        </label>
+        <label>Kontrahent
+<!--            <select name="pays" >-->
+<!--                <option value="0">Proszę wybrać opłacanego</option>-->
+<!--                <option th:each="payee : ${payeesList}" th:value="${payee}" th:text="${payee.getPayee()}"></option>-->
+<!--            </select>-->
+            <input list="payees" name="payeesList" th:field="${transaction.payee}" />
+            <datalist id="payees" >
+                <option>Proszę wybrać opłacanego</option>-->
+                <option th:each="payee : ${payeesList}" th:value="${payee.id}" th:text="${payee.payee}"></option>
+            </datalist>
+
+        </label>
+        <label>Beneficjent
+<!--            <select name="gains" >-->
+<!--                <option value="0">Proszę wybrać beneficjenta</option>-->
+<!--                <option th:each="gainer : ${gainersList}" th:value="${gainer}" th:text="${gainer.getGainer()}"></option>-->
+<!--            </select>-->
+            <input list="gainers" name="gainersList" th:field="${transaction.gainer}" />
+            <datalist id="gainers" >
+                <option>Proszę wybrać beneficjenta</option>
+                <option th:each="gainer : ${gainersList}" th:value="${gainer.id}" th:text="${gainer.gainer}"></option>
+            </datalist>
+        </label>
+        <label>Opis transakcji
+            <input type="text" th:field="${transaction.description}" />
+        </label>
     </fieldset>
+        <p>
+            <button type="submit">Dodaj</button>
+            <button type="reset">Wyczyść</button>
+        </p>
+    </form>
+    <div>
+        <p>Transakcje</p>
+        <table class="list">
+            <tr>
+                <td>Data</td><td>konto</td><td>Kwota [zł]</td><td>Kontrahent</td><td>Kategoria</td><td>Beneficjent</td><td>opis</td>
+            </tr>
+            <tr th:each="transaction : ${transactions}">
+                <td th:text="${transaction.date}" ></td><td th:text="${transaction.account.name}"></td><td th:text="${transaction.amount}"></td>
+                <td th:text="${transaction.payee.payee}"></td><td th:text="${transaction.category.category}"></td><td th:text="${transaction.gainer.gainer}"></td>
+                <td th:text="${transaction.description}"></td>
+            </tr>
+        </table>
+    </div>
 </main>
 </body>
 </html>

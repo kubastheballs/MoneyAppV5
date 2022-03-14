@@ -24,16 +24,17 @@ class CategoryController
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
     CategoryService service;
 
+
+    CategoryController(CategoryService service)
+    {
+        this.service = service;
+    }
+
     @GetMapping()
     String showCategories(Model model)
     {
         model.addAttribute("category", new CategoryDTO());
         return "categories";
-    }
-
-    CategoryController(CategoryService service)
-    {
-        this.service = service;
     }
 
     @GetMapping(params = {"!sort", "!page", "!size"}, path = "/main")
@@ -135,9 +136,9 @@ class CategoryController
     }
 
     @ModelAttribute("expenseCategories")
-    List<CategoryDTO> getExpenseCategoriesDTO()
+    List<MainCategoryDTO> getExpenseCategoriesDTO()
     {
-       return this.service.readCategoriesDTOByType(Type.EXPENSE);
+       return this.service.readMainCategoriesDtoOfExpenses();
     }
 
 }

@@ -34,6 +34,14 @@ public class Account
     {
         this.name = name;
         this.actualBalance = actualBalance;
+        this.initBalance = actualBalance;
+    }
+
+    public Account(String name, String description, double actualBalance) {
+        this.name = name;
+        this.description = description;
+        this.actualBalance = actualBalance;
+        this.initBalance = actualBalance;
     }
 
     public int getId()

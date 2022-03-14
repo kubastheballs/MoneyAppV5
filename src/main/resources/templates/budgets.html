@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Budżet</title>
+    <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_black.css">
+    <style>
+
+    </style>
+</head>
+<body>
+<!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
+<!--/*@thymesVar id="position" type="com.moneyAppV5.budget.dto.BudgetPositionDTO"*/-->
+<!--/*@thymesVar id="message" type="java.lang.String"*/-->
+<form action="#" method="post" th:action="@{/budgets}" th:object="${budget}">
+<h1 th:if="${message != null}" th:text="${message}"></h1>
+
+<label>Widok ogólny budżetu</label>
+<table>
+    <tr>
+        <td></td><td>Planowane [zł]</td><td>Rzeczywiste [zł]</td><td>Saldo [zł]</td>
+    </tr>
+    <tr>
+        <td>Dochody [zł]</td><td th:text="${budget.plannedIncomes}"></td><td th:text="${budget.actualIncomes}"></td><td th:text="${budget.balanceIncomes}"></td>
+    </tr>
+    <tr>
+        <td>Wydatki [zł]</td><td th:text="${budget.plannedExpenses}"></td><td th:text="${budget.actualExpenses}"></td><td th:text="${budget.balanceExpenses}"></td>
+    </tr>
+    <tr>
+        <td>Saldo [zł]</td><td th:text="${budget.balancePlanned}"></td><td th:text="${budget.balanceActual}"></td>
+    </tr>
+</table>
+
+<label>Widok szczegółówy dochodów</label>
+    <table>
+        <tr>
+            <td>Kategoria</td><td>Planowane dochody</td><td>Rzeczywiste dochody</td><td>Różnica</td><td>Opis</td>
+        </tr>
+        <tr>
+            <td>Suma</td><td th:text="${budget.plannedIncomes}"></td><td th:text="${budget.actualIncomes}"></td><td th:text="${budget.balanceIncomes}"></td><td>Opis</td>
+        </tr>
+        <tr th:each="position : ${incomePositions}">
+<!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
+            <td th:text="${position.category.mainCategory}"></td><td th:text="${position.plannedAmount}"></td><td  th:text="${position.actualAmount}"></td>
+            <td  th:text="${position.balance}"></td><td  th:text="${position.description}"></td>
+<!--        TODO zrobienie podlisty z subkategoriami - czy chdzi o tr wewnątrz tr? jest nie zamknięty bo ten od głównego go domyka-->
+<!--        TODO wyciągnięcie listy subkategorii-->
+                <tr>
+                    <td>Nazwa subkategorii</td><td>Planowane dochody</td><td>Rzeczywsite dochody</td><td>Różnica</td><td>Opis</td>
+       </tr>
+    </table>
+
+
+</form>
+</body>
+</html>

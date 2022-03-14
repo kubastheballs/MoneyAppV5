@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kontrahenci</title>
+    <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_black.css">
+    <style>
+
+    </style>
+</head>
+<body>
+<main>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <h1 th:if="${message != null}" th:text="${message}"></h1>
+    <!--/*@thymesVar id="payee" type="com.moneyAppV5.transaction.dto.PayeeDTO"*/-->
+    <form action="#" method="post" th:action="@{/payees}" th:object="${payee}">
+        <fieldset>
+            <legend>Nowy konttrahent</legend>
+            <label>Nazwa kontrahenta
+                <input type="text" th:field="${payee.payee}" />
+            </label>
+            <label>Opis kontrahenta
+                <input type="text" th:field="${payee.description}" />
+            </label>
+        </fieldset>
+        <p>
+            <button type="submit">Dodaj</button>
+            <button type="reset">Wyczyść</button>
+        </p>
+    </form>
+    <div>
+        <p>Kontrahenci</p>
+        <ul>
+            <li th:each="payee : ${payees}" th:text="${payee.payee}"></li>
+        </ul>
+    </div>
+</main>
+</body>
+</html>

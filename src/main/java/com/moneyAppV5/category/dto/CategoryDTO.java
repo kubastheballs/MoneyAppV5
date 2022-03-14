@@ -11,6 +11,7 @@ public class CategoryDTO
     private SubCategory subCategory;
     private String main;
     private String sub;
+    private String category;
 //    private List<TransactionDTO> transactionsDTO;
     private Type type;
     private String description;
@@ -35,6 +36,7 @@ public class CategoryDTO
     {
         this.mainCategory = mainCategory;
         this.subCategory = subCategory;
+        this.category = toDisplay(mainCategory.getMainCategory(), subCategory.getSubCategory());
         this.type = type;
         this.description = description;
     }
@@ -43,14 +45,23 @@ public class CategoryDTO
     {
         this.main = mainCategory;
         this.sub = subCategory;
+        this.category = toDisplay(mainCategory, subCategory);
         this.type = type;
         this.description = description;
+    }
+
+    public CategoryDTO(Category category)
+    {
+        this.mainCategory = category.getMainCategory();
+        this.subCategory = category.getSubCategory();
+        this.category = toDisplay(category.getMainCategory().getMainCategory(), category.getSubCategory().getSubCategory());
     }
 
     public Category toCategory()
     {
         var result = new Category();
 
+        result.setCategory(this.category);
         result.setMainCategory(this.mainCategory);
         result.setSubCategory(this.subCategory);
         result.setType(this.type);
@@ -59,11 +70,7 @@ public class CategoryDTO
         return result;
     }
 
-    public CategoryDTO(Category category)
-    {
-        this.mainCategory = category.getMainCategory();
-        this.subCategory = category.getSubCategory();
-    }
+
 
     public MainCategory getMainCategory() {
         return mainCategory;
@@ -122,12 +129,9 @@ public class CategoryDTO
         this.description = description;
     }
 
-    public String toDisplay()
+    public String toDisplay(String main, String sub)
     {
-        if ((this.sub).equals("-"))
-            return String.format("%s", this.main);
-        else
-            return String.format("%s : %s", this.main, this.sub);
+        return String.format("%s : %s", main, sub);
     }
 
     public String getMain() {
@@ -144,5 +148,13 @@ public class CategoryDTO
 
     public void setSub(String sub) {
         this.sub = sub;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

@@ -12,6 +12,20 @@ import java.util.List;
 public interface SqlBudgetPositionRepository extends BudgetPositionRepository, JpaRepository<BudgetPosition, Integer>
 {
     @Override
-    @Query(nativeQuery = true, value = "select * from BUDGET_POSITIONS where BUDGET_ID = :budget.id")
-    List<BudgetPosition> getBudgetPositionsByBudget(Budget budget);
+    @Query(nativeQuery = true, value = "select * from BUDGET_POSITIONS where BUDGET_ID = :id")
+    List<BudgetPosition> findPositionsByBudgetId(Integer id);
+
+    @Override
+    @Query(nativeQuery = true, value = "select distinct * from BUDGET_POSITIONS inner join categories on BUDGET_POSITIONS.CATEGORY_ID = CATEGORIES.ID " +
+            "where BUDGET_ID = :id and CATEGORIES.TYPE = 'INCOME'")
+    List<BudgetPosition> findIncomePositionsByBudgetId(Integer id);
+
+    @Override
+    @Query(nativeQuery = true, value = "select distinct * from BUDGET_POSITIONS inner join categories on BUDGET_POSITIONS.CATEGORY_ID = CATEGORIES.ID " +
+                       "where BUDGET_ID = :id and CATEGORIES.TYPE = 'EXPENSE'")
+    List<BudgetPosition> findExpensePositionsByBudgetId(Integer id);
+
+//    @Override
+//    @Query(nativeQuery = true, value = "select * from BUDGET_POSITIONS where BUDGET_ID = :budget.id")
+//    List<BudgetPosition> getBudgetPositionsByBudget(Budget budget);
 }

@@ -11,7 +11,9 @@ import java.util.Optional;
 public interface BudgetPositionRepository
 {
     List<BudgetPosition> findAll();
-//    List<BudgetPosition> findByBudget(Budget budget);
+    List<BudgetPosition> findPositionsByBudgetId(Integer id);
+    List<BudgetPosition> findIncomePositionsByBudgetId(Integer id);
+    List<BudgetPosition> findExpensePositionsByBudgetId(Integer id);
 
     Optional<BudgetPosition> findById(Integer id);
 
@@ -20,6 +22,6 @@ public interface BudgetPositionRepository
 
 
 //    List<BudgetPosition> getBudgetPositionsByTypeAndBudget(Budget budget, Type type);
-    List<BudgetPosition> getBudgetPositionsByBudget(Budget budget);
+//    List<BudgetPosition> getBudgetPositionsByBudget(Budget budget);
 
 }

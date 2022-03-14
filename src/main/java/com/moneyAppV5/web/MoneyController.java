@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/money")
+@RequestMapping("/moneys")
 class MoneyController
 {
     @GetMapping
     String showMoneyApp()
     {
-        return "money";
+        return "moneys";
     }
 
 //    @GetMapping(path = "/categories")
