@@ -1,8 +1,10 @@
 package com.moneyAppV5.transaction;
 
 import com.moneyAppV5.account.Account;
+import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.Category;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,6 +19,9 @@ public class Transaction
     private int id;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate transactionDate;
+    private int day;
+    private int month;
+    private int year;
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
@@ -32,12 +37,25 @@ public class Transaction
     private Gainer gainer;
     private String description;
     @ManyToOne
+    @JoinColumn(name = "budget_id")
+    private Budget budget;
+    @ManyToOne
     @JoinColumn(name = "budget_position_id")
     private BudgetPosition budgetPosition;
 
      public Transaction()
     {
     }
+
+    public Transaction(TransactionDTO dto, int positionInt)
+    {
+//        TODO
+    }
+
+//    public Transaction(Transaction transaction, BudgetPosition position)
+//    {
+//        this.budgetPosition = position;
+//    }
 
     public void updateFrom(final Transaction source)
     {
@@ -124,13 +142,54 @@ public class Transaction
         this.description = description;
     }
 
-    public BudgetPosition getBudgetPosition()
-    {
+//    public BudgetPosition getBudgetPosition()
+//    {
+//        return budgetPosition;
+//    }
+//
+//    public void setBudgetPosition(BudgetPosition budgetPosition)
+//    {
+//        this.budgetPosition = budgetPosition;
+//    }
+
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public Budget getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+    }
+
+    public BudgetPosition getBudgetPosition() {
         return budgetPosition;
     }
 
-    public void setBudgetPosition(BudgetPosition budgetPosition)
-    {
+    public void setBudgetPosition(BudgetPosition budgetPosition) {
         this.budgetPosition = budgetPosition;
     }
 }

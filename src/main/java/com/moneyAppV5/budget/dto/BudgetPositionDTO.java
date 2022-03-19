@@ -6,9 +6,7 @@ import com.moneyAppV5.category.Category;
 import com.moneyAppV5.transaction.Transaction;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class BudgetPositionDTO
 {
@@ -116,5 +114,19 @@ public class BudgetPositionDTO
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public BudgetPosition toPosition()
+    {
+        var result = new BudgetPosition();
+
+        result.setCategory(this.category);
+        result.setBudget(this.budget);
+        result.setPlannedAmount(this.plannedAmount);
+        result.setActualAmount(this.actualAmount);
+        result.setBalance(this.balance);
+        result.setDescription(this.description);
+
+        return result;
     }
 }

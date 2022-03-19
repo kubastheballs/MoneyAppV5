@@ -1,9 +1,8 @@
 package com.moneyAppV5.budget;
 
+import com.moneyAppV5.transaction.Transaction;
+
 import javax.persistence.*;
-import java.time.Month;
-import java.time.Year;
-import java.util.List;
 import java.util.Set;
 
 
@@ -15,8 +14,10 @@ class Budget
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Month month;
-    private Year year;
+    private int month;
+    private int year;
+    @OneToMany(mappedBy = "budget")
+    private Set<Transaction> transactions;
     @OneToMany(mappedBy = "budget")
     private Set<BudgetPosition> incomes;
     @OneToMany(mappedBy = "budget")
@@ -27,33 +28,54 @@ class Budget
     {
     }
 
-     public int getId()
+     public Integer getId()
     {
         return id;
     }
 
-    public void setId(int id)
+    public void setId(Integer id)
     {
         this.id = id;
     }
 
-    public Month getMonth()
-    {
+//    public Month getMonth()
+//    {
+//        return month;
+//    }
+//
+//    public void setMonth(Month month)
+//    {
+//        this.month = month;
+//    }
+//
+//    public Year getYear()
+//    {
+//        return year;
+//    }
+//
+//    public void setYear(Year year)
+//    {
+//        this.year = year;
+//    }
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getMonth() {
         return month;
     }
 
-    public void setMonth(Month month)
-    {
+    public void setMonth(int month) {
         this.month = month;
     }
 
-    public Year getYear()
-    {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Year year)
-    {
+    public void setYear(int year) {
         this.year = year;
     }
 
@@ -85,5 +107,13 @@ class Budget
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

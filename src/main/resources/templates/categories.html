@@ -46,7 +46,7 @@
         <label > Typ kategorii
             <select class="form-control" id="typeId" name="type">
                 <option value="0" >Proszę wybrać typ kategorii</option>
-                <option th:each="t : ${T(com.moneyAppV5.category.Type).values()}" th:value="${t.name}" th:text="${t.name}"></option>
+                <option th:each="t : ${T(com.moneyAppV5.category.Type).values()}" th:value="${t.name()}" th:text="${t.name}"></option>
             </select>
         </label>
         <label> Opis kategorii

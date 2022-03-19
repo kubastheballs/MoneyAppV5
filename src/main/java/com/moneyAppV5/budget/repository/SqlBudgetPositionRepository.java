@@ -1,6 +1,5 @@
 package com.moneyAppV5.budget.repository;
 
-import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

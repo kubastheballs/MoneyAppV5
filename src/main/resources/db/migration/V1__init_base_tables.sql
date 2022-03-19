@@ -69,7 +69,7 @@ create table if not exists budgets
 (
     id int primary key auto_increment,
     month int not null,
-    year binary(255) not null,
+    year int not null,
     description varchar
 );
 
@@ -90,7 +90,7 @@ alter table budget_positions add foreign key (budget_id) references budgets (id)
 CREATE TABLE IF NOT EXISTS transactions
 (
     id int primary key auto_increment,
-    transaction_date date not null,
+    transaction_date date,
     account_id int not null,
     amount double not null,
     category_id int not null,

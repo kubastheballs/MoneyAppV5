@@ -9,27 +9,29 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class TransactionDTO
 {
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String date;
 //    private LocalDate date;
     private Account account;
-    private String amount;
-//    private double amount;
+//    private String amount;
+    private double amount;
     private Category category;
     private Payee payee;
     private Gainer gainer;
     private String description;
 //    private BudgetPosition budgetPosition;
 
-
     private int accountId;
     private int categoryId;
     private int payeeId;
     private int gainerId;
+
+    private int day;
+    private int month;
+    private int year;
 
 
      public TransactionDTO()
@@ -38,19 +40,37 @@ public class TransactionDTO
 
     public TransactionDTO(Transaction transaction)
     {
-        this.date = String.valueOf(transaction.getDate());
+        this.day = transaction.getDay();
+        this.month = transaction.getMonth();
+        this.year = transaction.getYear();
+//        this.date = String.valueOf(transaction.getDate());
         this.account = transaction.getAccount();
-        this.amount = String.valueOf(transaction.getAmount());
+        this.amount = transaction.getAmount();
+//        this.amount = String.valueOf(transaction.getAmount());
         this.category = transaction.getCategory();
         this.payee = transaction.getPayee();
         this.gainer = transaction.getGainer();
         this.description = transaction.getDescription();
     }
+//
+//
+//     public TransactionDTO(String date, Account account, String amount, Category category, Payee payee, Gainer gainer, String description)
+//    {
+//        this.date = date;
+//        this.account = account;
+//        this.amount = amount;
+//        this.category = category;
+//        this.payee = payee;
+//        this.gainer = gainer;
+//        this.description = description;
+//    }
 
-
-     public TransactionDTO(String date, Account account, String amount, Category category, Payee payee, Gainer gainer, String description)
+    public TransactionDTO(int day, int month, int year, Account account, double amount, Category category, Payee payee, Gainer gainer, String description)
     {
-        this.date = date;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.date = createDateString(day, month, year);
         this.account = account;
         this.amount = amount;
         this.category = category;
@@ -59,23 +79,24 @@ public class TransactionDTO
         this.description = description;
     }
 
-    public TransactionDTO(String date, Account account, double amount, Category category, Payee payee, Gainer gainer, String description)
-    {
-        this.date = date;
-        this.account = account;
-        this.amount = String.valueOf(amount);
-        this.category = category;
-        this.payee = payee;
-        this.gainer = gainer;
-        this.description = description;
-    }
+//    public TransactionDTO(String date, Account account, double amount, Category category, Payee payee, Gainer gainer, String description)
+//    {
+//        this.date = date;
+//        this.account = account;
+//        this.amount = amount;
+//        this.category = category;
+//        this.payee = payee;
+//        this.gainer = gainer;
+//        this.description = description;
+//    }
 
     public TransactionDTO(LocalDate date, Account account, double amount, Category category, Payee payee, Gainer gainer, String description)
     {
         this.date = String.valueOf(date);
 //        this.date = date;
         this.account = account;
-        this.amount = String.valueOf(amount);
+        this.amount = amount;
+//        this.amount = String.valueOf(amount);
         this.category = category;
         this.payee = payee;
         this.gainer = gainer;
@@ -85,7 +106,8 @@ public class TransactionDTO
      public TransactionDTO(LocalDate date, double amount, String description, int accountId, int categoryId, int payeeId, int gainerId)
     {
         this.date = String.valueOf(date);
-        this.amount = String.valueOf(amount);
+        this.amount = amount;
+//        this.amount = String.valueOf(amount);
         this.description = description;
         this.accountId = accountId;
         this.categoryId = categoryId;
@@ -96,15 +118,35 @@ public class TransactionDTO
     public Transaction toTransaction()
     {
         var result = new Transaction();
+
         result.setDate(LocalDate.parse(this.date, DateTimeFormatter.ISO_DATE));
+        result.setDay(this.day);
+        result.setMonth(this.month);
+        result.setYear(this.year);
         result.setAccount(this.account);
-        result.setAmount(Double.parseDouble(this.amount));
+        result.setAmount(this.amount);
+//        result.setAmount(Double.parseDouble(this.amount));
         result.setCategory(this.category);
         result.setPayee(this.payee);
         result.setGainer(this.gainer);
         result.setDescription(this.description);
 
         return result;
+    }
+
+    String createDateString(int day, int month, int year)
+    {
+        String d = String.valueOf(day);
+
+        if (day < 10)
+            d = "0" + d;
+
+        String m = String.valueOf(month);
+
+        if (month < 10)
+            m = "0" + m;
+
+        return String.format("%s-%s-%s", year, m, d);
     }
 
 //    public LocalDate getDate()
@@ -126,24 +168,24 @@ public class TransactionDTO
         this.date = date;
     }
 
-//    public double getAmount()
-//    {
-//        return amount;
-//    }
-//
-//    void setAmount(double amount)
-//    {
-//        this.amount = amount;
-//    }
-
-
-    public String getAmount() {
+    public double getAmount()
+    {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(double amount)
+    {
         this.amount = amount;
     }
+
+//
+//    public String getAmount() {
+//        return amount;
+//    }
+//
+//    public void setAmount(String amount) {
+//        this.amount = amount;
+//    }
 
     public String getDescription()
     {
@@ -225,5 +267,29 @@ public class TransactionDTO
 
     public void setGainer(Gainer gainer) {
         this.gainer = gainer;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

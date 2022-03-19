@@ -12,6 +12,7 @@
 </head>
 <body>
 <!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
+<!--/*@thymesVar id="b" type="com.moneyAppV5.budget.Budget"*/-->
 <!--/*@thymesVar id="position" type="com.moneyAppV5.budget.dto.BudgetPositionDTO"*/-->
 <!--/*@thymesVar id="message" type="java.lang.String"*/-->
 <form action="#" method="post" th:action="@{/budgets}" th:object="${budget}">
@@ -50,6 +51,27 @@
                 <tr>
                     <td>Nazwa subkategorii</td><td>Planowane dochody</td><td>Rzeczywsite dochody</td><td>Różnica</td><td>Opis</td>
        </tr>
+    </table>
+
+    <label>Widok szczegółówy wydatków</label>
+    <table>
+        <tr>
+            <td>Kategoria</td><td>Planowane wydatki</td><td>Rzeczywiste wydatki</td><td>Różnica</td><td>Opis</td>
+        </tr>
+        <tr>
+            <td>Suma</td><td th:text="${budget.plannedExpenses}"></td><td th:text="${budget.actualExpenses}"></td><td th:text="${budget.balanceExpenses}"></td><td>Opis</td>
+        </tr>
+        <tr th:each="position : ${expensePositions}">
+            <!--            TODO póki co w najprostszej postaci - póxniej zrobić tak aby była głowna kategoria i w niej podkategorie-->
+            <!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
+            <td th:text="${position.category.category}"></td><td th:text="${position.plannedAmount}"></td><td  th:text="${position.actualAmount}"></td>
+            <td  th:text="${position.balance}"></td><td  th:text="${position.description}"></td>
+            <!--        TODO zrobienie podlisty z subkategoriami - czy chdzi o tr wewnątrz tr? jest nie zamknięty bo ten od głównego go domyka-->
+            <!--        TODO wyciągnięcie listy subkategorii-->
+        <tr>
+<!--            <td th:text="${position.category.subCategory.subCategory}"></td><td th:text="${position.plannedAmount}"></td><td th:text="${position.actualAmount}"></td>-->
+<!--            <td th:text="${position.balance}"></td><td>Opis</td>-->
+        </tr>
     </table>
 
 

@@ -26,11 +26,20 @@
     <!--/*@thymesVar id="account" type="com.moneyAppV5.account.Account"*/-->
     <!--/*@thymesVar id="category" type="com.moneyAppV5.category.Category"*/-->
     <!--/*@thymesVar id="t" type="com.moneyAppV5.category.Type"*/-->
-    <form action="#" method="post" th:action="@{/transactions}" th:object="${transaction}">
+    <form action="#" method="post" th:action="@{/}" th:object="${transaction}">
     <fieldset>
         <legend>Nowa transakcja</legend>
         <label>Data transakcji
-          <input type="text"  th:field="${transaction.date}" />
+<!--          <input type="text"  th:field="${transaction.date}" />-->
+            <label>Dzień
+                <input name="day" type="number" min="1" max="31" th:field="${transaction.day}" />
+            </label>
+            <label>Miesiąc
+                <input name="month" type="number" min="1" max="12" th:field="${transaction.month}" />
+            </label>
+            <label>Rok
+                <input name="year" type="number" maxlength="4" th:field="${transaction.year}" />
+            </label>
         </label>
         <label>Konto
             <select th:field="${transaction.account}">

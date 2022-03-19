@@ -10,12 +10,18 @@ public interface TransactionRepository
 {
     List<Transaction> findAll();
     List<Transaction> findByDates(LocalDate start, LocalDate end);
-    List<Transaction> findByPayee(Integer id);
-    List<Transaction> findByGainer(Integer id);
+    List<Transaction> findByPayeeId(Integer id);
+    List<Transaction> findByGainerId(Integer id);
+    List<Transaction> findTransactionsByPositionId(Integer id);
+    List<Transaction> findTransactionsByMonthAndYear(int month, int year);
+    List<Transaction> findTransactionsByBudgetId(int id);
 
     Optional<Transaction> findById(Integer id);
 
     Transaction save(Transaction entity);
 
     boolean existsById(Integer id);
+
+
+    void updateBudgetDetailsInTransaction(int id, int positionId, int budgetId);
 }

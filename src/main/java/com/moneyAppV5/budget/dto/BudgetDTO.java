@@ -3,17 +3,13 @@ package com.moneyAppV5.budget.dto;
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 
-import javax.persistence.OneToMany;
-import java.time.Month;
-import java.time.Year;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class BudgetDTO
 {
-    private Month month;
-    private Year year;
+    private int month;
+    private int year;
     private double plannedIncomes;
     private double actualIncomes;
     private double balanceIncomes;
@@ -23,6 +19,8 @@ public class BudgetDTO
     private double balancePlanned;
     private double balanceActual;
 
+    private List<BudgetPositionDTO> incomesDto;
+    private List<BudgetPositionDTO> expensesDto;
     private List<BudgetPosition> incomes;
     private List<BudgetPosition> expenses;
     private String description;
@@ -31,14 +29,20 @@ public class BudgetDTO
     {
     }
 
-    BudgetDTO(Month month, Year year, String description)
+     public BudgetDTO(int month, int year)
+    {
+        this.month = month;
+        this.year = year;
+    }
+
+    BudgetDTO(int month, int year, String description)
     {
         this.month = month;
         this.year = year;
         this.description = description;
     }
 
-    BudgetDTO(Month month, Year year, List<BudgetPosition> incomes, List<BudgetPosition> expenses, String description)
+    BudgetDTO(int month, int year, List<BudgetPosition> incomes, List<BudgetPosition> expenses, String description)
     {
         this.month = month;
         this.year = year;
@@ -54,7 +58,7 @@ public class BudgetDTO
         this.description = budget.getDescription();
     }
 
-    Budget toBudget()
+    public Budget toBudget()
     {
         var result = new Budget();
         result.setMonth(this.month);
@@ -66,21 +70,37 @@ public class BudgetDTO
         return result;
     }
 
-    public Month getMonth() {
+    public int getMonth() {
         return month;
     }
 
-    public void setMonth(Month month) {
+    public void setMonth(int month) {
         this.month = month;
     }
 
-    public Year getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Year year) {
+    public void setYear(int year) {
         this.year = year;
     }
+
+    //    public Month getMonth() {
+//        return month;
+//    }
+//
+//    public void setMonth(Month month) {
+//        this.month = month;
+//    }
+//
+//    public Year getYear() {
+//        return year;
+//    }
+//
+//    public void setYear(Year year) {
+//        this.year = year;
+//    }
 
     public List<BudgetPosition> getIncomes() {
         return incomes;
@@ -97,6 +117,23 @@ public class BudgetDTO
     public void setExpenses(List<BudgetPosition> expenses) {
         this.expenses = expenses;
     }
+
+
+//    public Set<BudgetPosition> getIncomes() {
+//        return incomes;
+//    }
+//
+//    public void setIncomes(Set<BudgetPosition> incomes) {
+//        this.incomes = incomes;
+//    }
+//
+//    public Set<BudgetPosition> getExpenses() {
+//        return expenses;
+//    }
+//
+//    public void setExpenses(Set<BudgetPosition> expenses) {
+//        this.expenses = expenses;
+//    }
 
     public String getDescription() {
         return description;

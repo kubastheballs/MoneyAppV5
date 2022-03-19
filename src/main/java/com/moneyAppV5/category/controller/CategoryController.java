@@ -81,7 +81,12 @@ class CategoryController
     String addCategory(@ModelAttribute("category") @Valid CategoryDTO current, BindingResult bindingResult, Model model)
     {
         if (bindingResult.hasErrors())
+        {
+            model.addAttribute("message", "Błędne dane!");
+
             return "categories";
+        }
+
 //        TODO odświeżenie strony (F5) powoduje ponowne dodanie do bazy jak temu zapobiec?
 
         this.service.createCategory(current);

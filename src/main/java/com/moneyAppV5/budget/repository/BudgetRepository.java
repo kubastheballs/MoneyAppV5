@@ -13,4 +13,8 @@ public interface BudgetRepository
     boolean existsById(int id);
 
     Budget save(Budget entity);
+
+    boolean existsByMonthAndYear(int month, int year);
+
+    Budget findByMonthAndYear(int month, int year);
 }

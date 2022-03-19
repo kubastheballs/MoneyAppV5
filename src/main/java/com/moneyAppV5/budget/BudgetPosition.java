@@ -32,6 +32,12 @@ class BudgetPosition
     {
     }
 
+    public BudgetPosition(Category category, Budget budget)
+    {
+        this.category = category;
+        this.budget = budget;
+    }
+
     public int getId()
     {
         return id;
