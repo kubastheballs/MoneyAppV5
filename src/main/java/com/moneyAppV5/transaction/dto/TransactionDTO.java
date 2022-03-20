@@ -1,6 +1,8 @@
 package com.moneyAppV5.transaction.dto;
 
 import com.moneyAppV5.account.Account;
+import com.moneyAppV5.budget.Budget;
+import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.transaction.Gainer;
 import com.moneyAppV5.transaction.Payee;
@@ -23,6 +25,9 @@ public class TransactionDTO
     private Gainer gainer;
     private String description;
 //    private BudgetPosition budgetPosition;
+
+    private Budget budget;
+    private BudgetPosition budgetPosition;
 
     private int accountId;
     private int categoryId;
@@ -130,6 +135,7 @@ public class TransactionDTO
         result.setPayee(this.payee);
         result.setGainer(this.gainer);
         result.setDescription(this.description);
+        result.setBudget(this.budget);
 
         return result;
     }
@@ -291,5 +297,21 @@ public class TransactionDTO
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public Budget getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+    }
+
+    public BudgetPosition getBudgetPosition() {
+        return budgetPosition;
+    }
+
+    public void setBudgetPosition(BudgetPosition budgetPosition) {
+        this.budgetPosition = budgetPosition;
     }
 }

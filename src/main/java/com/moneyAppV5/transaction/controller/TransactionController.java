@@ -47,33 +47,33 @@ class TransactionController
         return "transactions";
     }
 
-    @PostMapping()
-    String addTransaction(@ModelAttribute("transaction") @Valid TransactionDTO current, BindingResult bindingResult, Model model)
-    {
-        if (bindingResult.hasErrors())
-        {
-            model.addAttribute("message", "Błędne dane!");
-
-            return "transactions";
-        }
-
-        var transaction =  this.service.createTransaction(current);
-
-        this.accountService.changeBalance(transaction.getAccount().getId(), transaction.getAmount());
-
-        model.addAttribute("transaction", new TransactionDTO());
-        model.addAttribute("transactions", getTransactionsDto());
-        model.addAttribute("accountsList", getAccounts());
-//        model.addAttribute("expensesList", getExpenseCategories());
-//        model.addAttribute("incomesList", getIncomeCategories());
-        model.addAttribute("categoriesList", getCategories());
-//        model.addAttribute("interialsList", getCategories());
-        model.addAttribute("payeesList", getPayees());
-        model.addAttribute("gainersList", getGainers());
-        model.addAttribute("message", "Dodano transakcję!");
-//TODO czy zrobić podział transakcji na wydatki i dochody?
-        return "transactions";
-    }
+//    @PostMapping()
+//    String addTransaction(@ModelAttribute("transaction") @Valid TransactionDTO current, BindingResult bindingResult, Model model)
+//    {
+//        if (bindingResult.hasErrors())
+//        {
+//            model.addAttribute("message", "Błędne dane!");
+//
+//            return "transactions";
+//        }
+//
+//        var transaction =  this.service.createTransaction(current);
+//
+//        this.accountService.changeBalance(transaction.getAccount().getId(), transaction.getAmount());
+//
+//        model.addAttribute("transaction", new TransactionDTO());
+//        model.addAttribute("transactions", getTransactionsDto());
+//        model.addAttribute("accountsList", getAccounts());
+////        model.addAttribute("expensesList", getExpenseCategories());
+////        model.addAttribute("incomesList", getIncomeCategories());
+//        model.addAttribute("categoriesList", getCategories());
+////        model.addAttribute("interialsList", getCategories());
+//        model.addAttribute("payeesList", getPayees());
+//        model.addAttribute("gainersList", getGainers());
+//        model.addAttribute("message", "Dodano transakcję!");
+////TODO czy zrobić podział transakcji na wydatki i dochody?
+//        return "transactions";
+//    }
 
     @PostMapping(params = "addPayee")
     String addPayee(@ModelAttribute ("transaction") PayeeDTO current)

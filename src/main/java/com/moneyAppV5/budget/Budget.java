@@ -28,15 +28,15 @@ class Budget
     {
     }
 
-     public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
+//     public Integer getId()
+//    {
+//        return id;
+//    }
+//
+//    public void setId(Integer id)
+//    {
+//        this.id = id;
+//    }
 
 //    public Month getMonth()
 //    {
@@ -58,6 +58,10 @@ class Budget
 //        this.year = year;
 //    }
 
+
+    public int getId() {
+        return id;
+    }
 
     public void setId(int id) {
         this.id = id;

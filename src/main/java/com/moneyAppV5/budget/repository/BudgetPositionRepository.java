@@ -13,10 +13,10 @@ public interface BudgetPositionRepository
     List<BudgetPosition> findExpensePositionsByBudgetId(Integer id);
 
     Optional<BudgetPosition> findById(Integer id);
+    //    TODO to prawdopodobnie też powinien być optional
+    BudgetPosition findByBudgetIdAndCategoryId(Integer budgetId, int categoryId);
 
     BudgetPosition save(BudgetPosition entity);
-
-
 
 //    List<BudgetPosition> getBudgetPositionsByTypeAndBudget(Budget budget, Type type);
 //    List<BudgetPosition> getBudgetPositionsByBudget(Budget budget);

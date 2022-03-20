@@ -2,6 +2,7 @@ package com.moneyAppV5.budget.controller;
 
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.service.AccountService;
+import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.budget.dto.BudgetPositionDTO;
 import com.moneyAppV5.budget.service.BudgetService;
@@ -58,41 +59,42 @@ public class BudgetController
         return "budgets";
     }
 
-    @GetMapping("/{id}/addTransaction")
-    String showTransactions(Model model, @PathVariable Integer id)
-    {
-        var dto = new TransactionDTO();
-        var budgetDto = this.service.readBudgetDtoById(id);
+//    @GetMapping("/{id}/addTransaction")
+//    String showTransactions(Model model, @PathVariable Integer id)
+//    {
+//        var dto = new TransactionDTO();
+//        var budgetDto = this.service.readBudgetDtoById(id);
+//
+//        dto.setMonth(budgetDto.getMonth());
+//        dto.setYear(budgetDto.getYear());
+//        dto.setBudget(budgetDto.toBudget());
+//
+//        model.addAttribute("transaction", dto);
+//
+//        return "transactions";
+//    }
 
-        dto.setMonth(budgetDto.getMonth());
-        dto.setYear(budgetDto.getYear());
-
-        model.addAttribute("transaction", dto);
-
-        return "transactions";
-    }
-
-    @PostMapping("/{id}/addTransaction")
-    String addTransaction(Model model, @PathVariable Integer id)
-    {
-        var dto = new TransactionDTO();
-        var budgetDto = this.service.readBudgetDtoById(id);
-
-        dto.setMonth(budgetDto.getMonth());
-        dto.setYear(budgetDto.getYear());
-
-        model.addAttribute("transaction", dto);
-        model.addAttribute("transactions", getTransactionsDto());
-        model.addAttribute("accountsList", getAccounts());
-//        model.addAttribute("expensesList", getExpenseCategories());
-//        model.addAttribute("incomesList", getIncomeCategories());
-        model.addAttribute("categoriesList", getCategories());
-//        model.addAttribute("interialsList", getCategories());
-        model.addAttribute("payeesList", getPayees());
-        model.addAttribute("gainersList", getGainers());
-
-        return "transactions";
-    }
+//    @PostMapping("/{id}/addTransaction")
+//    String addTransaction(Model model, @PathVariable Integer id)
+//    {
+//        var dto = new TransactionDTO();
+//        var budgetDto = this.service.readBudgetDtoById(id);
+//
+//        dto.setMonth(budgetDto.getMonth());
+//        dto.setYear(budgetDto.getYear());
+//
+//        model.addAttribute("transaction", dto);
+//        model.addAttribute("transactions", getTransactionsDto());
+//        model.addAttribute("accountsList", getAccounts());
+////        model.addAttribute("expensesList", getExpenseCategories());
+////        model.addAttribute("incomesList", getIncomeCategories());
+//        model.addAttribute("categoriesList", getCategories());
+////        model.addAttribute("interialsList", getCategories());
+//        model.addAttribute("payeesList", getPayees());
+//        model.addAttribute("gainersList", getGainers());
+//
+//        return "transactions";
+//    }
 
     @PostMapping
     String budgets()

@@ -273,7 +273,10 @@ class BudgetService
         return dtos;
     }
 
-
+    public BudgetPosition readPositionByBudgetIdAndCategory(Integer id, Category category)
+    {
+        return this.positionsRepository.findByBudgetIdAndCategoryId(id, category.getId());
+    }
 
 
     //    TODO czy w metodzie powinno być categoryId czy category?
