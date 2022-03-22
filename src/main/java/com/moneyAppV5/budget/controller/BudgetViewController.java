@@ -2,9 +2,7 @@ package com.moneyAppV5.budget.controller;
 
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.service.AccountService;
-import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.dto.BudgetDTO;
-import com.moneyAppV5.budget.dto.BudgetPositionDTO;
 import com.moneyAppV5.budget.service.BudgetService;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.service.CategoryService;
@@ -20,14 +18,14 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/budgets")
-public class BudgetController
+public class BudgetViewController
 {
     private final BudgetService service;
     private final TransactionService transactionService;
     private final AccountService accountService;
     private final CategoryService categoryService;
 
-    public BudgetController(BudgetService service, TransactionService transactionService, AccountService accountService, CategoryService categoryService)
+    public BudgetViewController(BudgetService service, TransactionService transactionService, AccountService accountService, CategoryService categoryService)
     {
         this.service = service;
         this.transactionService = transactionService;
@@ -43,7 +41,7 @@ public class BudgetController
         model.addAttribute("message", "Budżet: ");
 
         model.addAttribute("budget", new BudgetDTO());
-        return "budgets";
+        return "budgetView";
     }
 
     @GetMapping("/{id}")
@@ -56,7 +54,7 @@ public class BudgetController
         model.addAttribute("incomePositions", result.getIncomes());
         model.addAttribute("expensePositions", result.getExpenses());
 
-        return "budgets";
+        return "budgetView";
     }
 
 //    @GetMapping("/{id}/addTransaction")
@@ -99,7 +97,7 @@ public class BudgetController
     @PostMapping
     String budgets()
     {
-        return "budgets";
+        return "budgetView";
     }
 
     @ModelAttribute("transactions")

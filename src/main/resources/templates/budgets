@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lista dostępnych budżetów</title>
+</head>
+<body>
+<main>
+    <!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
+    <div>
+        <h1>Dostepne budżety</h1>
+        <table>
+            <tr>
+                <td>Miesiąc</td><td>Rok</td><td>...</td><td>Opis</td>
+            </tr>
+            <tr th:each="transaction : ${budgets}">
+                             <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
+                <td th:text="${budget.month}" ></td><td th:text="${budget.year}"></td><td th:text="${budget.description}"></td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

@@ -278,6 +278,21 @@ class BudgetService
         return this.positionsRepository.findByBudgetIdAndCategoryId(id, category.getId());
     }
 
+    public List<BudgetDTO> readAllBudgetsDto()
+    {
+        List<BudgetDTO> dtos = new ArrayList();
+
+        for (Budget b : readAllBudgets())
+            dtos.add(new BudgetDTO(b));
+
+        return dtos;
+    }
+
+    private List<Budget> readAllBudgets()
+    {
+        return this.repository.findAll();
+    }
+
 
     //    TODO czy w metodzie powinno być categoryId czy category?
 

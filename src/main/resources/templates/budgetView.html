@@ -12,7 +12,6 @@
 </head>
 <body>
 <!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
-<!--/*@thymesVar id="b" type="com.moneyAppV5.budget.Budget"*/-->
 <!--/*@thymesVar id="position" type="com.moneyAppV5.budget.dto.BudgetPositionDTO"*/-->
 <!--/*@thymesVar id="message" type="java.lang.String"*/-->
 <form action="#" method="post" th:action="@{/budgets}" th:object="${budget}">
@@ -20,6 +19,8 @@
 
 <!--    TODO przejście do dodawania transakcji-->
 <label>Widok ogólny budżetu</label>
+<!--    TODO jak ten przycisk przekieruje do dodawania transakcji?-->
+    <button>Dodaj transakcje</button>
 <table>
     <tr>
         <td></td><td>Planowane [zł]</td><td>Rzeczywiste [zł]</td><td>Saldo [zł]</td>
