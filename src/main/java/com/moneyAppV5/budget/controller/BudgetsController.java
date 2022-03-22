@@ -21,7 +21,7 @@ public class BudgetsController
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping()
     String showBudgets(Model model)
     {
         model.addAttribute("budgetsList", null);

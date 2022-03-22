@@ -14,10 +14,11 @@
 <!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
 <!--/*@thymesVar id="position" type="com.moneyAppV5.budget.dto.BudgetPositionDTO"*/-->
 <!--/*@thymesVar id="message" type="java.lang.String"*/-->
-<form action="#" method="post" th:action="@{/budgets}" th:object="${budget}">
+<form action="#" method="post" th:action="@{/budgetView/{id}(id=${id})}" th:object="${budget}">
 <h1 th:if="${message != null}" th:text="${message}"></h1>
 
 <!--    TODO przejście do dodawania transakcji-->
+<!--    TODO powrót do listy budżetów-->
 <label>Widok ogólny budżetu</label>
 <!--    TODO jak ten przycisk przekieruje do dodawania transakcji?-->
     <button>Dodaj transakcje</button>
@@ -36,7 +37,7 @@
     </tr>
 </table>
 
-<label>Widok szczegółówy dochodów</label>
+<label>Widok szczegółowy dochodów</label>
     <table>
         <tr>
             <td>Kategoria</td><td>Planowane dochody</td><td>Rzeczywiste dochody</td><td>Różnica</td><td>Opis</td>
@@ -55,7 +56,7 @@
        </tr>
     </table>
 
-    <label>Widok szczegółówy wydatków</label>
+    <label>Widok szczegółowy wydatków</label>
     <table>
         <tr>
             <td>Kategoria</td><td>Planowane wydatki</td><td>Rzeczywiste wydatki</td><td>Różnica</td><td>Opis</td>

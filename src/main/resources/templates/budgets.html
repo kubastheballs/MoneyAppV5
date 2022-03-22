@@ -16,9 +16,10 @@
             <tr>
                 <td>Miesiąc</td><td>Rok</td><td>...</td><td>Opis</td>
             </tr>
-            <tr th:each="transaction : ${budgets}">
+            <tr th:each="budget : ${budgetsList}">
                              <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
-                <td th:text="${budget.month}" ></td><td th:text="${budget.year}"></td><td th:text="${budget.description}"></td>
+<!--                TODO przy budżecie przycisk/link do przejścia do konkretnego budżetu-->
+                <td th:text="${budget.month}" ></td><td th:text="${budget.year}"></td><td>...</td><td th:text="${budget.description}"></td>
             </tr>
         </table>
     </div>

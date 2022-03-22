@@ -43,7 +43,7 @@ class BudgetService
     List<BudgetPosition> createExpensePositionsByMonthAndYear(int month, int year)
     {
         List<BudgetPosition> positions = new ArrayList<>();
-        List<Transaction> transactions = readTransactionsByMonthAndYear(month, year);
+//        List<Transaction> transactions = readTransactionsByMonthAndYear(month, year);
 
 //        TODO
 //        for (Transaction t : transactions)
@@ -130,8 +130,6 @@ class BudgetService
     {
         var dto = new BudgetDTO(readBudgetById(id));
 
-        readTransactionsByMonthAndYear(dto.getMonth(), dto.getYear());
-
         dto.setPlannedIncomes(readPlannedIncomesByBudgetId(id));
 //        dto.setActualIncomes();
 //        TODO w sumie to tutaj można zrolować to do metody readPositionsByBudgetIdAndType(id, Type.TYP)
@@ -172,21 +170,21 @@ class BudgetService
         return -sum;
     }
 
-    void assignTransactionsToBudget(Budget budget, List<Transaction> transactions)
-    {
-        for (Transaction t : transactions)
-            if (t.getBudget() == null)
-                t.setBudget(budget);
-    }
+//    void assignTransactionsToBudget(Budget budget, List<Transaction> transactions)
+//    {
+//        for (Transaction t : transactions)
+//            if (t.getBudget() == null)
+//                t.setBudget(budget);
+//    }
 
-    List<Transaction> readTransactionsByMonthAndYear(int month, int year)
-    {
-        var transactions = this.transactionService.readTransactionsByMonthAndYear(month, year);
-
-        assignTransactionsToBudget(this.repository.findByMonthAndYear(month, year), transactions);
-
-        return transactions;
-    }
+//    List<Transaction> readTransactionsByMonthAndYear(int month, int year)
+//    {
+//        var transactions = this.transactionService.readTransactionsByMonthAndYear(month, year);
+//
+//        assignTransactionsToBudget(this.repository.findByMonthAndYear(month, year), transactions);
+//
+//        return transactions;
+//    }
 
     List<Transaction> readTransactionsByBudgetId(int id)
     {
@@ -231,19 +229,19 @@ class BudgetService
         return this.positionsRepository.findPositionsByBudgetId(id);
     }
 
-    void assignTransactionsToPosition(BudgetPosition position, List<Transaction> transactions)
-    {
-        for (Transaction t : transactions)
-        {
-            if (t.getBudgetPosition() == null)
-            {
-                t.setBudgetPosition(position);
-                t.setBudget(position.getBudget());
-
-                this.transactionService.updateBudgetDataInTransaction(t.getId(), position);
-            }
-        }
-    }
+//    void assignTransactionsToPosition(BudgetPosition position, List<Transaction> transactions)
+//    {
+//        for (Transaction t : transactions)
+//        {
+//            if (t.getBudgetPosition() == null)
+//            {
+//                t.setBudgetPosition(position);
+//                t.setBudget(position.getBudget());
+//
+//                this.transactionService.updateBudgetDataInTransaction(t.getId(), position);
+//            }
+//        }
+//    }
 
     public List<BudgetPosition> readExpensePositionsByBudgetId(int id)
     {
@@ -253,10 +251,25 @@ class BudgetService
             if ((bp.getCategory().getType()).equals(Type.EXPENSE))
                 ex.add(bp);
 
-            for (BudgetPosition b : ex)
-                assignTransactionsToPosition(b, readTransactionsByMonthAndYear(b.getBudget().getMonth(), b.getBudget().getYear()));
+            for (BudgetPosition bp : ex)
+            {
+//                TODO setter na planowane
+                bp.setActualAmount(-sumTransactionsByPositionId(bp.getId()));
+                bp.setBalance(bp.getPlannedAmount() - bp.getActualAmount() );
+
+            }
 
         return ex;
+    }
+
+    double sumTransactionsByPositionId(int id)
+    {
+        double sum = 0;
+
+        for (Transaction t : this.transactionService.readTransactionsByPositionId(id))
+            sum += t.getAmount();
+
+        return sum;
     }
 
     public List<com.moneyAppV5.budget.dto.BudgetPositionDTO> readExpensePositionsByBudgetIdDto(int id)

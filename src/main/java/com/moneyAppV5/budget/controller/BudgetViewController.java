@@ -2,6 +2,7 @@ package com.moneyAppV5.budget.controller;
 
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.service.AccountService;
+import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.budget.service.BudgetService;
 import com.moneyAppV5.category.Category;
@@ -17,45 +18,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/budgets")
+@RequestMapping("/budgetView/{id}")
 public class BudgetViewController
 {
     private final BudgetService service;
-    private final TransactionService transactionService;
-    private final AccountService accountService;
-    private final CategoryService categoryService;
 
-    public BudgetViewController(BudgetService service, TransactionService transactionService, AccountService accountService, CategoryService categoryService)
+    public BudgetViewController(BudgetService service)
     {
         this.service = service;
-        this.transactionService = transactionService;
-        this.accountService = accountService;
-        this.categoryService = categoryService;
     }
 
     @GetMapping()
-    String showBudgets(Model model)
-    {
-//tu bardziej testowe ogólne - konkretne budżety poniżej
-//        TODO może tu jako lista budżetów?
-        model.addAttribute("message", "Budżet: ");
-
-        model.addAttribute("budget", new BudgetDTO());
-        return "budgetView";
-    }
-
-    @GetMapping("/{id}")
-    String showBudgets(Model model, @PathVariable Integer id)
+    String showBudgetView(Model model, @PathVariable Integer id)
     {
         var result = this.service.readBudgetDtoById(id);
 
         model.addAttribute("message", String.format("Budżet: %s/%s", result.getMonth(), result.getYear()));
         model.addAttribute("budget", result);
+        model.addAttribute("id", id);
         model.addAttribute("incomePositions", result.getIncomes());
         model.addAttribute("expensePositions", result.getExpenses());
 
         return "budgetView";
     }
+
+//    @ModelAttribute("expenseSubPositions")
+//    List<BudgetPosition> getExpenseSubPositions()
+//    {
+//        return this.service.
+//    }
 
 //    @GetMapping("/{id}/addTransaction")
 //    String showTransactions(Model model, @PathVariable Integer id)
@@ -94,55 +85,55 @@ public class BudgetViewController
 //        return "transactions";
 //    }
 
-    @PostMapping
-    String budgets()
-    {
-        return "budgetView";
-    }
+//    @PostMapping
+//    String budgets()
+//    {
+//        return "budgetView";
+//    }
 
-    @ModelAttribute("transactions")
-    List<TransactionDTO> getTransactionsDto()
-    {
-        return this.transactionService.readAllTransactionsDTO();
-    }
-
-    @ModelAttribute("accountsList")
-    List<Account> getAccounts()
-    {
-        return this.accountService.readAllAccounts();
-    }
-
-    @ModelAttribute("expensesList")
-    List<Category> getExpenseCategories()
-    {
-        return this.categoryService.readExpenseCategories();
-    }
-
-    @ModelAttribute("incomesList")
-    List<Category> getIncomeCategories()
-    {
-        return this.categoryService.readIncomeCategories();
-    }
-
-    @ModelAttribute("categoriesList")
-    List<Category> getCategories()
-    {
-//        TODO jak tu przekazać type z selecta w html żeby sortowało kategorie?
-//        return this.categoryService.readCategoriesByType(type);
-        return this.categoryService.readAllCategories();
-    }
-
-    @ModelAttribute("payeesList")
-    List<Payee> getPayees()
-    {
-        return this.transactionService.readAllPayees();
-    }
-
-    @ModelAttribute("gainersList")
-    List<Gainer> getGainers()
-    {
-        return this.transactionService.readAllGainers();
-    }
+//    @ModelAttribute("transactions")
+//    List<TransactionDTO> getTransactionsDto()
+//    {
+//        return this.transactionService.readAllTransactionsDTO();
+//    }
+//
+//    @ModelAttribute("accountsList")
+//    List<Account> getAccounts()
+//    {
+//        return this.accountService.readAllAccounts();
+//    }
+//
+//    @ModelAttribute("expensesList")
+//    List<Category> getExpenseCategories()
+//    {
+//        return this.categoryService.readExpenseCategories();
+//    }
+//
+//    @ModelAttribute("incomesList")
+//    List<Category> getIncomeCategories()
+//    {
+//        return this.categoryService.readIncomeCategories();
+//    }
+//
+//    @ModelAttribute("categoriesList")
+//    List<Category> getCategories()
+//    {
+////        TODO jak tu przekazać type z selecta w html żeby sortowało kategorie?
+////        return this.categoryService.readCategoriesByType(type);
+//        return this.categoryService.readAllCategories();
+//    }
+//
+//    @ModelAttribute("payeesList")
+//    List<Payee> getPayees()
+//    {
+//        return this.transactionService.readAllPayees();
+//    }
+//
+//    @ModelAttribute("gainersList")
+//    List<Gainer> getGainers()
+//    {
+//        return this.transactionService.readAllGainers();
+//    }
 
 
 

@@ -3,6 +3,7 @@ package com.moneyAppV5.budget.dto;
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -33,6 +34,8 @@ public class BudgetDTO
     {
         this.month = month;
         this.year = year;
+        this.incomes = new ArrayList<>();
+        this.expenses = new ArrayList<>();
     }
 
     BudgetDTO(int month, int year, String description)

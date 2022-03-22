@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/budgets/{id}/addTransaction")
+@RequestMapping("/budgetView/{id}/addTransaction")
 public class AddTransactionController
 {
     TransactionService service;
@@ -34,7 +34,7 @@ public class AddTransactionController
         this.budgetService = budgetService;
     }
 
-    @GetMapping
+    @GetMapping()
     String showAddTransaction(Model model, @PathVariable Integer id)
     {
         var dto = new TransactionDTO();
@@ -54,7 +54,7 @@ public class AddTransactionController
         return "addTransaction";
     }
 
-    @PostMapping
+    @PostMapping()
     String addTransaction(@ModelAttribute("transaction") @Valid TransactionDTO current, BindingResult bindingResult, Model model, @PathVariable Integer id)
     {
         if (bindingResult.hasErrors())

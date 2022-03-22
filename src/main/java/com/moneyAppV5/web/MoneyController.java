@@ -47,7 +47,7 @@ class MoneyController
         model.addAttribute("budget", new BudgetDTO());
         model.addAttribute("message", "Dodano budżet!");
 
-//        return "redirect:/budgets/" + budget.getId();
+//        return "redirect:/budgets.html/" + budget.getId();
         return "moneys";
     }
 

@@ -17,7 +17,7 @@
 <!--/*@thymesVar id="account" type="com.moneyAppV5.account.Account"*/-->
 <!--/*@thymesVar id="category" type="com.moneyAppV5.category.Category"*/-->
 <!--/*@thymesVar id="t" type="com.moneyAppV5.category.Type"*/-->
-<form action="#" method="post" th:action="@{/budgets/{id}/addTransaction(id=${budgetId})}" th:object="${transaction}">
+<form action="#" method="post" th:action="@{/budgetView/{id}/addTransaction(id=${budgetId})}" th:object="${transaction}">
     <fieldset>
         <input type="hidden" name="budget" th:value="${budget}" th:field="${transaction.budget}">
 
