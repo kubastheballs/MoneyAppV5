@@ -7,7 +7,6 @@ import com.moneyAppV5.category.Category;
 import com.moneyAppV5.transaction.Gainer;
 import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Transaction;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,8 +20,8 @@ public class TransactionDTO
 //    private String amount;
     private double amount;
     private Category category;
-    private Payee payee;
-    private Gainer gainer;
+    private Payee isPaid;
+    private Payee forWhom;
     private String description;
 //    private BudgetPosition budgetPosition;
 
@@ -53,13 +52,13 @@ public class TransactionDTO
         this.amount = transaction.getAmount();
 //        this.amount = String.valueOf(transaction.getAmount());
         this.category = transaction.getCategory();
-        this.payee = transaction.getPayee();
-        this.gainer = transaction.getGainer();
+        this.isPaid = transaction.getIsPaid();
+        this.forWhom = transaction.getForWhom();
         this.description = transaction.getDescription();
     }
 //
 //
-//     public TransactionDTO(String date, Account account, String amount, Category category, Payee payee, Gainer gainer, String description)
+//     public TransactionDTO(String date, Account account, String amount, Category category, Payee isPaid, Payee forWhom, String description)
 //    {
 //        this.date = date;
 //        this.account = account;
@@ -70,7 +69,7 @@ public class TransactionDTO
 //        this.description = description;
 //    }
 
-    public TransactionDTO(int day, int month, int year, Account account, double amount, Category category, Payee payee, Gainer gainer, String description)
+    public TransactionDTO(int day, int month, int year, Account account, double amount, Category category, Payee isPaid, Payee forWhom, String description)
     {
         this.day = day;
         this.month = month;
@@ -79,8 +78,8 @@ public class TransactionDTO
         this.account = account;
         this.amount = amount;
         this.category = category;
-        this.payee = payee;
-        this.gainer = gainer;
+        this.isPaid = isPaid;
+        this.forWhom = forWhom;
         this.description = description;
     }
 
@@ -95,7 +94,7 @@ public class TransactionDTO
 //        this.description = description;
 //    }
 
-    public TransactionDTO(LocalDate date, Account account, double amount, Category category, Payee payee, Gainer gainer, String description)
+    public TransactionDTO(LocalDate date, Account account, double amount, Category category, Payee isPaid, Payee forWhom, String description)
     {
         this.date = String.valueOf(date);
 //        this.date = date;
@@ -103,8 +102,8 @@ public class TransactionDTO
         this.amount = amount;
 //        this.amount = String.valueOf(amount);
         this.category = category;
-        this.payee = payee;
-        this.gainer = gainer;
+        this.isPaid = isPaid;
+        this.forWhom = forWhom;
         this.description = description;
     }
 
@@ -132,8 +131,8 @@ public class TransactionDTO
         result.setAmount(this.amount);
 //        result.setAmount(Double.parseDouble(this.amount));
         result.setCategory(this.category);
-        result.setPayee(this.payee);
-        result.setGainer(this.gainer);
+        result.setIsPaid(this.isPaid);
+        result.setForWhom(this.forWhom);
         result.setDescription(this.description);
         result.setBudget(this.budget);
 
@@ -259,20 +258,20 @@ public class TransactionDTO
         this.category = category;
     }
 
-    public Payee getPayee() {
-        return payee;
+    public Payee getIsPaid() {
+        return isPaid;
     }
 
-    public void setPayee(Payee payee) {
-        this.payee = payee;
+    public void setIsPaid(Payee isPaid) {
+        this.isPaid = isPaid;
     }
 
-    public Gainer getGainer() {
-        return gainer;
+    public Payee getForWhom() {
+        return forWhom;
     }
 
-    public void setGainer(Gainer gainer) {
-        this.gainer = gainer;
+    public void setForWhom(Payee forWhom) {
+        this.forWhom = forWhom;
     }
 
     public int getDay() {

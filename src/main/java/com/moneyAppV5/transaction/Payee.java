@@ -10,10 +10,14 @@ public class Payee
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String payee;
+    private String name;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private String description;
-    @OneToMany(mappedBy = "payee")
-    private Set<Transaction> transactions;
+    @OneToMany(mappedBy = "isPaid")
+    private Set<Transaction> isPaidTransactions;
+    @OneToMany(mappedBy = "forWhom")
+    private Set<Transaction> forWhomTransactions;
 
 
     public int getId()
@@ -26,14 +30,22 @@ public class Payee
         this.id = id;
     }
 
-    public String getPayee()
+    public String getName()
     {
-        return payee;
+        return name;
     }
 
-    public void setPayee(String payee)
+    public void setName(String payee)
     {
-        this.payee = payee;
+        this.name = payee;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getDescription()
@@ -46,13 +58,21 @@ public class Payee
         this.description = description;
     }
 
-    public Set<Transaction> getTransactions()
+    public Set<Transaction> getIsPaidTransactions()
     {
-        return transactions;
+        return isPaidTransactions;
     }
 
-    public void setTransactions(Set<Transaction> transactions)
+    public void setIsPaidTransactions(Set<Transaction> transactions)
     {
-        this.transactions = transactions;
+        this.isPaidTransactions = transactions;
+    }
+
+    public Set<Transaction> getForWhomTransactions() {
+        return forWhomTransactions;
+    }
+
+    public void setForWhomTransactions(Set<Transaction> forWhomTransactions) {
+        this.forWhomTransactions = forWhomTransactions;
     }
 }

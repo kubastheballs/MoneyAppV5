@@ -17,7 +17,13 @@
         <fieldset>
             <legend>Nowy konttrahent</legend>
             <label>Nazwa kontrahenta
-                <input type="text" th:field="${payee.payee}" />
+                <input type="text" th:field="${payee.name}" />
+            </label>
+            <label> Typ kontrahenta
+                <select id="typeId" name="type">
+                    <option value="0" >Proszę wybrać</option>
+                    <option th:each="t : ${T(com.moneyAppV5.transaction.Role).values()}" th:value="${t.name()}" th:text="${t.name}"></option>
+                </select>
             </label>
             <label>Opis kontrahenta
                 <input type="text" th:field="${payee.description}" />

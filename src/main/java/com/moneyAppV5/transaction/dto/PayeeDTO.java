@@ -1,14 +1,12 @@
 package com.moneyAppV5.transaction.dto;
 
 import com.moneyAppV5.transaction.Payee;
-import com.moneyAppV5.transaction.Transaction;
-
-import javax.persistence.OneToMany;
-import java.util.Set;
+import com.moneyAppV5.transaction.Role;
 
 public class PayeeDTO
 {
-    private String payee;
+    private String name;
+    private Role role;
     private String description;
 //    private Set<Transaction> transactions;
 
@@ -17,38 +15,50 @@ public class PayeeDTO
     {
     }
 
-    public PayeeDTO(String payee)
+    public PayeeDTO(String name, Role role)
     {
-        this.payee = payee;
+        this.name = name;
+        this.role = role;
     }
 
-    PayeeDTO(String payee, String description)
+    PayeeDTO(String name, Role role, String description)
     {
-        this.payee = payee;
+        this.name = name;
+        this.role = role;
         this.description = description;
     }
 
-     public PayeeDTO(Payee payee)
+     public PayeeDTO(Payee name)
     {
-        this.payee = payee.getPayee();
-        this.description = payee.getDescription();
+        this.name = name.getName();
+        this.role = name.getRole();
+        this.description = name.getDescription();
     }
 
     public Payee toPayee()
     {
         var result = new Payee();
-        result.setPayee(this.payee);
+        result.setName(this.name);
+        result.setRole(this.role);
         result.setDescription(this.description);
 
         return result;
     }
 
-    public String getPayee() {
-        return payee;
+    public String getName() {
+        return name;
     }
 
-    public void setPayee(String payee) {
-        this.payee = payee;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getDescription() {

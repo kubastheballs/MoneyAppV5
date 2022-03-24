@@ -2,6 +2,7 @@ package com.moneyAppV5.transaction.repository;
 
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.transaction.Payee;
+import com.moneyAppV5.transaction.Role;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +18,6 @@ public interface PayeeRepository
     boolean existsByPayee(String name);
 
     Payee save(Payee entity);
+
+    Payee findByNameAndRole(String name, Role isFor);
 }

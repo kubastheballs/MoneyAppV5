@@ -30,11 +30,11 @@ public class Transaction
     @JoinColumn(name = "category_id")
     private Category category;
     @ManyToOne
-    @JoinColumn(name = "payee_id")
-    private Payee payee;
+    @JoinColumn(name = "is_paid_id")
+    private Payee isPaid;
     @ManyToOne
-    @JoinColumn(name = "gainer_id")
-    private Gainer gainer;
+    @JoinColumn(name = "for_whom_id")
+    private Payee forWhom;
     private String description;
     @ManyToOne
     @JoinColumn(name = "budget_id")
@@ -112,25 +112,41 @@ public class Transaction
         this.category = category;
     }
 
-    public Payee getPayee()
-    {
-        return payee;
+    public Payee getIsPaid() {
+        return isPaid;
     }
 
-    public void setPayee(Payee payee)
-    {
-        this.payee = payee;
+    public void setIsPaid(Payee isPaid) {
+        this.isPaid = isPaid;
     }
 
-    public Gainer getGainer()
-    {
-        return gainer;
+    public Payee getForWhom() {
+        return forWhom;
     }
 
-    public void setGainer(Gainer gainer)
-    {
-        this.gainer = gainer;
+    public void setForWhom(Payee forWhom) {
+        this.forWhom = forWhom;
     }
+
+    //    public Payee getPayee()
+//    {
+//        return payee;
+//    }
+//
+//    public void setPayee(Payee payee)
+//    {
+//        this.payee = payee;
+//    }
+
+//    public Gainer getGainer()
+//    {
+//        return gainer;
+//    }
+//
+//    public void setGainer(Gainer gainer)
+//    {
+//        this.gainer = gainer;
+//    }
 
     public String getDescription()
     {

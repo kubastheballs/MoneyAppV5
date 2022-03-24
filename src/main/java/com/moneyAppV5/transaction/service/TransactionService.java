@@ -4,6 +4,7 @@ import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.transaction.Gainer;
 import com.moneyAppV5.transaction.Payee;
+import com.moneyAppV5.transaction.Role;
 import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.GainerDTO;
 import com.moneyAppV5.transaction.dto.PayeeDTO;
@@ -43,27 +44,28 @@ public class TransactionService
     {
 //        TODO przy tworzeniu transakcji należy sprawdzić czy istnieje budgetPos dla daty i kategorii - jesli tak to dodać a jeśli nie to utworzyć nowy
 
-        Payee payee;
-//TODO czy w payee jest potrzebny optional? wpierw występuje sprawdzenie exists więc jeśli wyjdzie ok to musi być w bazie
+        Payee isPaid;
+//TODO czy w isPaid jest potrzebny optional? wpierw występuje sprawdzenie exists więc jeśli wyjdzie ok to musi być w bazie
 //        TODO czy da się to zredukować do jednej linijki?
-            if (this.payeeRepository.existsByPayee(toSave.getPayee().getPayee()))
-                payee = this.payeeRepository.findByName(toSave.getPayee().getPayee()).get();
+            if (this.payeeRepository.existsByPayee(toSave.getIsPaid().getName()))
+                isPaid = this.payeeRepository.findByName(toSave.getIsPaid().getName()).get();
             else
-                payee = this.payeeRepository.save(toSave.getPayee());
+                isPaid = this.payeeRepository.save(toSave.getIsPaid());
 
-        Gainer gainer;
+        Payee forWhom;
 
-            if (this.gainerRepository.existsByGainer(toSave.getGainer().getGainer()))
-                gainer = this.gainerRepository.findByGainer(toSave.getGainer().getGainer());
+            if (this.gainerRepository.existsByGainer(toSave.getForWhom().getName()))
+//                TODO
+                forWhom = this.payeeRepository.findByNameAndRole(toSave.getForWhom().getName(), Role.IS_FOR);
             else
-                gainer = createGainer(new GainerDTO(toSave.getGainer().getGainer()));
+                forWhom = createPayee(new PayeeDTO(toSave.getForWhom().getName(), Role.IS_FOR));
 
 //        double amount = Double.parseDouble(toSave.getAmount());
 
             if ((toSave.getCategory().getType()).equals(Type.EXPENSE))
                 toSave.setAmount(-toSave.getAmount());
 
-        var result = new TransactionDTO(toSave.getDay(), toSave.getMonth(), toSave.getYear(), toSave.getAccount(), toSave.getAmount(), toSave.getCategory(), payee, gainer, toSave.getDescription());
+        var result = new TransactionDTO(toSave.getDay(), toSave.getMonth(), toSave.getYear(), toSave.getAccount(), toSave.getAmount(), toSave.getCategory(), isPaid, forWhom, toSave.getDescription());
 
 //  TODO tutaj sprawdzenie czy jest budgetPos i jeśli jest to przekazanie do transaction lub utworzenie nowego
 //  TODO czy konstruktor typu Transaction(Transaction, BudgetPosition) ma rację bytu?
@@ -93,9 +95,9 @@ public class TransactionService
         return this.gainerRepository.save(toSave.toGainer());
     }
 
-    public Payee addPayee(final String name)
+    public Payee addPayee(final String name, final Role role)
     {
-        return this.payeeRepository.findByName(name).orElse(createPayee(new PayeeDTO(name)));
+        return this.payeeRepository.findByName(name).orElse(createPayee(new PayeeDTO(name, role)));
     }
 
     public Payee createPayee(final PayeeDTO toSave)

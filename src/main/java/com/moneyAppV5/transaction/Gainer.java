@@ -13,8 +13,8 @@ class Gainer
     private int id;
     private String gainer;
     private String description;
-    @OneToMany(mappedBy = "gainer")
-    private Set<Transaction> transactions;
+//    @OneToMany(mappedBy = "gainer")
+//    private Set<Transaction> transactions;
 
 
     public int getId()
@@ -47,13 +47,13 @@ class Gainer
         this.description = description;
     }
 
-    public Set<Transaction> getTransactions()
-    {
-        return transactions;
-    }
-
-    public void setTransactions(Set<Transaction> transactions)
-    {
-        this.transactions = transactions;
-    }
+//    public Set<Transaction> getTransactions()
+//    {
+//        return transactions;
+//    }
+//
+//    public void setTransactions(Set<Transaction> transactions)
+//    {
+//        this.transactions = transactions;
+//    }
 }
