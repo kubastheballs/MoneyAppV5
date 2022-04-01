@@ -2,8 +2,8 @@ spring:
   h2.console:
     enabled: true
     path: '/console'
-#  datasource:
-#    url: 'jdbc:h2:file:D:\inteliJProjects\MoneyAppV5\money-db'
+  datasource:
+    url: 'jdbc:h2:file:C:\JJ\Downloads\todo-full\MoneyAppV5\money-db'
     java:
   jpa:
     hibernate:

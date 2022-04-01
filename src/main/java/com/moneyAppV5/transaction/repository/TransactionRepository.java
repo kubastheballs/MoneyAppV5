@@ -11,7 +11,7 @@ public interface TransactionRepository
     List<Transaction> findAll();
     List<Transaction> findByDates(LocalDate start, LocalDate end);
     List<Transaction> findByPayeeId(Integer id);
-    List<Transaction> findByGainerId(Integer id);
+//    List<Transaction> findByGainerId(Integer id);
     List<Transaction> findTransactionsByPositionId(Integer id);
     List<Transaction> findTransactionsByMonthAndYear(int month, int year);
     List<Transaction> findTransactionsByBudgetId(int id);
@@ -24,4 +24,6 @@ public interface TransactionRepository
 
 
     void updateBudgetDetailsInTransaction(int id, int positionId, int budgetId);
+
+    double sumActualExpensesByMainCategoryIdAndBudgetId(int mainId, int budgetId);
 }

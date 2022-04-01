@@ -18,6 +18,8 @@ public interface CategoryRepository
 
     Category save(Category entity);
 
+    List<Category> findCategoriesByType(String type);
+
     List<Category> findAllExpenses();
 
     List<Category> findAllIncomes();

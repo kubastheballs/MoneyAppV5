@@ -28,11 +28,12 @@ public class PayeeDTO
         this.description = description;
     }
 
-     public PayeeDTO(Payee name)
+
+     public PayeeDTO(Payee payee)
     {
-        this.name = name.getName();
-        this.role = name.getRole();
-        this.description = name.getDescription();
+        this.name = payee.getName();
+        this.role = payee.getRole();
+        this.description = payee.getDescription();
     }
 
     public Payee toPayee()

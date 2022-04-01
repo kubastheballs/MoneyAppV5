@@ -47,7 +47,7 @@
         </tr>
         <tr th:each="position : ${incomePositions}">
 <!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
-            <td th:text="${position.category.mainCategory}"></td><td th:text="${position.plannedAmount}"></td><td  th:text="${position.actualAmount}"></td>
+            <td th:text="${position.category.mainCategory.mainCategory}"></td><td th:text="${position.plannedAmount}"></td><td  th:text="${position.actualAmount}"></td>
             <td  th:text="${position.balance}"></td><td  th:text="${position.description}"></td>
 <!--        TODO zrobienie podlisty z subkategoriami - czy chdzi o tr wewnątrz tr? jest nie zamknięty bo ten od głównego go domyka-->
 <!--        TODO wyciągnięcie listy subkategorii-->

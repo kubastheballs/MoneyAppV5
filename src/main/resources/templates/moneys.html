@@ -9,36 +9,37 @@
 <body>
 <main>
     <h1>MoneyApp - zapanuj nad swoim budżetem!</h1>
-    <!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
-    <!--/*@thymesVar id="month" type="java.time.Month"*/-->
-    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
-    <h1 th:if="${message != null}" th:text="${message}"></h1>
-    <form action="#" method="post" th:action="@{/moneys}" th:object="${budget}">
-        <fieldset>
-            <legend>Nowy budżet</legend>
-            <label>Miesiąc budżetu
-<!--                <select name="months">-->
-<!--                <select name="months" th:field="*{month}">-->
-<!--&lt;!&ndash;                    <option value="0">Proszę wybrać miesiąc</option>&ndash;&gt;-->
-<!--                    <option th:each="month : ${T(java.time.Month).values()}" th:value="${month.name()}" th:text="${month.name()}"></option>-->
-<!--                </select>-->
-                <input type="number" th:field="*{month}"/>
-            </label>
-            <label>Rok budżetu
-<!--                <input type="number" />-->
-                <input type="number" th:field="*{year}"/>
-            </label>
-                <input type="hidden" th:field="*{incomes}"/>
-                <input type="hidden" th:field="*{expenses}"/>
-            <button type="submit">Dodaj budżet</button>
-        </fieldset>
+<!--    TODO przeniesione do budgets-->
+<!--    &lt;!&ndash;/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/&ndash;&gt;-->
+<!--    &lt;!&ndash;/*@thymesVar id="month" type="java.time.Month"*/&ndash;&gt;-->
+<!--    &lt;!&ndash;/*@thymesVar id="message" type="java.lang.String"*/&ndash;&gt;-->
+<!--    <h1 th:if="${message != null}" th:text="${message}"></h1>-->
+<!--    <form action="#" method="post" th:action="@{/moneys}" th:object="${budget}">-->
+<!--        <fieldset>-->
+<!--            <legend>Nowy budżet</legend>-->
+<!--            <label>Miesiąc budżetu-->
+<!--&lt;!&ndash;                <select name="months">&ndash;&gt;-->
+<!--&lt;!&ndash;                <select name="months" th:field="*{month}">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                    <option value="0">Proszę wybrać miesiąc</option>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                    <option th:each="month : ${T(java.time.Month).values()}" th:value="${month.name()}" th:text="${month.name()}"></option>&ndash;&gt;-->
+<!--&lt;!&ndash;                </select>&ndash;&gt;-->
+<!--                <input type="number" th:field="*{month}"/>-->
+<!--            </label>-->
+<!--            <label>Rok budżetu-->
+<!--&lt;!&ndash;                <input type="number" />&ndash;&gt;-->
+<!--                <input type="number" th:field="*{year}"/>-->
+<!--            </label>-->
+<!--                <input type="hidden" th:field="*{incomes}"/>-->
+<!--                <input type="hidden" th:field="*{expenses}"/>-->
+<!--            <button type="submit">Dodaj budżet</button>-->
+<!--        </fieldset>-->
 
-<!--        TODO potrzebny panel tworzenia nowegu budżetu na podstawie podanego miesiąca i roku-->
-<!--        TODO przejście do listy budżetów?-->
-<!--        TODO przejście do wybranego budżetu na dany miesiąc-->
-<!--        TODO przyciski/menu/etc do przejścia do sekcji - transakcje wydatki itd-->
+<!--&lt;!&ndash;        TODO potrzebny panel tworzenia nowegu budżetu na podstawie podanego miesiąca i roku&ndash;&gt;-->
+<!--&lt;!&ndash;        TODO przejście do listy budżetów?&ndash;&gt;-->
+<!--&lt;!&ndash;        TODO przejście do wybranego budżetu na dany miesiąc&ndash;&gt;-->
+<!--&lt;!&ndash;        TODO przyciski/menu/etc do przejścia do sekcji - transakcje wydatki itd&ndash;&gt;-->
 
-    </form>
+<!--    </form>-->
 </main>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.moneyAppV5.transaction.service;
 
 import com.moneyAppV5.budget.BudgetPosition;
+import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.transaction.Gainer;
 import com.moneyAppV5.transaction.Payee;
@@ -47,7 +48,7 @@ public class TransactionService
         Payee isPaid;
 //TODO czy w isPaid jest potrzebny optional? wpierw występuje sprawdzenie exists więc jeśli wyjdzie ok to musi być w bazie
 //        TODO czy da się to zredukować do jednej linijki?
-            if (this.payeeRepository.existsByPayee(toSave.getIsPaid().getName()))
+            if (this.payeeRepository.existsByName(toSave.getIsPaid().getName()))
                 isPaid = this.payeeRepository.findByName(toSave.getIsPaid().getName()).get();
             else
                 isPaid = this.payeeRepository.save(toSave.getIsPaid());
@@ -183,6 +184,16 @@ public class TransactionService
     public void updateBudgetDataInTransaction(int id, BudgetPosition pos)
     {
         this.repository.updateBudgetDetailsInTransaction(id, pos.getId(), pos.getBudget().getId());
+    }
+
+    public List<Payee> readPayeesByRole(Role role)
+    {
+        return this.payeeRepository.findPayeesByRole(role.name());
+    }
+
+    public double readActualExpensesByMainCategoryAndBudgetId(MainCategory main, int budgetId)
+    {
+        return this.repository.sumActualExpensesByMainCategoryIdAndBudgetId(main.getId(), budgetId);
     }
 
 //    public List<Transaction> getTransactionsByMonthAndYear(Month month, Year year)

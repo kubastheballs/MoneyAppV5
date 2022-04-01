@@ -19,13 +19,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/categories")
-class CategoryController
+class CategoriesController
 {
-    private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CategoriesController.class);
     CategoryService service;
 
 
-    CategoryController(CategoryService service)
+    CategoriesController(CategoryService service)
     {
         this.service = service;
     }
@@ -134,16 +134,15 @@ class CategoryController
 
     @ModelAttribute("incomeCategories")
     List<MainCategoryDTO> getIncomeCategoriesDTO()
-//    List<String> getIncomeCategoriesDTO()
     {
-          return this.service.readMainCategoriesDtoOfIncomes();
-//        return this.service.readMainCategoriesByType(Type.INCOME);
+//          return this.service.readMainCategoriesDtoOfIncomes();
+        return this.service.readMainCategoriesDtoByType(Type.INCOME);
     }
 
     @ModelAttribute("expenseCategories")
     List<MainCategoryDTO> getExpenseCategoriesDTO()
     {
-       return this.service.readMainCategoriesDtoOfExpenses();
+       return this.service.readMainCategoriesDtoByType(Type.EXPENSE);
     }
 
 }

@@ -39,6 +39,8 @@ public class PayeeController
 //        TODO odświeżenie strony (F5) powoduje ponowne dodanie do bazy jak temu zapobiec?
 
         this.service.createPayee(current);
+        System.out.println(current.getName());
+        System.out.println(current.getRole());
         model.addAttribute("payee", new PayeeDTO());
         model.addAttribute("payees", getPayeesDTO());
         model.addAttribute("message", "Dodano kontrahenta!");

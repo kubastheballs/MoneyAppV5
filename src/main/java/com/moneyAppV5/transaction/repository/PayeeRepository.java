@@ -15,9 +15,11 @@ public interface PayeeRepository
     Optional<Payee> findByName(String name);
 
     boolean existsById(int id);
-    boolean existsByPayee(String name);
+    boolean existsByName(String name);
 
     Payee save(Payee entity);
 
     Payee findByNameAndRole(String name, Role isFor);
+
+    List<Payee> findPayeesByRole(String role);
 }

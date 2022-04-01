@@ -36,9 +36,9 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
     @Query(nativeQuery = true, value = "select * from TRANSACTIONS where PAYEE_ID = :id")
     List<Transaction> findByPayeeId(Integer id);
 
-    @Override
-    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where GAINER_ID = :id")
-    List<Transaction> findByGainerId(Integer id);
+//    @Override
+//    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where GAINER_ID = :id")
+//    List<Transaction> findByGainerId(Integer id);
 
     @Override
     @Query(nativeQuery = true, value = "select * from TRANSACTIONS where BUDGET_POSITION_ID = :id")
@@ -53,4 +53,8 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
     @Transactional
     @Query(nativeQuery = true, value = "update TRANSACTIONS set BUDGET_POSITION_ID = :positionId, BUDGET_ID = :budgetId where id = :id")
     void updateBudgetDetailsInTransaction(int id, int positionId, int budgetId);
+
+    @Override
+    @Query(nativeQuery = true, value = "select sum (amount) from transactions innej join categories where main_category_id = :mainId and budget_id = :budgetId")
+    double sumActualExpensesByMainCategoryIdAndBudgetId(int mainId, int budgetId);
 }

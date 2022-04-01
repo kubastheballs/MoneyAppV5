@@ -29,27 +29,27 @@ class MoneyController
 
         return "moneys";
     }
-
-    @PostMapping()
-    String addBudget(@ModelAttribute("budgetDto") @Valid BudgetDTO current, BindingResult bindingResult, Model model)
-    {
-        if (bindingResult.hasErrors())
-        {
-            model.addAttribute("message", "Błędne dane!");
-
-            return "moneys";
-        }
-
-        var budget = this.budgetService.createBudget(current);
-
-        this.budgetService.createPositionsListByBudget(budget);
-
-        model.addAttribute("budget", new BudgetDTO());
-        model.addAttribute("message", "Dodano budżet!");
-
-//        return "redirect:/budgets.html/" + budget.getId();
-        return "moneys";
-    }
+//  TODO przeniesione do budgets
+//    @PostMapping()
+//    String addBudget(@ModelAttribute("budgetDto") @Valid BudgetDTO current, BindingResult bindingResult, Model model)
+//    {
+//        if (bindingResult.hasErrors())
+//        {
+//            model.addAttribute("message", "Błędne dane!");
+//
+//            return "moneys";
+//        }
+//
+//        var budget = this.budgetService.createBudget(current);
+//
+//        this.budgetService.createPositionsListByBudget(budget);
+//
+//        model.addAttribute("budget", new BudgetDTO());
+//        model.addAttribute("message", "Dodano budżet!");
+//
+////        return "redirect:/budgets.html/" + budget.getId();
+//        return "moneys";
+//    }
 
 
 //    @GetMapping(path = "/categories")

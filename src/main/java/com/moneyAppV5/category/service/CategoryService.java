@@ -123,13 +123,7 @@ public class CategoryService
 
     public List<Category> readCategoriesByType(Type type)
     {
-        List<Category> categories = new ArrayList<>();
-
-        for (Category category : readAllCategories())
-            if ((category.getType()).equals(type))
-                categories.add(category);
-
-            return categories;
+        return this.repository.findCategoriesByType(type.name());
     }
 
     public List<CategoryDTO> readCategoriesDTOByType(Type type)
@@ -142,24 +136,24 @@ public class CategoryService
         return dtos;
     }
 
-    public List<MainCategoryDTO> readMainCategoriesDtoOfIncomes()
-    {
-//        List<MainCategoryDTO> dtos = new ArrayList<>();
+//    public List<MainCategoryDTO> readMainCategoriesDtoOfIncomes()
+//    {
+////        List<MainCategoryDTO> dtos = new ArrayList<>();
+////
+////        for(MainCategory cat : readMainCategoriesOfIncomes())
+////        {
+////            var dto = new MainCategoryDTO(cat, readSubCategoriesByMainId(cat.getId()));
+////
+////            if (!dtos.contains(dto))
+////                dtos.add(dto);
+////        }
+////
+////        return dtos;
 //
-//        for(MainCategory cat : readMainCategoriesOfIncomes())
-//        {
-//            var dto = new MainCategoryDTO(cat, readSubCategoriesByMainId(cat.getId()));
-//
-//            if (!dtos.contains(dto))
-//                dtos.add(dto);
-//        }
-//
-//        return dtos;
+//        return createMainCategoriesDtoList(readMainCategoriesOfIncomes());
+//    }
 
-        return createMainCategoriesDtoList(readMainCategoriesOfIncomes());
-    }
-
-    public List<MainCategoryDTO> readMainCategoriesDtoOfExpenses()
+    public List<MainCategoryDTO> readMainCategoriesDtoByType(Type type)
     {
 //        List<MainCategoryDTO> dtos = new ArrayList<>();
 //
@@ -173,7 +167,7 @@ public class CategoryService
 //
 //        return dtos;
 
-        return createMainCategoriesDtoList(readMainCategoriesOfExpenses());
+        return createMainCategoriesDtoList(readMainCategoriesByType(type));
     }
 
     private List<MainCategoryDTO> createMainCategoriesDtoList(List<MainCategory> list)
@@ -190,16 +184,16 @@ public class CategoryService
 
         return dtos;
     }
-
-    public List<MainCategory> readMainCategoriesOfIncomes()
-    {
-         return this.mainCategoryRepository.findAllIncomes();
-    }
-
-    public List<MainCategory> readMainCategoriesOfExpenses()
-    {
-        return this.mainCategoryRepository.findAllExpenses();
-    }
+//
+//    public List<MainCategory> readMainCategoriesOfIncomes()
+//    {
+//         return this.mainCategoryRepository.findAllIncomes();
+//    }
+//
+//    public List<MainCategory> readMainCategoriesOfExpenses()
+//    {
+//        return this.mainCategoryRepository.findAllExpenses();
+//    }
 
     public List<MainCategory> readAllMainCategories()
     {
@@ -255,6 +249,13 @@ public class CategoryService
     {
         return this.repository.findAllIncomes();
     }
+
+    List<MainCategory> readMainCategoriesByType(Type type)
+    {
+        return this.mainCategoryRepository.findByType(type.name());
+    }
+
+
 
 //    public List<String> readSubCategoriesByMainCategory(String main)
 //    {

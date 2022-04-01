@@ -13,7 +13,6 @@
 <h1 th:if="${message != null}" th:text="${message}"></h1>
 <!--/*@thymesVar id="transaction" type="com.moneyAppV5.transaction.dto.TransactionDTO"*/-->
 <!--/*@thymesVar id="payee" type="com.moneyAppV5.transaction.Payee"*/-->
-<!--/*@thymesVar id="gainer" type="com.moneyAppV5.transaction.Gainer"*/-->
 <!--/*@thymesVar id="account" type="com.moneyAppV5.account.Account"*/-->
 <!--/*@thymesVar id="category" type="com.moneyAppV5.category.Category"*/-->
 <!--/*@thymesVar id="t" type="com.moneyAppV5.category.Type"*/-->
@@ -58,7 +57,7 @@
             <!--            </select>-->
             <input list="cats" name="catsList" th:field="${transaction.category}" />
             <datalist id="cats" >
-                <option th:each="category : ${categoriesList}" th:value="${category.id}" th:text="${category.category}"></option>
+                <option th:each="category : ${categoriesList}" th:text="${category.category}"></option>
             </datalist>
         </label>
         <label>Komu płacę:
@@ -66,10 +65,11 @@
             <!--                <option value="0">Proszę wybrać opłacanego</option>-->
             <!--                <option th:each="payee : ${payeesList}" th:value="${payee}" th:text="${payee.getPayee()}"></option>-->
             <!--            </select>-->
-            <input list="payees" name="payeesList" th:field="${transaction.payee}" />
-            <datalist id="payees" >
+            <input list="isPaids" name="isPaidList" th:field="${transaction.isPaid}" />
+            <datalist id="isPaids" >
                 <option>Proszę wybrać</option>-->
-                <option th:each="payee : ${payeesList}" th:value="${payee.id}" th:text="${payee.payee}"></option>
+                <option th:each="payee : ${isPaidList}" th:text="${payee.name}" ></option>
+<!--                <option th:each="payee : ${isPaidList}" th:text="${payee.name}" th:value="${payee.id}" ></option>-->
             </datalist>
 
         </label>
@@ -78,10 +78,10 @@
             <!--                <option value="0">Proszę wybrać beneficjenta</option>-->
             <!--                <option th:each="gainer : ${gainersList}" th:value="${gainer}" th:text="${gainer.getGainer()}"></option>-->
             <!--            </select>-->
-            <input list="gainers" name="gainersList" th:field="${transaction.gainer}" />
-            <datalist id="gainers" >
+            <input list="forWhoms" name="forWhomList" th:field="${transaction.forWhom}" />
+            <datalist id="forWhoms" >
                 <option>Proszę wybrać</option>
-                <option th:each="gainer : ${gainersList}" th:value="${gainer.id}" th:text="${gainer.gainer}"></option>
+                <option th:each="payee : ${forWhomList}" th:text="${payee.name}" ></option>
             </datalist>
         </label>
         <label>Opis transakcji

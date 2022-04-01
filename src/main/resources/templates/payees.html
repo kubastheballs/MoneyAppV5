@@ -13,16 +13,17 @@
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
     <h1 th:if="${message != null}" th:text="${message}"></h1>
     <!--/*@thymesVar id="payee" type="com.moneyAppV5.transaction.dto.PayeeDTO"*/-->
+    <!--/*@thymesVar id="r" type="com.moneyAppV5.transaction.Role"*/-->
     <form action="#" method="post" th:action="@{/payees}" th:object="${payee}">
         <fieldset>
-            <legend>Nowy konttrahent</legend>
+            <legend>Nowy kontrahent</legend>
             <label>Nazwa kontrahenta
                 <input type="text" th:field="${payee.name}" />
             </label>
             <label> Typ kontrahenta
-                <select id="typeId" name="type">
+                <select id="roleId" name="role">
                     <option value="0" >Proszę wybrać</option>
-                    <option th:each="t : ${T(com.moneyAppV5.transaction.Role).values()}" th:value="${t.name()}" th:text="${t.name}"></option>
+                    <option th:each="r : ${T(com.moneyAppV5.transaction.Role).values()}" th:value="${r.name()}" th:text="${r.name}"></option>
                 </select>
             </label>
             <label>Opis kontrahenta
@@ -35,9 +36,10 @@
         </p>
     </form>
     <div>
+<!--        TODO podział kontrahentów na opłacanych i beneficjentów-->
         <p>Kontrahenci</p>
         <ul>
-            <li th:each="payee : ${payees}" th:text="${payee.payee}"></li>
+            <li th:each="payee : ${payees}" th:text="${payee.name}"></li>
         </ul>
     </div>
 </main>

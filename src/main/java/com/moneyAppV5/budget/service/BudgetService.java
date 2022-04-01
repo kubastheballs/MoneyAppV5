@@ -3,9 +3,11 @@ package com.moneyAppV5.budget.service;
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.budget.dto.BudgetDTO;
+import com.moneyAppV5.budget.dto.BudgetPositionDTO;
 import com.moneyAppV5.budget.repository.BudgetPositionRepository;
 import com.moneyAppV5.budget.repository.BudgetRepository;
 import com.moneyAppV5.category.Category;
+import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.category.service.CategoryService;
 import com.moneyAppV5.transaction.Transaction;
@@ -68,12 +70,12 @@ class BudgetService
         return this.positionsRepository.findExpensePositionsByBudgetId(id);
     }
 
-    public List<com.moneyAppV5.budget.dto.BudgetPositionDTO> readIncomeBudgetPositionsDtoByBudgetId(Integer id)
+    public List<BudgetPositionDTO> readIncomeBudgetPositionsDtoByBudgetId(Integer id)
     {
-        List<com.moneyAppV5.budget.dto.BudgetPositionDTO> positions = new ArrayList<>();
+        List<BudgetPositionDTO> positions = new ArrayList<>();
 
         for (BudgetPosition b : readIncomeBudgetPositionsByBudgetId(id))
-            positions.add(new com.moneyAppV5.budget.dto.BudgetPositionDTO(b));
+            positions.add(new BudgetPositionDTO(b));
 
         return positions;
     }
@@ -304,6 +306,11 @@ class BudgetService
     private List<Budget> readAllBudgets()
     {
         return this.repository.findAll();
+    }
+
+    private double readActualExpensesInBudgetByMainCategory(MainCategory main, int budgetId)
+    {
+        return this.transactionService.readActualExpensesByMainCategoryAndBudgetId(main, budgetId);
     }
 
 

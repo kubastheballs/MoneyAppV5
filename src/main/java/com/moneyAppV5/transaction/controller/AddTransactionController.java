@@ -7,7 +7,7 @@ import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.service.CategoryService;
 import com.moneyAppV5.transaction.Gainer;
 import com.moneyAppV5.transaction.Payee;
-import com.moneyAppV5.transaction.dto.PayeeDTO;
+import com.moneyAppV5.transaction.Role;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
 import org.springframework.stereotype.Controller;
@@ -83,8 +83,8 @@ public class AddTransactionController
         model.addAttribute("budgetId", id);
         model.addAttribute("accountsList", getAccounts());
         model.addAttribute("categoriesList", getCategories());
-        model.addAttribute("payeesList", getPayees());
-        model.addAttribute("gainersList", getGainers());
+        model.addAttribute("isPaidList", getIsPaidList());
+        model.addAttribute("forWhomList", getForWhomList());
         model.addAttribute("message", "Dodano transakcję!");
 
         return "addTransaction";
@@ -104,15 +104,15 @@ public class AddTransactionController
         return this.categoryService.readAllCategories();
     }
 
-    @ModelAttribute("payeesList")
-    List<Payee> getPayees()
+    @ModelAttribute("isPaidList")
+    List<Payee> getIsPaidList()
     {
-        return this.service.readAllPayees();
+        return this.service.readPayeesByRole(Role.IS_PAID);
     }
 
-    @ModelAttribute("gainersList")
-    List<Gainer> getGainers()
+    @ModelAttribute("forWhomList")
+    List<Payee> getForWhomList()
     {
-        return this.service.readAllGainers();
+        return this.service.readPayeesByRole(Role.IS_FOR);
     }
 }

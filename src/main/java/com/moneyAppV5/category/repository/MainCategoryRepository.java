@@ -17,7 +17,9 @@ public interface MainCategoryRepository
     MainCategory save(MainCategory entity);
 
 //    List<MainCategory> findAllWithType();
-    List<MainCategory> findAllIncomes();
+//    List<MainCategory> findAllIncomes();
 //    List<MainCategory> findAllWithType(String type);
-    List<MainCategory> findAllExpenses();
+//    List<MainCategory> findAllExpenses();
+
+    List<MainCategory> findByType(String type);
 }
