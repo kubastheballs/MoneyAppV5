@@ -22,7 +22,7 @@ interface SqlMainCategoryRepository extends MainCategoryRepository, JpaRepositor
 //            "inner join categories on main_categories.id=categories.main_category_id and categories.type='INCOME'")
 //    @Query(nativeQuery = true, value = "select * from main_categories inner join categories on main_categories.id=categories.main_category_id and categories.type=:type")
 //    List<MainCategory> findAllWithType();
-    List<MainCategory> findAllIncomes();
+//    List<MainCategory> findAllIncomes();
 //    List<MainCategory> findAllWithType(@Param("t")Type type);
 
 //    @Override

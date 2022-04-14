@@ -63,4 +63,11 @@ public class BudgetsController
         return this.service.readAllBudgetsDto();
     }
 
+//    @ModelAttribute("budgetId")
+//    Integer getBudgetIdByMonthAndYear(Integer month, Integer year)
+//    {
+////        TODO jak wtłoczyć month i year do metdoy z html?
+//        return this.service.readByMonthAndYear(month, year).getId();
+//    }
+
 }

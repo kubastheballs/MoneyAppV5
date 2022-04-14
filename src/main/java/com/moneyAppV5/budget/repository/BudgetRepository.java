@@ -10,6 +10,7 @@ public interface BudgetRepository
     List<Budget> findAll();
 
     Optional<Budget> findById(Integer id);
+    Optional<Budget> findByMonthAndYear(Integer month, Integer year);
     boolean existsById(int id);
 
     Budget save(Budget entity);

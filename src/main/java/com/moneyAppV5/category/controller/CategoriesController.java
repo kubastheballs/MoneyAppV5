@@ -131,7 +131,6 @@ class CategoriesController
         return this.service.readSubCategoriesDtoByMainId(id);
     }
 
-
     @ModelAttribute("incomeCategories")
     List<MainCategoryDTO> getIncomeCategoriesDTO()
     {

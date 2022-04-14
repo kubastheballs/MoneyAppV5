@@ -14,14 +14,20 @@
 <!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
 <!--/*@thymesVar id="position" type="com.moneyAppV5.budget.dto.BudgetPositionDTO"*/-->
 <!--/*@thymesVar id="message" type="java.lang.String"*/-->
-<form action="#" method="post" th:action="@{/budgetView/{id}(id=${id})}" th:object="${budget}">
+
 <h1 th:if="${message != null}" th:text="${message}"></h1>
 
 <!--    TODO przejście do dodawania transakcji-->
 <!--    TODO powrót do listy budżetów-->
 <label>Widok ogólny budżetu</label>
 <!--    TODO jak ten przycisk przekieruje do dodawania transakcji?-->
-    <button>Dodaj transakcje</button>
+
+<!--    <form action="#" method="get" th:action="@{/budgetView/{id}/addTransaction(id=${budgetId})}">-->
+<!--        <p>-->
+            <a th:href="@{/budgetView/{id}/addTransaction(id=${id})}">Dodaj transakcje</a>
+<!--        </p>-->
+<!--    </form>-->
+<form action="#" method="post" th:action="@{/budgetView/{id}(id=${id})}" th:object="${budget}">
 <table>
     <tr>
         <td></td><td>Planowane [zł]</td><td>Rzeczywiste [zł]</td><td>Saldo [zł]</td>
@@ -47,7 +53,7 @@
         </tr>
         <tr th:each="position : ${incomePositions}">
 <!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
-            <td th:text="${position.category.mainCategory.mainCategory}"></td><td th:text="${position.plannedAmount}"></td><td  th:text="${position.actualAmount}"></td>
+            <td th:text="${position.category.category}"></td><td th:text="${position.plannedAmount}"></td><td  th:text="${position.actualAmount}"></td>
             <td  th:text="${position.balance}"></td><td  th:text="${position.description}"></td>
 <!--        TODO zrobienie podlisty z subkategoriami - czy chdzi o tr wewnątrz tr? jest nie zamknięty bo ten od głównego go domyka-->
 <!--        TODO wyciągnięcie listy subkategorii-->
@@ -79,5 +85,22 @@
 
 
 </form>
+
+<div>
+    <h1>Transakcje w tym miesiącu</h1>
+    <table>
+        <tr>
+            <td>Data</td><td>konto</td><td>Kwota [zł]</td><td>Kontrahent</td><td>Kategoria</td><td>Beneficjent</td><td>opis</td>
+        </tr>
+<!--        TODO lista transakcji z danego budżetu - najlepiej sortowana od najnowszych-->
+        <tr th:each="transaction : ${transactions}">
+            <!--                TODO czemu się nie pojawia data?-->
+            <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
+            <td th:text="${transaction.date}" ></td><td th:text="${transaction.account.name}"></td><td th:text="${transaction.amount}"></td>
+            <td th:text="${transaction.isPaid.name}"></td><td th:text="${transaction.category.category}"></td>
+            <td th:text="${transaction.forWhom.name}"></td><td th:text="${transaction.description}"></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

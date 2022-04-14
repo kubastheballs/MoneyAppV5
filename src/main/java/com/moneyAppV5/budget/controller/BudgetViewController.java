@@ -1,24 +1,12 @@
 package com.moneyAppV5.budget.controller;
 
-import com.moneyAppV5.account.Account;
-import com.moneyAppV5.account.service.AccountService;
-import com.moneyAppV5.budget.BudgetPosition;
-import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.budget.service.BudgetService;
-import com.moneyAppV5.category.Category;
-import com.moneyAppV5.category.service.CategoryService;
-import com.moneyAppV5.transaction.Gainer;
-import com.moneyAppV5.transaction.Payee;
-import com.moneyAppV5.transaction.dto.TransactionDTO;
-import com.moneyAppV5.transaction.service.TransactionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
-@RequestMapping("/budgetView/{id}")
+@RequestMapping()
 public class BudgetViewController
 {
     private final BudgetService service;
@@ -28,8 +16,23 @@ public class BudgetViewController
         this.service = service;
     }
 
-    @GetMapping()
-    String showBudgetView(Model model, @PathVariable Integer id)
+//    raczej tylko gwoli testów tymczasowo
+@GetMapping("/budgetView/{month}{year}")
+public String showBudgetView(Model model, @PathVariable Integer month, @PathVariable Integer year)
+{
+    var result = this.service.readByMonthAndYear(month, year);
+
+    model.addAttribute("message", String.format("Budżet: %s/%s", result.getMonth(), result.getYear()));
+    model.addAttribute("budget", result);
+    model.addAttribute("id", result.getId());
+    model.addAttribute("incomePositions", result.getIncomes());
+    model.addAttribute("expensePositions", result.getExpenses());
+
+    return "budgetView";
+}
+//tu jest docelowy
+    @GetMapping("/budgetView/{id}")
+    public String showBudgetView(Model model, @PathVariable Integer id)
     {
         var result = this.service.readBudgetDtoById(id);
 
@@ -41,6 +44,16 @@ public class BudgetViewController
 
         return "budgetView";
     }
+
+//    @GetMapping(value ="redirect:/addTransaction", params="addT")
+//    String goToAddTransaction(@PathVariable Integer id, Model model)
+//    {
+//        System.out.println("~~~~");
+//        System.out.println(id);
+//        model.addAttribute("budgetId", id);
+//
+//        return "addTransaction";
+//    }
 
 //    @ModelAttribute("expenseSubPositions")
 //    List<BudgetPosition> getExpenseSubPositions()

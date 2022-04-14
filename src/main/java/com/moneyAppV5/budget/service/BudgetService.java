@@ -12,6 +12,7 @@ import com.moneyAppV5.category.Type;
 import com.moneyAppV5.category.service.CategoryService;
 import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.service.TransactionService;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -311,6 +312,12 @@ class BudgetService
     private double readActualExpensesInBudgetByMainCategory(MainCategory main, int budgetId)
     {
         return this.transactionService.readActualExpensesByMainCategoryAndBudgetId(main, budgetId);
+    }
+
+    public Budget readByMonthAndYear(Integer month, Integer year)
+    {
+//        TODO wyjście z optionala
+        return this.repository.findByMonthAndYear(month, year).orElse(new Budget(month, year));
     }
 
 

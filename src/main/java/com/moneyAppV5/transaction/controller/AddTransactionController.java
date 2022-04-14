@@ -2,6 +2,7 @@ package com.moneyAppV5.transaction.controller;
 
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.service.AccountService;
+import com.moneyAppV5.budget.controller.BudgetViewController;
 import com.moneyAppV5.budget.service.BudgetService;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.service.CategoryService;
@@ -10,6 +11,7 @@ import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Role;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,22 +21,26 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/budgetView/{id}/addTransaction")
+@RequestMapping()
+//@RequestMapping("/budgetView/{id}/addTransaction")
 public class AddTransactionController
 {
     TransactionService service;
     CategoryService categoryService;
     AccountService accountService;
     BudgetService budgetService;
+    BudgetViewController viewController;
 
-    public AddTransactionController(TransactionService service, CategoryService categoryService, AccountService accountService, BudgetService budgetService) {
+    public AddTransactionController(TransactionService service, CategoryService categoryService, AccountService accountService,
+                                    BudgetService budgetService, BudgetViewController viewController) {
         this.service = service;
         this.categoryService = categoryService;
         this.accountService = accountService;
         this.budgetService = budgetService;
+        this.viewController = viewController;
     }
 
-    @GetMapping()
+    @GetMapping("/budgetView/{id}/addTransaction")
     String showAddTransaction(Model model, @PathVariable Integer id)
     {
         var dto = new TransactionDTO();
@@ -54,9 +60,17 @@ public class AddTransactionController
         return "addTransaction";
     }
 
-    @PostMapping()
+    @PostMapping("/budgetView/{id}/addTransaction")
     String addTransaction(@ModelAttribute("transaction") @Valid TransactionDTO current, BindingResult bindingResult, Model model, @PathVariable Integer id)
     {
+        System.out.println("1111111111");
+        System.out.println(current.getDay());
+        System.out.println(current.getAccount());
+        System.out.println(current.getAmount());
+        System.out.println(current.getCategory());
+        System.out.println(current.getIsPaid());
+        System.out.println(current.getForWhom());
+
         if (bindingResult.hasErrors())
         {
             model.addAttribute("message", "Błędne dane!");
@@ -89,6 +103,16 @@ public class AddTransactionController
 
         return "addTransaction";
     }
+
+//    @GetMapping(value ="redirect:/budgetView/{id}", params="return")
+//    String returnToBudgetView(@PathVariable Integer id, Model model)
+//    {
+//        model.addAttribute("budgetId", id);
+//
+////        return String.format("redirect:/budgetView/%s", id);
+////        return String.format("redirect:/%s", this.viewController.showBudgetView(model, id));
+//        return "budgetView";
+//    }
 
     @ModelAttribute("accountsList")
     List<Account> getAccounts()

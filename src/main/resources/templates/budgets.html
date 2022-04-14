@@ -30,7 +30,9 @@
             </label>
             <input type="hidden" th:field="*{incomes}"/>
             <input type="hidden" th:field="*{expenses}"/>
+<!--            TODO sprawdzenie czy budżet o danym miesiącu i roku już istnieje-->
             <button type="submit">Dodaj budżet</button>
+            <button type="reset">Wyczyść</button>
         </fieldset>
 
         <!--        TODO potrzebny panel tworzenia nowegu budżetu na podstawie podanego miesiąca i roku-->
@@ -42,12 +44,17 @@
         <h1>Dostępne budżety</h1>
         <table>
             <tr>
-                <td>Miesiąc</td><td>Rok</td><td>...</td><td>Opis</td>
+                <td>Miesiąc</td><td>Rok</td><td>...</td><td>Opis</td><td>Link</td>
             </tr>
             <tr th:each="budget : ${budgetsList}">
                              <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
 <!--                TODO przy budżecie przycisk/link do przejścia do konkretnego budżetu-->
                 <td th:text="${budget.month}" ></td><td th:text="${budget.year}"></td><td>...</td><td th:text="${budget.description}"></td>
+                <td>
+<!--                    TODO skąd wziąć id? szukanie po miesiącu i roku?-->
+                    <a th:href="@{/budgetView/{m}{y}(m=${budget.month})(y=${budget.year})}">Przejdź</a>
+<!--                    <a th:href="@{/budgetView/{id}(id=${budgetId})}">Przejdź</a>-->
+                </td>
             </tr>
         </table>
     </div>

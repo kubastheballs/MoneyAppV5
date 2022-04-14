@@ -24,8 +24,10 @@
         <label>Data transakcji
             <!--          <input type="text"  th:field="${transaction.date}" />-->
             <label>Dzień
-                <input name="day" type="number" min="1" max="31" th:field="${transaction.day}" />
+<!--                <input name="day" type="number" max="31" th:field="${transaction.day}" />-->
+                <input name="day" type="number" value="1" min="1" max="31" th:field="${transaction.day}" />
             </label>
+<!--            TODO miesiąc numeryczny czy lepiej nazwa?-->
             <label>Miesiąc
                 <input name="month" type="number" min="1" max="12" th:field="${transaction.month}" />
             </label>
@@ -51,48 +53,55 @@
         <!--            </select>-->
         <!--        </label>-->
         <label>Kategoria transakcji
-            <!--            <select name="cat" >-->
-            <!--                <option value="0">Proszę wybrać kategorię</option>-->
-            <!--                <option th:each="category : ${categoriesList}" th:value="${category.getId()}" th:text="${category.toDisplay()}"></option>-->
-            <!--            </select>-->
-            <input list="cats" name="catsList" th:field="${transaction.category}" />
-            <datalist id="cats" >
-                <option th:each="category : ${categoriesList}" th:text="${category.category}"></option>
-            </datalist>
+                    <select name="cat" th:field="${transaction.category}" >
+                        <option value="0">Proszę wybrać kategorię</option>
+                        <option th:each="category : ${categoriesList}" th:value="${category.id}" th:text="${category.category}"></option>
+                    </select>
+<!--            <input list="cats" name="catsList" th:field="${transaction.category}" />-->
+<!--            <datalist id="cats" >-->
+<!--                <option th:each="category : ${categoriesList}" th:value="${category.id}" th:text="${category.category}"></option>-->
+<!--            </datalist>-->
+
         </label>
         <label>Komu płacę:
-            <!--            <select name="pays" >-->
-            <!--                <option value="0">Proszę wybrać opłacanego</option>-->
-            <!--                <option th:each="payee : ${payeesList}" th:value="${payee}" th:text="${payee.getPayee()}"></option>-->
-            <!--            </select>-->
-            <input list="isPaids" name="isPaidList" th:field="${transaction.isPaid}" />
-            <datalist id="isPaids" >
-                <option>Proszę wybrać</option>-->
-                <option th:each="payee : ${isPaidList}" th:text="${payee.name}" ></option>
-<!--                <option th:each="payee : ${isPaidList}" th:text="${payee.name}" th:value="${payee.id}" ></option>-->
-            </datalist>
+                        <select name="pays" th:field="${transaction.isPaid}">
+                            <option value="0">Proszę wybrać </option>
+                            <option th:each="payee : ${isPaidList}" th:value="${payee.id}" th:text="${payee.name}"></option>
+                        </select>
+<!--            <input list="isPaids" name="isPaidList" th:field="${transaction.isPaid}" />-->
+<!--            <datalist id="isPaids" >-->
+<!--                <option>Proszę wybrać</option>&ndash;&gt;-->
+<!--                <option th:each="payee : ${isPaidList}" th:value="${payee.id}" th:text="${payee.name}" ></option>-->
+<!--&lt;!&ndash;                <option th:each="payee : ${isPaidList}" th:text="${payee.name}" th:value="${payee.id}" ></option>&ndash;&gt;-->
+<!--            </datalist>-->
 
         </label>
         <label>Dla kogo:
-            <!--            <select name="gains" >-->
-            <!--                <option value="0">Proszę wybrać beneficjenta</option>-->
-            <!--                <option th:each="gainer : ${gainersList}" th:value="${gainer}" th:text="${gainer.getGainer()}"></option>-->
-            <!--            </select>-->
-            <input list="forWhoms" name="forWhomList" th:field="${transaction.forWhom}" />
-            <datalist id="forWhoms" >
-                <option>Proszę wybrać</option>
-                <option th:each="payee : ${forWhomList}" th:text="${payee.name}" ></option>
-            </datalist>
+                        <select name="whoms" th:field="${transaction.forWhom}" >
+                            <option value="0">Proszę wybrać</option>
+                            <option th:each="payee : ${forWhomList}" th:value="${payee.id}" th:text="${payee.name}"></option>
+                        </select>
+<!--            <input list="forWhoms" name="forWhomList" th:field="${transaction.forWhom}" />-->
+<!--            <datalist id="forWhoms" >-->
+<!--                <option>Proszę wybrać</option>-->
+<!--                <option th:each="payee : ${forWhomList}" th:value="${payee.id}" th:text="${payee.name}" ></option>-->
+<!--            </datalist>-->
         </label>
         <label>Opis transakcji
             <input type="text" th:field="${transaction.description}" />
         </label>
     </fieldset>
     <p>
-<!--        TODO powrót do budżetu-->
         <button type="submit">Dodaj</button>
         <button type="reset">Wyczyść</button>
     </p>
+
 </form>
+<!--    <form action="#" method="get" th:action="@{/budgetView/{id}(id=${budgetId})}">-->
+<!--<p>-->
+    <a th:href="@{/budgetView/{id}(id=${budgetId})}" >Powrót do budżetu</a>
+<!--</p>-->
+<!--    </form>-->
+<!--    TODO lista transakcji w bieżącymn miesiącu?-->
 </body>
 </html>

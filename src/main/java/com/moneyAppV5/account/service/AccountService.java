@@ -60,4 +60,10 @@ public class AccountService
     {
         this.repository.changeBalance(id, amount);
     }
+
+    public AccountDTO readAccountDtoById(Integer id)
+    {
+//        TODO czy w orElseThrow należy wrzucić jakiś błąd? - sprawdzić jak jest w todo-app
+        return new AccountDTO(this.repository.findById(id).orElseThrow());
+    }
 }

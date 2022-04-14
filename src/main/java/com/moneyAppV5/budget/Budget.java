@@ -28,6 +28,12 @@ class Budget
     {
     }
 
+    public Budget( Integer month ,Integer year)
+    {
+        this.month = month;
+        this.year = year;
+    }
+
 //     public Integer getId()
 //    {
 //        return id;
