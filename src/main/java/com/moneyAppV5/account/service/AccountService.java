@@ -66,4 +66,9 @@ public class AccountService
 //        TODO czy w orElseThrow należy wrzucić jakiś błąd? - sprawdzić jak jest w todo-app
         return new AccountDTO(this.repository.findById(id).orElseThrow());
     }
+
+    public Account readAccountByName(String name)
+    {
+        return this.repository.findByName(name);
+    }
 }

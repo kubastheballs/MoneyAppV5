@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.Month;
 
 @Controller
 @RequestMapping("/moneys")
-class MoneyController
+class MoneysController
 {
     private final BudgetService budgetService;
 
-    public MoneyController(BudgetService budgetService) {
+    public MoneysController(BudgetService budgetService) {
         this.budgetService = budgetService;
     }
 
@@ -26,9 +28,23 @@ class MoneyController
     String showMoneyApp(Model model)
     {
         model.addAttribute("budget", new BudgetDTO());
+//        TODO - jeśli nie ma budżetu na aktualny miesiąc to przenosi do stworzenia? jeśli nie ma to póki co wywala null Pointer
+//        model.addAttribute("budgetId", this.budgetService.readBudgetByMonthAndYear(LocalDate.now().getMonthValue(), LocalDate.now().getYear()).getId() );
 
         return "moneys";
     }
+
+//    @ModelAttribute("budgetId")
+//    void getBudgetIdByActualMonthAndYear(Model model)
+//    {
+//        int m = LocalDate.now().getMonthValue();
+//        int y = LocalDate.now().getYear();
+//
+//        var budget = budgetService.readBudgetByMonthAndYear(m, y);
+//
+//        model.addAttribute("budgetId")
+//
+//    }
 //  TODO przeniesione do budgets
 //    @PostMapping()
 //    String addBudget(@ModelAttribute("budgetDto") @Valid BudgetDTO current, BindingResult bindingResult, Model model)

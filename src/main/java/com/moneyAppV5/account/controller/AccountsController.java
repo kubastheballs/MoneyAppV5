@@ -1,29 +1,25 @@
 package com.moneyAppV5.account.controller;
 
-import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.dto.AccountDTO;
 import com.moneyAppV5.account.service.AccountService;
-import com.moneyAppV5.category.dto.CategoryDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 @Controller
 @RequestMapping("/accounts")
-class AccountController
+class AccountsController
 {
-    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AccountsController.class);
     AccountService service;
 
-    AccountController(AccountService service)
+    AccountsController(AccountService service)
     {
         this.service = service;
     }
@@ -54,6 +50,12 @@ class AccountController
     List<AccountDTO> getAccountsDTO()
     {
         return this.service.readAllAccountsDTO();
+    }
+
+    Integer getAccountIdByName()
+    {
+//        TODO pobieranie name?
+        return this.service.readAccountByName("name").getId();
     }
 
 //    @GetMapping(params = {"!sort", "!page", "!size"})

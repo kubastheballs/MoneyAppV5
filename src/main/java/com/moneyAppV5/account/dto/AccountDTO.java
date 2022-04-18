@@ -1,8 +1,13 @@
 package com.moneyAppV5.account.dto;
 
 import com.moneyAppV5.account.Account;
+import com.moneyAppV5.transaction.Transaction;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class AccountDTO
 {
@@ -11,6 +16,7 @@ public class AccountDTO
     private LocalDate deadline;
     private double target;
     private double actualBalance;
+    private List<TransactionDTO> transactions;
 
     public AccountDTO()
     {
@@ -33,7 +39,19 @@ public class AccountDTO
         this.name = account.getName();
         this.actualBalance = account.getActualBalance();
         this.description = account.getDescription();
+        this.transactions = transactionsToDto(account.getTransactions());
     }
+
+    private List<TransactionDTO> transactionsToDto(Set<Transaction> list)
+    {
+        List<TransactionDTO> dtos = new ArrayList<>();
+
+        for (Transaction t : list)
+            dtos.add(new TransactionDTO(t));
+
+        return dtos;
+    }
+
 
     public Account toAccount()
     {
@@ -68,6 +86,16 @@ public class AccountDTO
 
     public void setActualBalance(double actualBalance) {
         this.actualBalance = actualBalance;
+    }
+
+    public List<TransactionDTO> getTransactions()
+    {
+        return transactions;
+    }
+
+    public void setTransactions(List<TransactionDTO> transactions)
+    {
+        this.transactions = transactions;
     }
 
     public String toDisplay()

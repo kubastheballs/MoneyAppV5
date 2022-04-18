@@ -4,6 +4,7 @@ import com.moneyAppV5.transaction.Transaction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -42,6 +43,13 @@ public class Account
         this.description = description;
         this.actualBalance = actualBalance;
         this.initBalance = actualBalance;
+    }
+
+//    TODO problem braku id w dto obejść zapisywaniem hashcode w bazie?
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, name);
     }
 
     public int getId()

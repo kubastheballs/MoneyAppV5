@@ -32,11 +32,20 @@
         <button type="reset">Wyczyść</button>
     </p>
 </form>
+    <a th:href="@{/moneys}">Strona główna</a>
     <div>
         <p>Konta</p>
-        <ul>
-            <li th:each="account : ${accounts}" th:text="${account.toDisplay()}"></li>
-        </ul>
+        <table>
+            <tr>
+                <td>Nazwa</td><td>Saldo</td><td>Opis</td>
+            </tr>
+            <tr th:each="account : ${accounts}">
+                <td th:text="${account.name}"></td><td th:text="${account.actualBalance}"></td><td th:text="${account.description}"></td>
+<!--                TODO placeholder na przejście do szczegółów danego konta/-->
+<!--                TODO jak rozwiązać kwestię pobierania id?-->
+                <td >Przejdź</td>
+            </tr>
+        </table>
     </div>
 </main>
 </body>

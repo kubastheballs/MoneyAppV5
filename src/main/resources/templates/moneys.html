@@ -9,30 +9,14 @@
 <body>
 <main>
     <h1>MoneyApp - zapanuj nad swoim budżetem!</h1>
-<!--    TODO przeniesione do budgets-->
-<!--    &lt;!&ndash;/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/&ndash;&gt;-->
-<!--    &lt;!&ndash;/*@thymesVar id="month" type="java.time.Month"*/&ndash;&gt;-->
-<!--    &lt;!&ndash;/*@thymesVar id="message" type="java.lang.String"*/&ndash;&gt;-->
-<!--    <h1 th:if="${message != null}" th:text="${message}"></h1>-->
-<!--    <form action="#" method="post" th:action="@{/moneys}" th:object="${budget}">-->
-<!--        <fieldset>-->
-<!--            <legend>Nowy budżet</legend>-->
-<!--            <label>Miesiąc budżetu-->
-<!--&lt;!&ndash;                <select name="months">&ndash;&gt;-->
-<!--&lt;!&ndash;                <select name="months" th:field="*{month}">&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    <option value="0">Proszę wybrać miesiąc</option>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <option th:each="month : ${T(java.time.Month).values()}" th:value="${month.name()}" th:text="${month.name()}"></option>&ndash;&gt;-->
-<!--&lt;!&ndash;                </select>&ndash;&gt;-->
-<!--                <input type="number" th:field="*{month}"/>-->
-<!--            </label>-->
-<!--            <label>Rok budżetu-->
-<!--&lt;!&ndash;                <input type="number" />&ndash;&gt;-->
-<!--                <input type="number" th:field="*{year}"/>-->
-<!--            </label>-->
-<!--                <input type="hidden" th:field="*{incomes}"/>-->
-<!--                <input type="hidden" th:field="*{expenses}"/>-->
-<!--            <button type="submit">Dodaj budżet</button>-->
-<!--        </fieldset>-->
+
+    <a th:href="@{/budgetView/{id}(id=${budgetId})}">Aktualny budżet</a>
+
+    <a th:href="@{/budgets}">Budżety</a>
+    <a th:href="@{/transactions}">Transackcje</a>
+    <a th:href="@{/payees}">Kontrahenci</a>
+    <a th:href="@{/categories}">Kategorie</a>
+    <a th:href="@{/accounts}">Konta</a>
 
 <!--&lt;!&ndash;        TODO potrzebny panel tworzenia nowegu budżetu na podstawie podanego miesiąca i roku&ndash;&gt;-->
 <!--&lt;!&ndash;        TODO przejście do listy budżetów?&ndash;&gt;-->

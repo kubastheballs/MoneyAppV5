@@ -10,6 +10,8 @@ public interface AccountRepository
     List<Account> findAll();
 
     Optional<Account> findById(Integer id);
+    Account findByName(String name);
+
     boolean existsById(int id);
 
     Account save(Account entity);
@@ -17,4 +19,6 @@ public interface AccountRepository
     double getAccountActualBalance(Account account);
 
     void changeBalance(Integer id, double amount);
+
+
 }

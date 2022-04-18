@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/accountView/{id}")
+@RequestMapping("/accountView/")
+//@RequestMapping("/accountView/{id}")
 public class AccountViewController
 {
     AccountService service;
@@ -18,7 +19,8 @@ public class AccountViewController
         this.service = service;
     }
 
-    @GetMapping()
+    @GetMapping("{id}")
+//    @GetMapping()
     public String showBudgetView(Model model, @PathVariable Integer id)
     {
         var result = this.service.readAccountDtoById(id);
@@ -26,10 +28,11 @@ public class AccountViewController
         model.addAttribute("message", String.format("Konto: %s", result.getName()));
         model.addAttribute("account", result);
         model.addAttribute("id", id);
-//        TODO lista transakcji z danego konta - raczej wszystkie i ew sortowanie po typie
+//        TODO lista transakcji z danego konta - raczej wszystkie razem i ew sortowanie po typie
 //        model.addAttribute("incomePositions", result.getIncomes());
 //        model.addAttribute("expensePositions", result.getExpenses());
 
         return "accountView";
     }
+
 }
