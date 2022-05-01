@@ -18,4 +18,6 @@ public interface BudgetRepository
     boolean existsByMonthAndYear(int month, int year);
 
     Budget findByMonthAndYear(int month, int year);
+
+    Budget findByHash(Integer hash);
 }

@@ -23,4 +23,6 @@ public interface CategoryRepository
     List<Category> findAllExpenses();
 
     List<Category> findAllIncomes();
+
+    Category findCategoryByHash(Integer hash);
 }

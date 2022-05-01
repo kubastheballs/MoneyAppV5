@@ -1,6 +1,7 @@
 package com.moneyAppV5.category;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -21,6 +22,13 @@ public class SubCategory
     @ManyToOne
     @JoinColumn(name = "main_category_id")
     private MainCategory mainCategory;
+    private Integer hash;
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.subCategory);
+    }
 
 
 
@@ -78,5 +86,13 @@ public class SubCategory
 
     public void setMainCategory(MainCategory mainCategory) {
         this.mainCategory = mainCategory;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 }

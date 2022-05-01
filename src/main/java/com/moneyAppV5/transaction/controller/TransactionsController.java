@@ -1,15 +1,11 @@
 package com.moneyAppV5.transaction.controller;
 
 import com.moneyAppV5.account.Account;
-import com.moneyAppV5.account.dto.AccountDTO;
 import com.moneyAppV5.account.service.AccountService;
 import com.moneyAppV5.category.Category;
-import com.moneyAppV5.category.Type;
-import com.moneyAppV5.category.dto.CategoryDTO;
 import com.moneyAppV5.category.service.CategoryService;
 import com.moneyAppV5.transaction.Gainer;
 import com.moneyAppV5.transaction.Payee;
-import com.moneyAppV5.transaction.dto.GainerDTO;
 import com.moneyAppV5.transaction.dto.PayeeDTO;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
@@ -17,23 +13,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/transactions")
-class TransactionController
+class TransactionsController
 {
-    private static final Logger logger = LoggerFactory.getLogger(TransactionController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TransactionsController.class);
 //    TransactionRepository repository;
     TransactionService service;
     AccountService accountService;
     CategoryService categoryService;
 
-    TransactionController(TransactionService service, AccountService accountService, CategoryService categoryService)
+    TransactionsController(TransactionService service, AccountService accountService, CategoryService categoryService)
     {
         this.service = service;
         this.accountService = accountService;

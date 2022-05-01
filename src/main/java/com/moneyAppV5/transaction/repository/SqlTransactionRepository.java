@@ -1,9 +1,6 @@
 package com.moneyAppV5.transaction.repository;
 
-import com.moneyAppV5.account.Account;
 import com.moneyAppV5.category.Type;
-import com.moneyAppV5.transaction.Gainer;
-import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -33,7 +30,7 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
 //    List<Transaction> getTransactionsByTypeAndAccount(Integer id, Type type);
 
     @Override
-    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where PAYEE_ID = :id")
+    @Query(nativeQuery = true, value = "select * from TRANSACTIONS where IS_PAID_ID = :id or FOR_WHOM_ID = :id")
     List<Transaction> findByPayeeId(Integer id);
 
 //    @Override
@@ -55,6 +52,16 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
     void updateBudgetDetailsInTransaction(int id, int positionId, int budgetId);
 
     @Override
-    @Query(nativeQuery = true, value = "select sum (amount) from transactions innej join categories where main_category_id = :mainId and budget_id = :budgetId")
+    @Query(nativeQuery = true, value = "select sum (amount) from transactions inner join categories where main_category_id = :mainId and budget_id = :budgetId")
     double sumActualExpensesByMainCategoryIdAndBudgetId(int mainId, int budgetId);
+
+    @Override
+    @Query(nativeQuery = true, value = "select sum (amount) from TRANSACTIONS inner join CATEGORIES where (ACCOUNT_ID = :accountId and " +
+            "MONTH = :m and year = :y and TYPE = :type)")
+    Optional<Double> sumTransactionsByAccountIdAndMonthAndType(Integer accountId, Integer m, Integer y, String type);
+
+    @Override
+    @Query(nativeQuery = true, value = "select sum (amount) from TRANSACTIONS inner join CATEGORIES where (ACCOUNT_ID = :accountId and " +
+            "TYPE = :type)")
+    Optional<Double> sumTransactionsByAccountIdAndType(Integer accountId, String type);
 }

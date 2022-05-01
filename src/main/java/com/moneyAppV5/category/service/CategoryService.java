@@ -255,6 +255,15 @@ public class CategoryService
         return this.mainCategoryRepository.findByType(type.name());
     }
 
+    public Category readCategoryByHash(Integer hash)
+    {
+        return this.repository.findCategoryByHash(hash);
+    }
+
+    public CategoryDTO readCategoryDtoByHash(Integer hash)
+    {
+        return new CategoryDTO(readCategoryByHash(hash));
+    }
 
 
 //    public List<String> readSubCategoriesByMainCategory(String main)

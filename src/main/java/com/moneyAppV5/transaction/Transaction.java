@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "transactions")
@@ -42,6 +43,7 @@ public class Transaction
     @ManyToOne
     @JoinColumn(name = "budget_position_id")
     private BudgetPosition budgetPosition;
+    private Integer hash;
 
      public Transaction()
     {
@@ -60,6 +62,12 @@ public class Transaction
     public void updateFrom(final Transaction source)
     {
 //        TODO
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.day, this.month, this.year, this.account, this.amount, this.category, this.isPaid, this.forWhom);
     }
 
     public int getId()
@@ -207,5 +215,21 @@ public class Transaction
 
     public void setBudgetPosition(BudgetPosition budgetPosition) {
         this.budgetPosition = budgetPosition;
+    }
+
+    public LocalDate getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 }

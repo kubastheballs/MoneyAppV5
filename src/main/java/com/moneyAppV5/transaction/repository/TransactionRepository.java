@@ -1,5 +1,6 @@
 package com.moneyAppV5.transaction.repository;
 
+import com.moneyAppV5.category.Type;
 import com.moneyAppV5.transaction.Transaction;
 
 import java.time.LocalDate;
@@ -22,8 +23,10 @@ public interface TransactionRepository
 
     boolean existsById(Integer id);
 
-
     void updateBudgetDetailsInTransaction(int id, int positionId, int budgetId);
 
     double sumActualExpensesByMainCategoryIdAndBudgetId(int mainId, int budgetId);
+
+    Optional<Double> sumTransactionsByAccountIdAndMonthAndType(Integer id, Integer m, Integer y, String type);
+    Optional<Double> sumTransactionsByAccountIdAndType(Integer accountId, String type);
 }

@@ -18,6 +18,8 @@ public interface BudgetPositionRepository
 
     BudgetPosition save(BudgetPosition entity);
 
+    BudgetPosition findByHash(Integer hash);
+
 //    List<BudgetPosition> getBudgetPositionsByTypeAndBudget(Budget budget, Type type);
 //    List<BudgetPosition> getBudgetPositionsByBudget(Budget budget);
 

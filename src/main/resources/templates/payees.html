@@ -43,6 +43,21 @@
             <li th:each="payee : ${payees}" th:text="${payee.name}"></li>
         </ul>
     </div>
+    <table>
+        <tr>Kontrahenci</tr>
+        <tr>
+            <td>Nazwa</td><td>Rola</td><td>Opis</td>
+        </tr>
+        <tr th:each="payee : ${payees}">
+            <td th:text="${payee.name}"></td><td th:text="${payee.role}"></td><td th:text="${payee.description}"></td>
+            <td>
+                <a th:href="@{/payeeVie/{hash}(hash=${payee.hash})}">Przejdź</a>
+            </td>
+<!--            TODO placeholdery-->
+            <td>Edytuj</td>
+            <td>Usuń</td>
+        </tr>
+    </table>
 </main>
 </body>
 </html>

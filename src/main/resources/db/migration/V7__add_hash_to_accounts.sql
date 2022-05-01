@@ -1,0 +1,1 @@
+alter table ACCOUNTS add column hash int;

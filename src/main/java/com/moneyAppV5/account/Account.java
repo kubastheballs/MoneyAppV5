@@ -4,6 +4,7 @@ import com.moneyAppV5.transaction.Transaction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -24,6 +25,7 @@ public class Account
     @OneToMany(mappedBy = "account")
     private Set<MonthBalance> monthBalances;
     private double actualBalance;
+    private Integer hash;
 
 //    TODO historia konta wprowadzana z ręki? tj stany kont z każdego pierwszego miesiąca wylcizane na podstawie transakcji oraz z ręki?
 
@@ -36,6 +38,7 @@ public class Account
         this.name = name;
         this.actualBalance = actualBalance;
         this.initBalance = actualBalance;
+        this.transactions = new HashSet<>();
     }
 
     public Account(String name, String description, double actualBalance) {
@@ -43,13 +46,14 @@ public class Account
         this.description = description;
         this.actualBalance = actualBalance;
         this.initBalance = actualBalance;
+        this.transactions = new HashSet<>();
     }
 
 //    TODO problem braku id w dto obejść zapisywaniem hashcode w bazie?
     @Override
     public int hashCode()
     {
-        return Objects.hash(id, name);
+        return Objects.hash(this.name, this.initBalance);
     }
 
     public int getId()
@@ -140,6 +144,14 @@ public class Account
     public void setActualBalance(double actualBalance)
     {
         this.actualBalance = actualBalance;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 
     public void updateFrom(final Account toUpdate)

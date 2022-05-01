@@ -9,6 +9,7 @@ public class SubCategoryDTO
     private String subCategory;
 //    private String description;
     private MainCategory mainCategory;
+    private Integer hash;
 
     SubCategoryDTO()
     {
@@ -18,6 +19,7 @@ public class SubCategoryDTO
     {
         this.subCategory = subCategory.getSubCategory();
         this.mainCategory = subCategory.getMainCategory();
+        this.hash = subCategory.getHash();
     }
 
     public SubCategoryDTO(String subCategory, MainCategory mainCategory) {
@@ -39,6 +41,7 @@ public class SubCategoryDTO
         result.setSubCategory(this.subCategory);
 //        result.setDescription(this.description);
         result.setMainCategory(this.mainCategory);
+        result.setHash(result.hashCode());
 
         return result;
     }
@@ -57,6 +60,14 @@ public class SubCategoryDTO
 
     public void setMainCategory(MainCategory mainCategory) {
         this.mainCategory = mainCategory;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ public class AccountDTO
     private double target;
     private double actualBalance;
     private List<TransactionDTO> transactions;
+    private Integer hash;
 
     public AccountDTO()
     {
@@ -40,6 +42,7 @@ public class AccountDTO
         this.actualBalance = account.getActualBalance();
         this.description = account.getDescription();
         this.transactions = transactionsToDto(account.getTransactions());
+        this.hash = account.getHash();
     }
 
     private List<TransactionDTO> transactionsToDto(Set<Transaction> list)
@@ -60,8 +63,20 @@ public class AccountDTO
         result.setName(this.name);
         result.setActualBalance(this.actualBalance);
         result.setDescription(this.description);
+        result.setTransactions(dtoToTransactions(this.transactions));
+        result.setHash(result.hashCode());
 
         return result;
+    }
+
+    Set<Transaction> dtoToTransactions(List<TransactionDTO> dtos)
+    {
+        Set<Transaction> transactions = new HashSet<>();
+
+        for (TransactionDTO t : dtos)
+        transactions.add(t.toTransaction());
+
+        return transactions;
     }
 
     public String getName() {
@@ -96,6 +111,14 @@ public class AccountDTO
     public void setTransactions(List<TransactionDTO> transactions)
     {
         this.transactions = transactions;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 
     public String toDisplay()

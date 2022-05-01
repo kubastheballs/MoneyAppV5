@@ -21,4 +21,7 @@ public interface AccountRepository
     void changeBalance(Integer id, double amount);
 
 
+    Optional<Account> findByHash(Integer hash);
+
+    boolean existsByName(String name);
 }

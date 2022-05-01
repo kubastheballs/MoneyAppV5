@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pozycja budżetu</title>
+</head>
+<body>
+<main>
+    <!--/*@thymesVar id="transaction" type="com.moneyAppV5.transaction.dto.TransactionDTO"*/-->
+    <!--/*@thymesVar id="positon" type="com.moneyAppV5.budget.dto.BudgetPositionDTO"*/-->
+    <p>
+        <label>Budżet: </label>
+<!--        TODO miesiąc i rok budżetu-->
+        <label></label>
+    </p>
+    <p>
+        <label>Kategoria: </label>
+<!--        TODO kategoria pozycji-->
+        <label th:text="${position.category.category}"></label>
+<!--        TODO typ pozycji-->
+        <label th:text="${position.category.type}"></label>
+    </p>
+    <div>
+<!--        TODO lista transakcji w danej pozycji - tabelka-->
+        <table>
+            <tr>
+                <td>Dzień</td><td>Konto</td><td>Kwota</td><td>Sklep</td><td>Dla kogo</td><td>Opis</td>
+            </tr>
+<!--            TODO sortowanie od najnowszej?-->
+            <tr th:each="transaction : ${transactions}">
+                <td th:text="${transaction.day}"></td><td th:text="${transaction.account}"></td><td th:text="${transaction.amount}"></td>
+                <td th:text="${transaction.isPaid}"></td><td th:text="${transaction.forWhom}"></td><td th:text="${transaction.description}"></td>
+            </tr>
+        </table>
+    </div>
+</main>
+
+</body>
+</html>

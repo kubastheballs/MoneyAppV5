@@ -38,6 +38,13 @@ class AccountsController
             return "accounts";
 //        TODO odświeżenie strony (F5) powoduje ponowne dodanie do bazy jak temu zapobiec?
 
+        if (this.service.existsByName(current.getName()))
+        {
+            model.addAttribute("message", "Konto o podanej nazwie już istnieje!");
+
+            return "accounts";
+        }
+
         this.service.createAccount(current);
         model.addAttribute("account", new AccountDTO());
         model.addAttribute("accounts", getAccountsDTO());

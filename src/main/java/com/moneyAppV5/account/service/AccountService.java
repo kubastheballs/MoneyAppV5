@@ -3,8 +3,8 @@ package com.moneyAppV5.account.service;
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.dto.AccountDTO;
 import com.moneyAppV5.account.repository.AccountRepository;
-import com.moneyAppV5.category.Category;
-import com.moneyAppV5.category.dto.CategoryDTO;
+import com.moneyAppV5.category.Type;
+import com.moneyAppV5.transaction.service.TransactionService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,10 +15,12 @@ import java.util.Optional;
 public class AccountService
 {
     AccountRepository repository;
+    TransactionService transactionService;
 
-    public AccountService(AccountRepository repository)
+    public AccountService(AccountRepository repository, TransactionService transactionService)
     {
         this.repository = repository;
+        this.transactionService = transactionService;
     }
 
     public Optional<Account> readAccountById(int id)
@@ -70,5 +72,35 @@ public class AccountService
     public Account readAccountByName(String name)
     {
         return this.repository.findByName(name);
+    }
+
+    public Account readAccountByHash(Integer hash)
+    {
+        return this.repository.findByHash(hash).orElseThrow();
+    }
+
+    public boolean existsByName(String name)
+    {
+        return this.repository.existsByName(name);
+    }
+
+    public double sumActualMonthTransactionsByType(Account a, Integer month, Integer year, Type type)
+    {
+        return this.transactionService.sumTransactionsByAccountAndMonthAndType(a, month, year, type);
+    }
+
+    public double sumOverallTransactionsByType(Account a, Type type)
+    {
+        return this.transactionService.sumOverallTransactionsByAccountAndType(a, type);
+    }
+
+    public double balanceActualMonthTransactions(Account account, Integer month, Integer year)
+    {
+        return sumActualMonthTransactionsByType(account, month, year, Type.INCOME) - sumActualMonthTransactionsByType(account, month, year, Type.EXPENSE);
+    }
+
+    public double balanceOverallTransactions(Account account)
+    {
+        return sumOverallTransactionsByType(account, Type.INCOME) - sumOverallTransactionsByType(account, Type.EXPENSE);
     }
 }

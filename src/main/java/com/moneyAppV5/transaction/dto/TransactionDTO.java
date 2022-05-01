@@ -24,6 +24,7 @@ public class TransactionDTO
     private Payee forWhom;
     private String description;
 //    private BudgetPosition budgetPosition;
+    private Integer hash;
 
     private Budget budget;
     private BudgetPosition budgetPosition;
@@ -55,6 +56,7 @@ public class TransactionDTO
         this.isPaid = transaction.getIsPaid();
         this.forWhom = transaction.getForWhom();
         this.description = transaction.getDescription();
+        this.hash = transaction.getHash();
     }
 //
 //
@@ -135,6 +137,7 @@ public class TransactionDTO
         result.setForWhom(this.forWhom);
         result.setDescription(this.description);
         result.setBudget(this.budget);
+        result.setHash(result.hashCode());
 
         return result;
     }
@@ -312,5 +315,13 @@ public class TransactionDTO
 
     public void setBudgetPosition(BudgetPosition budgetPosition) {
         this.budgetPosition = budgetPosition;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 }

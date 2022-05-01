@@ -1,5 +1,6 @@
 package com.moneyAppV5.transaction.service;
 
+import com.moneyAppV5.account.Account;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.Type;
@@ -194,6 +195,35 @@ public class TransactionService
     public double readActualExpensesByMainCategoryAndBudgetId(MainCategory main, int budgetId)
     {
         return this.repository.sumActualExpensesByMainCategoryIdAndBudgetId(main.getId(), budgetId);
+    }
+//TODO czy to jest potrzebne? wystarczy dać new PayeeDTO w miejscu docelowym - okaże się
+    public PayeeDTO readPayeeDtoByHash(Integer hash) {
+        return new PayeeDTO(readPayeeByHash(hash));
+    }
+
+    public Payee readPayeeByHash(Integer hash)
+    {
+        return this.payeeRepository.findByHash(hash);
+    }
+
+    public List<TransactionDTO> readTransactionsDtoByPayeeId(Integer id)
+    {
+        List<TransactionDTO> dtos = new ArrayList<>();
+
+        for (Transaction t : this.repository.findByPayeeId(id))
+            dtos.add(new TransactionDTO(t));
+
+        return dtos;
+    }
+
+    public double sumTransactionsByAccountAndMonthAndType(Account a, Integer m, Integer y, Type type)
+    {
+        return this.repository.sumTransactionsByAccountIdAndMonthAndType(a.getId(), m, y, type.name()).orElse(0.0);
+    }
+
+    public double sumOverallTransactionsByAccountAndType(Account a, Type type)
+    {
+        return this.repository.sumTransactionsByAccountIdAndType(a.getId(), type.name()).orElse(0.0);
     }
 
 //    public List<Transaction> getTransactionsByMonthAndYear(Month month, Year year)

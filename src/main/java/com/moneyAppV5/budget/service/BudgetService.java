@@ -227,6 +227,33 @@ class BudgetService
         return positions;
     }
 
+    public List<BudgetPosition> updatePositionsListByBudget(Budget budget)
+    {
+        List<BudgetPosition> positions = readPositionsByBudgetId(budget.getId());
+
+        boolean inList = false;
+
+        for (Category cat : this.categoryService.readAllCategories())
+        {
+            for (BudgetPosition pos : positions)
+            {
+                if ((pos.getCategory()).equals(cat))
+                {
+                    inList = true;
+                    break;
+                }
+
+            }
+            if (!inList)
+            {
+                var pos = this.positionsRepository.save(new BudgetPosition(cat, budget));
+                positions.add(pos);
+            }
+        }
+
+        return positions;
+    }
+
     public List<BudgetPosition> readPositionsByBudgetId(int id)
     {
         return this.positionsRepository.findPositionsByBudgetId(id);
@@ -318,6 +345,25 @@ class BudgetService
     {
 //        TODO wyjście z optionala
         return this.repository.findByMonthAndYear(month, year).orElse(new Budget(month, year));
+    }
+
+    public BudgetDTO readBudgetDtoByHash(Integer hash)
+    {
+        return new BudgetDTO(readBudgetByHash(hash));
+    }
+
+    public Budget readBudgetByHash(Integer hash)
+    {
+        return this.repository.findByHash(hash);
+    }
+
+    public BudgetPositionDTO readPositionDtoByHash(Integer hash)
+    {
+        return new BudgetPositionDTO(readPositionByHash(hash));
+    }
+
+    private BudgetPosition readPositionByHash(Integer hash) {
+        return this.positionsRepository.findByHash(hash);
     }
 
 

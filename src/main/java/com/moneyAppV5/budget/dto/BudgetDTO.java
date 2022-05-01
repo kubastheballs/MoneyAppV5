@@ -25,6 +25,7 @@ public class BudgetDTO
     private List<BudgetPosition> incomes;
     private List<BudgetPosition> expenses;
     private String description;
+    private Integer hash;
 
      public BudgetDTO()
     {
@@ -59,6 +60,7 @@ public class BudgetDTO
         this.month = budget.getMonth();
         this.year = budget.getYear();
         this.description = budget.getDescription();
+        this.hash = budget.getHash();
     }
 
     public Budget toBudget()
@@ -69,6 +71,7 @@ public class BudgetDTO
         result.setIncomes(new HashSet<>(this.incomes));
         result.setExpenses(new HashSet<>(this.expenses));
         result.setDescription(this.description);
+        result.setHash(result.hashCode());
 
         return result;
     }
@@ -208,5 +211,13 @@ public class BudgetDTO
 
     public void setBalanceActual(double balanceActual) {
         this.balanceActual = balanceActual;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 }

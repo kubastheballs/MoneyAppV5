@@ -4,6 +4,7 @@ import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.transaction.Transaction;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -31,9 +32,16 @@ public class Category
     private String description;
     @OneToMany(mappedBy = "category")
     private Set<BudgetPosition> budgetPositions;
+    private Integer hash;
 
      public Category()
     {
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.mainCategory, this.subCategory, this.type);
     }
 
     public int getId()
@@ -142,6 +150,14 @@ public class Category
     public void setBudgetPositions(Set<BudgetPosition> budgetPositions)
     {
         this.budgetPositions = budgetPositions;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 
     public String toDisplay()

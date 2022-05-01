@@ -4,6 +4,13 @@ import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.SubCategory;
 import com.moneyAppV5.category.Type;
+import com.moneyAppV5.transaction.Transaction;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
+
+import javax.persistence.SecondaryTable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class CategoryDTO
 {
@@ -12,9 +19,10 @@ public class CategoryDTO
     private String main;
     private String sub;
     private String category;
-//    private List<TransactionDTO> transactionsDTO;
+    private List<TransactionDTO> transactionsDTO;
     private Type type;
     private String description;
+    private Integer hash;
 
      public CategoryDTO()
     {
@@ -55,6 +63,8 @@ public class CategoryDTO
         this.mainCategory = category.getMainCategory();
         this.subCategory = category.getSubCategory();
         this.category = toDisplay(category.getMainCategory().getMainCategory(), category.getSubCategory().getSubCategory());
+        this.hash = category.getHash();
+        this.transactionsDTO = transactionsToDtos(category.getTransactions());
     }
 
     public Category toCategory()
@@ -66,11 +76,22 @@ public class CategoryDTO
         result.setSubCategory(this.subCategory);
         result.setType(this.type);
         result.setDescription(this.description);
+        result.setHash(result.hashCode());
 
         return result;
     }
 
+//    TODO czy to lepiej wyciągać z bazy tworząc stronę?
 
+    List<TransactionDTO> transactionsToDtos(Set<Transaction> transactions)
+    {
+        List<TransactionDTO> dtos = new ArrayList<>();
+
+        for (Transaction t : transactions)
+            dtos.add(new TransactionDTO(t));
+
+        return dtos;
+    }
 
     public MainCategory getMainCategory() {
         return mainCategory;
@@ -156,5 +177,21 @@ public class CategoryDTO
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
+    }
+
+    public List<TransactionDTO> getTransactionsDTO() {
+        return transactionsDTO;
+    }
+
+    public void setTransactionsDTO(List<TransactionDTO> transactionsDTO) {
+        this.transactionsDTO = transactionsDTO;
     }
 }

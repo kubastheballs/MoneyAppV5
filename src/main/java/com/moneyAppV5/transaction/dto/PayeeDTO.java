@@ -3,12 +3,16 @@ package com.moneyAppV5.transaction.dto;
 import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Role;
 
+import java.util.List;
+import java.util.Set;
+
 public class PayeeDTO
 {
     private String name;
     private Role role;
     private String description;
-//    private Set<Transaction> transactions;
+    private List<TransactionDTO> transactionsDto;
+    private Integer hash;
 
 
     public PayeeDTO()
@@ -34,6 +38,10 @@ public class PayeeDTO
         this.name = payee.getName();
         this.role = payee.getRole();
         this.description = payee.getDescription();
+        this.hash = payee.getHash();
+//        TODO w payee transakcje są rozdzielone na dla i od (zapewne chodzi o to że kontrahent mozę byc obustronny) co z tym zrobić\
+//        TODO spiąć do pojedynczej listy? i wtedy kontrahent ma sztywno przypisaną rolę?
+//        this.transactionsDto = transactionsToDto(payee.getT)
     }
 
     public Payee toPayee()
@@ -42,6 +50,7 @@ public class PayeeDTO
         result.setName(this.name);
         result.setRole(this.role);
         result.setDescription(this.description);
+        result.setHash(result.hashCode());
 
         return result;
     }
@@ -68,5 +77,21 @@ public class PayeeDTO
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
+    }
+
+    public List<TransactionDTO> getTransactionsDto() {
+        return transactionsDto;
+    }
+
+    public void setTransactionsDto(List<TransactionDTO> transactionsDto) {
+        this.transactionsDto = transactionsDto;
     }
 }

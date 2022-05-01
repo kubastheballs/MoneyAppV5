@@ -26,6 +26,7 @@
             <label>Opis konta
                 <input type="text" th:field="${account.description}" />
             </label>
+        <input type="hidden" th:field="*{transactions}"/>
     </fieldset>
     <p>
         <button type="submit">Dodaj</button>
@@ -41,9 +42,12 @@
             </tr>
             <tr th:each="account : ${accounts}">
                 <td th:text="${account.name}"></td><td th:text="${account.actualBalance}"></td><td th:text="${account.description}"></td>
-<!--                TODO placeholder na przejście do szczegółów danego konta/-->
-<!--                TODO jak rozwiązać kwestię pobierania id?-->
-                <td >Przejdź</td>
+                <td>
+                    <a th:href="@{/accountView/{hash}(hash=${account.hash})}">Przejdź</a>
+                </td>
+<!--                TODO-->
+                <td>Aktualizuj</td>
+                <td>Usuń</td>
             </tr>
         </table>
     </div>

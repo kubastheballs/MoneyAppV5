@@ -1,6 +1,7 @@
 package com.moneyAppV5.transaction;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,6 +19,13 @@ public class Payee
     private Set<Transaction> isPaidTransactions;
     @OneToMany(mappedBy = "forWhom")
     private Set<Transaction> forWhomTransactions;
+    private Integer hash;
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.name, this.role);
+    }
 
 
     public int getId()
@@ -74,5 +82,13 @@ public class Payee
 
     public void setForWhomTransactions(Set<Transaction> forWhomTransactions) {
         this.forWhomTransactions = forWhomTransactions;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 }

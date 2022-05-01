@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping()
+@RequestMapping("/budgetView/{hash}")
 public class BudgetViewController
 {
     private final BudgetService service;
@@ -16,29 +16,15 @@ public class BudgetViewController
         this.service = service;
     }
 
-//    raczej tylko gwoli testów tymczasowo
-@GetMapping("/budgetView/{month}{year}")
-public String showBudgetView(Model model, @PathVariable Integer month, @PathVariable Integer year)
-{
-    var result = this.service.readByMonthAndYear(month, year);
-
-    model.addAttribute("message", String.format("Budżet: %s/%s", result.getMonth(), result.getYear()));
-    model.addAttribute("budget", result);
-    model.addAttribute("id", result.getId());
-    model.addAttribute("incomePositions", result.getIncomes());
-    model.addAttribute("expensePositions", result.getExpenses());
-
-    return "budgetView";
-}
-//tu jest docelowy
-    @GetMapping("/budgetView/{id}")
-    public String showBudgetView(Model model, @PathVariable Integer id)
+    @GetMapping()
+    public String showBudgetView(Model model, @PathVariable Integer hash)
     {
-        var result = this.service.readBudgetDtoById(id);
+        this.service.updatePositionsListByBudget(this.service.readBudgetByHash(hash));
+        var result = this.service.readBudgetDtoByHash(hash);
 
         model.addAttribute("message", String.format("Budżet: %s/%s", result.getMonth(), result.getYear()));
         model.addAttribute("budget", result);
-        model.addAttribute("id", id);
+//        model.addAttribute("id", id);
         model.addAttribute("incomePositions", result.getIncomes());
         model.addAttribute("expensePositions", result.getExpenses());
 

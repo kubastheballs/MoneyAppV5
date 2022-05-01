@@ -4,8 +4,10 @@ import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.transaction.Transaction;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class BudgetPositionDTO
@@ -17,6 +19,8 @@ public class BudgetPositionDTO
     private double actualAmount;
     private double balance;
     private String description;
+    private Integer hash;
+    private List<TransactionDTO> transactionsDto;
 
      public BudgetPositionDTO()
     {
@@ -44,6 +48,7 @@ public class BudgetPositionDTO
         this.actualAmount = position.getActualAmount();
         this.balance = position.getBalance();
         this.description = position.getDescription();
+        this.hash = position.getHash();
     }
 
     BudgetPosition toBudgetPosition()
@@ -56,6 +61,7 @@ public class BudgetPositionDTO
         result.setActualAmount(this.actualAmount);
         result.setBalance(this.balance);
         result.setDescription(this.description);
+        result.setHash(result.hashCode());
 
         return result;
     }
@@ -116,6 +122,14 @@ public class BudgetPositionDTO
         this.description = description;
     }
 
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
+    }
+
     public BudgetPosition toPosition()
     {
         var result = new BudgetPosition();
@@ -126,7 +140,16 @@ public class BudgetPositionDTO
         result.setActualAmount(this.actualAmount);
         result.setBalance(this.balance);
         result.setDescription(this.description);
+        result.setHash(result.hashCode());
 
         return result;
+    }
+
+    public List<TransactionDTO> getTransactionsDto() {
+        return transactionsDto;
+    }
+
+    public void setTransactionsDto(List<TransactionDTO> transactionsDto) {
+        this.transactionsDto = transactionsDto;
     }
 }

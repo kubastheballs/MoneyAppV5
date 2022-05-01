@@ -3,6 +3,7 @@ package com.moneyAppV5.budget;
 import com.moneyAppV5.transaction.Transaction;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -23,6 +24,7 @@ class Budget
     @OneToMany(mappedBy = "budget")
     private Set<BudgetPosition> expenses;
     private String description;
+    private Integer hash;
 
      public Budget()
     {
@@ -32,6 +34,12 @@ class Budget
     {
         this.month = month;
         this.year = year;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.month, this.year);
     }
 
 //     public Integer getId()
@@ -125,5 +133,13 @@ class Budget
 
     public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 }

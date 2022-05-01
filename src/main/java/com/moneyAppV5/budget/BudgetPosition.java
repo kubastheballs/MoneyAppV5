@@ -5,6 +5,7 @@ import com.moneyAppV5.transaction.Transaction;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -27,6 +28,7 @@ class BudgetPosition
     private double actualAmount;
     private double balance;
     private String description;
+    private Integer hash;
 
      public BudgetPosition()
     {
@@ -36,6 +38,12 @@ class BudgetPosition
     {
         this.category = category;
         this.budget = budget;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.category, this.budget);
     }
 
     public int getId()
@@ -116,5 +124,13 @@ class BudgetPosition
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 }

@@ -15,6 +15,7 @@ public class MainCategoryDTO
 //    private String description;
 //    private Category category;
     private List<SubCategory> subCategories;
+    private Integer hash;
 
     MainCategoryDTO()
     {
@@ -42,6 +43,7 @@ public class MainCategoryDTO
     public MainCategoryDTO(MainCategory mainCategory)
     {
         this.mainCategory = mainCategory.getMainCategory();
+        this.hash = mainCategory.getHash();
     }
 
     public MainCategoryDTO(MainCategory mainCategory, List<SubCategory> subCategories)
@@ -55,6 +57,7 @@ public class MainCategoryDTO
         var result = new MainCategory();
         result.setMainCategory(this.mainCategory);
 //        result.setDescription(this.description);
+        result.setHash(result.hashCode());
 
         return result;
     }
@@ -79,5 +82,13 @@ public class MainCategoryDTO
 
     public void setSubCategories(List<SubCategory> subCategories) {
         this.subCategories = subCategories;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 }

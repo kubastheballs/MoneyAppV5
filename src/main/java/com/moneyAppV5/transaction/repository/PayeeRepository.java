@@ -22,4 +22,7 @@ public interface PayeeRepository
     Payee findByNameAndRole(String name, Role isFor);
 
     List<Payee> findPayeesByRole(String role);
+
+    Payee findByHash(Integer hash);
+
 }

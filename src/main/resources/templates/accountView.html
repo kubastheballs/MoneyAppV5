@@ -14,6 +14,7 @@
 
     <h1 th:if="${message != null}" th:text="${message}"></h1>
     <a th:href="@{/moneys}">Strona główna</a>
+    <a th:href="@{/accounts}">Powrót do listy kont</a>
 
     <p>
         <label>Nazwa konta: </label>
@@ -26,27 +27,44 @@
     <p>
         <label>Saldo konta: </label>
         <label th:text="${account.actualBalance}"></label>
+        <label> [zł]</label>
+<!--        TODO przejście do historii zmian stanu konta-->
     </p>
 
     <div>
-        <h1>Transakcje w tym miesiącu</h1>
+        <h1>Saldo</h1>
         <table>
             <tr>
-                <td>Data</td><td>konto</td><td>Kwota [zł]</td><td>Kontrahent</td><td>Typ</td><td>Kategoria</td><td>Beneficjent</td><td>opis</td>
+                <td></td><td>Bieżący miesiąc</td><td>Ogółem</td>
             </tr>
-            <!--        TODO lista transakcji z danego budżetu - najlepiej sortowana od najnowszych-->
+            <tr>
+                <td>Dochody</td><td th:text="${actualMonthIncome}"></td><td th:text="${overallIncome}"></td>
+            </tr>
+            <tr>
+                <td>Wydatki</td><td th:text="${actualMonthExpense}"></td><td th:text="${overallExpense}"></td>
+            </tr>
+            <tr>
+                <td>Saldo</td><td th:text="${actualMonthBalance}"></td><td th:text="${overallBalance}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <h1>Transakcje konta</h1>
+        <table>
+            <tr>
+                <td>Data</td><td>Kwota [zł]</td><td>Kontrahent</td><td>Typ</td><td>Kategoria</td><td>Beneficjent</td><td>opis</td>
+            </tr>
+            <!--        TODO lista transakcji z danego konta - najlepiej sortowana od najnowszych-->
             <tr th:each="transaction : ${account.transactions}">
                 <!--                TODO czemu się nie pojawia data?-->
                 <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
-                <td th:text="${transaction.date}" ></td><td th:text="${transaction.account.name}"></td><td th:text="${transaction.amount}"></td>
+                <td th:text="${transaction.date}" ></td><td th:text="${transaction.amount}"></td>
                 <td th:text="${transaction.isPaid.name}"></td><td th:text="${transaction.category.type}"></td><td th:text="${transaction.category.category}"></td>
                 <td th:text="${transaction.forWhom.name}"></td><td th:text="${transaction.description}"></td>
             </tr>
         </table>
     </div>
-
-
-<!--    TODO lista transakcji danego konta + sortowanie-->
 </main>
 
 </body>

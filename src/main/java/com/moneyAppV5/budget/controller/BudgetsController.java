@@ -28,7 +28,7 @@ public class BudgetsController
     @GetMapping()
     String showBudgets(Model model)
     {
-        model.addAttribute("budget", new BudgetDTO());
+        model.addAttribute("budget", getBudgetDto());
         model.addAttribute("budgetsList", getBudgetsListDto());
 
         return "budgets";
@@ -43,14 +43,19 @@ public class BudgetsController
 
             return "budgets";
         }
+//TODO czy to powinna być metoda w serwisie?
+        if (this.service.existsByMonthAndYear(current.getMonth(), current.getYear()))
+        {
+            model.addAttribute("message", "Budżet na podany miesiąc już istnieje!");
+
+            return "budgets";
+        }
 
         var result = this.service.createBudget(current);
 
         this.service.createPositionsListByBudget(result);
-//TODO ustawiania dla nowegu budżetu miesiąca i roku na podstawie aktualnych w systemie
-        model.addAttribute("budget", new BudgetDTO());
-        model.addAttribute("month", LocalDate.now().getMonthValue());
-        model.addAttribute("year", LocalDate.now().getYear());
+
+        model.addAttribute("budget", getBudgetDto());
         model.addAttribute("message", "Dodano budżet!");
         model.addAttribute("budgetsList", getBudgetsListDto());
 
@@ -58,16 +63,14 @@ public class BudgetsController
     }
 
     @ModelAttribute("budgetsList")
-    List<BudgetDTO> getBudgetsListDto()
+    private List<BudgetDTO> getBudgetsListDto()
     {
         return this.service.readAllBudgetsDto();
     }
 
-//    @ModelAttribute("budgetId")
-//    Integer getBudgetIdByMonthAndYear(Integer month, Integer year)
-//    {
-////        TODO jak wtłoczyć month i year do metdoy z html?
-//        return this.service.readByMonthAndYear(month, year).getId();
-//    }
-
+    @ModelAttribute("budget")
+    private BudgetDTO getBudgetDto()
+    {
+        return new BudgetDTO(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+    }
 }

@@ -1,6 +1,7 @@
 package com.moneyAppV5.category;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -16,6 +17,7 @@ public class MainCategory
     private Set<Category> categories;
     @OneToMany(mappedBy = "subCategory")
     private Set<SubCategory> subCategories;
+    private Integer hash;
 
      public MainCategory()
     {
@@ -24,6 +26,12 @@ public class MainCategory
     public MainCategory(String mainCategory)
     {
         this.mainCategory = mainCategory;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.mainCategory);
     }
 
     public int getId()
@@ -71,5 +79,13 @@ public class MainCategory
 
     public void setSubCategories(Set<SubCategory> subCategories) {
         this.subCategories = subCategories;
+    }
+
+    public Integer getHash() {
+        return hash;
+    }
+
+    public void setHash(Integer hash) {
+        this.hash = hash;
     }
 }
