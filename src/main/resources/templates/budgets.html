@@ -53,7 +53,7 @@
                 <td th:text="${budget.month}" ></td><td th:text="${budget.year}"></td><td>...</td><td th:text="${budget.description}"></td>
                 <td>
 <!--                    TODO skąd wziąć id? szukanie po miesiącu i roku?-->
-                    <a th:href="@{/budgetView/{m}{y}(m=${budget.month})(y=${budget.year})}">Przejdź</a>
+                    <a th:href="@{/budgetView/{hash}(hash=${budget.hash})}">Przejdź</a>
 <!--                    <a th:href="@{/budgetView/{id}(id=${budgetId})}">Przejdź</a>-->
                 </td>
             </tr>

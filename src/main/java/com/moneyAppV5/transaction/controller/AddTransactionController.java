@@ -3,6 +3,7 @@ package com.moneyAppV5.transaction.controller;
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.service.AccountService;
 import com.moneyAppV5.budget.controller.BudgetViewController;
+import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.budget.service.BudgetService;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.service.CategoryService;
@@ -21,7 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping()
+@RequestMapping("/budgetView/{hash}/addTransaction")
 //@RequestMapping("/budgetView/{id}/addTransaction")
 public class AddTransactionController
 {
@@ -40,17 +41,18 @@ public class AddTransactionController
         this.viewController = viewController;
     }
 
-    @GetMapping("/budgetView/{id}/addTransaction")
-    String showAddTransaction(Model model, @PathVariable Integer id)
+    @GetMapping()
+    String showAddTransaction(Model model, @PathVariable Integer hash)
     {
         var dto = new TransactionDTO();
-        var budgetDto = this.budgetService.readBudgetDtoById(id);
+        var budgetDto = new BudgetDTO(this.budgetService.readBudgetByHash(hash));
 
         dto.setMonth(budgetDto.getMonth());
         dto.setYear(budgetDto.getYear());
 
         model.addAttribute("transaction", dto);
-        model.addAttribute("budgetId", id);
+        model.addAttribute("budgetHash", hash);
+//        model.addAttribute("budgetId", id);
         model.addAttribute("budget", budgetDto.toBudget());
 //        TODO czy miesiąc i rok przekazywać jako model czy w ramach dto?
 //        model.addAttribute("month", dto.getMonth());
@@ -60,16 +62,9 @@ public class AddTransactionController
         return "addTransaction";
     }
 
-    @PostMapping("/budgetView/{id}/addTransaction")
-    String addTransaction(@ModelAttribute("transaction") @Valid TransactionDTO current, BindingResult bindingResult, Model model, @PathVariable Integer id)
+    @PostMapping()
+    String addTransaction(@ModelAttribute("transaction") @Valid TransactionDTO current, BindingResult bindingResult, Model model, @PathVariable Integer hash)
     {
-        System.out.println("1111111111");
-        System.out.println(current.getDay());
-        System.out.println(current.getAccount());
-        System.out.println(current.getAmount());
-        System.out.println(current.getCategory());
-        System.out.println(current.getIsPaid());
-        System.out.println(current.getForWhom());
 
         if (bindingResult.hasErrors())
         {
@@ -79,12 +74,12 @@ public class AddTransactionController
         }
 
         var dto = new TransactionDTO();
-        var budget = this.budgetService.readBudgetById(id);
+        var budget = this.budgetService.readBudgetByHash(hash);
 
         dto.setMonth(budget.getMonth());
         dto.setYear(budget.getYear());
 
-        var position = this.budgetService.readPositionByBudgetIdAndCategory(id, current.getCategory());
+        var position = this.budgetService.readPositionByBudgetHashAndCategory(hash, current.getCategory());
 
         var transaction =  this.service.createTransaction(current);
 
@@ -94,7 +89,7 @@ public class AddTransactionController
         this.accountService.changeBalance(transaction.getAccount().getId(), transaction.getAmount());
 
         model.addAttribute("transaction", dto);
-        model.addAttribute("budgetId", id);
+        model.addAttribute("budgetHash", hash);
         model.addAttribute("accountsList", getAccounts());
         model.addAttribute("categoriesList", getCategories());
         model.addAttribute("isPaidList", getIsPaidList());

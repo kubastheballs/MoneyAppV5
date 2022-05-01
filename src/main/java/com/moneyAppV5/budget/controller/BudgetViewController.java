@@ -1,9 +1,15 @@
 package com.moneyAppV5.budget.controller;
 
+import com.moneyAppV5.budget.Budget;
+import com.moneyAppV5.budget.BudgetPosition;
+import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.budget.service.BudgetService;
+import com.moneyAppV5.category.Type;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/budgetView/{hash}")
@@ -19,14 +25,17 @@ public class BudgetViewController
     @GetMapping()
     public String showBudgetView(Model model, @PathVariable Integer hash)
     {
-        this.service.updatePositionsListByBudget(this.service.readBudgetByHash(hash));
-        var result = this.service.readBudgetDtoByHash(hash);
+        var budget = this.service.readBudgetByHash(hash);
+        var result = new BudgetDTO(budget);
 
         model.addAttribute("message", String.format("Budżet: %s/%s", result.getMonth(), result.getYear()));
         model.addAttribute("budget", result);
 //        model.addAttribute("id", id);
-        model.addAttribute("incomePositions", result.getIncomes());
-        model.addAttribute("expensePositions", result.getExpenses());
+//        TODO wczytywanie z obiekut wymaga zapewne dodatkowej aktualizacji danych w obiekcie
+//        model.addAttribute("incomePositions", result.getIncomes());
+//        model.addAttribute("expensePositions", result.getExpenses());
+        model.addAttribute("incomePositions", this.service.readPositionsDtoByBudgetAndType(budget, Type.INCOME));
+        model.addAttribute("expensePositions", this.service.readPositionsDtoByBudgetAndType(budget, Type.EXPENSE));
 
         return "budgetView";
     }

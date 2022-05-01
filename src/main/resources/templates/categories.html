@@ -58,30 +58,43 @@
         <button type="reset">Wyczyść</button>
     </p>
 </form>
-    <a th:href="@{/moneys}">Strona główna</a>
+    <p>
+        <a th:href="@{/moneys}">Strona główna</a>
+    </p>
+
 <!--    TODO tu chyba lepiej będzie zrobić ogólną listę i wyświetlać typ i dać filtorwanie-->
-    <div class="incomeList">
-        <p>Dochody</p>
-        <dl th:each="cat : ${incomeCategories}">
-            <dt th:text="${cat.getMainCategory()}"></dt>
-           <dd>
-               <ul>
-                    <li th:each="subC : ${cat.subCategories}" th:text="${subC.subCategory}"></li>
-               </ul>
-           </dd>
-        </dl>
-    </div>
-    <div class="expenseList">
-        <p>Wydatki</p>
-        <dl th:each="cat : ${expenseCategories}">
-            <dt th:text="${cat.getMainCategory()}"></dt>
-            <dd>
-                <ul>
-                    <li th:each="subC : ${cat.subCategories}" th:text="${subC.subCategory}"></li>
-                </ul>
-            </dd>
-        </dl>
-    </div>
+    <h1>Kategorie</h1>
+    <table>
+        <tr>
+            <td>Kategoria</td><td>Podkategoria</td><td>Typ</td><td>Opis</td>
+        </tr>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.mainCategory.mainCategory}"></td><td th:text="${category.subCategory.subCategory}"></td><td th:text="${category.type.name}"></td>
+            <td th:text="${category.description}"></td>
+        </tr>
+    </table>
+<!--    <div class="incomeList">-->
+<!--        <p>Dochody</p>-->
+<!--        <dl th:each="cat : ${incomeCategories}">-->
+<!--            <dt th:text="${cat.getMainCategory()}"></dt>-->
+<!--           <dd>-->
+<!--               <ul>-->
+<!--                    <li th:each="subC : ${cat.subCategories}" th:text="${subC.subCategory}"></li>-->
+<!--               </ul>-->
+<!--           </dd>-->
+<!--        </dl>-->
+<!--    </div>-->
+<!--    <div class="expenseList">-->
+<!--        <p>Wydatki</p>-->
+<!--        <dl th:each="cat : ${expenseCategories}">-->
+<!--            <dt th:text="${cat.getMainCategory()}"></dt>-->
+<!--            <dd>-->
+<!--                <ul>-->
+<!--                    <li th:each="subC : ${cat.subCategories}" th:text="${subC.subCategory}"></li>-->
+<!--                </ul>-->
+<!--            </dd>-->
+<!--        </dl>-->
+<!--    </div>-->
 </main>
 </body>
 </html>

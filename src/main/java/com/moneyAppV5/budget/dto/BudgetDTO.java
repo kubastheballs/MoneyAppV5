@@ -68,8 +68,8 @@ public class BudgetDTO
         var result = new Budget();
         result.setMonth(this.month);
         result.setYear(this.year);
-        result.setIncomes(new HashSet<>(this.incomes));
-        result.setExpenses(new HashSet<>(this.expenses));
+//        result.setIncomes(new HashSet<>(this.incomes));
+//        result.setExpenses(new HashSet<>(this.expenses));
         result.setDescription(this.description);
         result.setHash(result.hashCode());
 

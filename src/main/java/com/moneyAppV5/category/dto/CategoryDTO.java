@@ -64,7 +64,7 @@ public class CategoryDTO
         this.subCategory = category.getSubCategory();
         this.category = toDisplay(category.getMainCategory().getMainCategory(), category.getSubCategory().getSubCategory());
         this.hash = category.getHash();
-        this.transactionsDTO = transactionsToDtos(category.getTransactions());
+//        this.transactionsDTO = transactionsToDtos(category.getTransactions());
     }
 
     public Category toCategory()
@@ -83,15 +83,15 @@ public class CategoryDTO
 
 //    TODO czy to lepiej wyciągać z bazy tworząc stronę?
 
-    List<TransactionDTO> transactionsToDtos(Set<Transaction> transactions)
-    {
-        List<TransactionDTO> dtos = new ArrayList<>();
-
-        for (Transaction t : transactions)
-            dtos.add(new TransactionDTO(t));
-
-        return dtos;
-    }
+//    List<TransactionDTO> transactionsToDtos(Set<Transaction> transactions)
+//    {
+//        List<TransactionDTO> dtos = new ArrayList<>();
+//
+//        for (Transaction t : transactions)
+//            dtos.add(new TransactionDTO(t));
+//
+//        return dtos;
+//    }
 
     public MainCategory getMainCategory() {
         return mainCategory;

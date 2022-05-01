@@ -16,18 +16,24 @@
 <!--/*@thymesVar id="message" type="java.lang.String"*/-->
 
 <h1 th:if="${message != null}" th:text="${message}"></h1>
+<p>
 
-<!--    TODO przejście do dodawania transakcji-->
-<!--    TODO powrót do listy budżetów-->
+    <a th:href="@{/moneys}">Strona główna</a>
+    <a th:href="@{/budgets}">Lista budżetów</a>
+    <!--    TODO przejście przez hash?-->
+    <a th:href="@{/budgetView/{hash}/addTransaction(hash=${hash})}">Dodaj transakcje</a>
+    <a th:href="@{/categories}">Przejdź do kategorii</a>
+</p>
+
+>
 <label>Widok ogólny budżetu</label>
-<!--    TODO jak ten przycisk przekieruje do dodawania transakcji?-->
 
 <!--    <form action="#" method="get" th:action="@{/budgetView/{id}/addTransaction(id=${budgetId})}">-->
 <!--        <p>-->
-            <a th:href="@{/budgetView/{id}/addTransaction(id=${id})}">Dodaj transakcje</a>
+
 <!--        </p>-->
 <!--    </form>-->
-<form action="#" method="post" th:action="@{/budgetView/{id}(id=${id})}" th:object="${budget}">
+<form action="#" method="post" th:action="@{/budgetView/{hash}(hash=${hash})}" th:object="${budget}">
 <table>
     <tr>
         <td></td><td>Planowane [zł]</td><td>Rzeczywiste [zł]</td><td>Saldo [zł]</td>
@@ -103,6 +109,6 @@
         </tr>
     </table>
 </div>
-<a th:href="@{/moneys}">Strona główna</a>
+
 </body>
 </html>

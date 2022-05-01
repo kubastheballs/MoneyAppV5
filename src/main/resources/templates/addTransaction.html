@@ -16,7 +16,7 @@
 <!--/*@thymesVar id="account" type="com.moneyAppV5.account.Account"*/-->
 <!--/*@thymesVar id="category" type="com.moneyAppV5.category.Category"*/-->
 <!--/*@thymesVar id="t" type="com.moneyAppV5.category.Type"*/-->
-<form action="#" method="post" th:action="@{/budgetView/{id}/addTransaction(id=${budgetId})}" th:object="${transaction}">
+<form action="#" method="post" th:action="@{/budgetView/{hash}/addTransaction(hash=${budgetHash})}" th:object="${transaction}">
     <fieldset>
         <input type="hidden" name="budget" th:value="${budget}" th:field="${transaction.budget}">
 
@@ -100,9 +100,9 @@
 <a th:href="@{/moneys}">Strona główna</a>
 <!--    <form action="#" method="get" th:action="@{/budgetView/{id}(id=${budgetId})}">-->
 <!--<p>-->
-    <a th:href="@{/budgetView/{id}(id=${budgetId})}" >Powrót do budżetu</a>
+    <a th:href="@{/budgetView/{hash}(hash=${budgetHash})}" >Powrót do budżetu</a>
 <!--</p>-->
 <!--    </form>-->
-<!--    TODO lista transakcji w bieżącymn miesiącu?-->
+<!--    TODO lista transakcji w bieżącymn miesiącu? raczej ostanio dodane-->
 </body>
 </html>

@@ -230,26 +230,51 @@ class BudgetService
     public List<BudgetPosition> updatePositionsListByBudget(Budget budget)
     {
         List<BudgetPosition> positions = readPositionsByBudgetId(budget.getId());
+        System.out.println("~~~~~~~~~~~~~~~~~~~~");
+        for (BudgetPosition b : positions)
+            System.out.println(b.toString());
+        System.out.println("size " + positions.size());
 
         boolean inList = false;
 
-        for (Category cat : this.categoryService.readAllCategories())
+        if (positions.size() == 0)
         {
-            for (BudgetPosition pos : positions)
+            createPositionsListByBudget(budget);
+        }
+        else
+        {
+            for (Category cat : this.categoryService.readAllCategories())
             {
-                if ((pos.getCategory()).equals(cat))
-                {
-                    inList = true;
-                    break;
-                }
+                System.out.println("1");
+                System.out.println(cat.getCategory());
 
-            }
-            if (!inList)
-            {
-                var pos = this.positionsRepository.save(new BudgetPosition(cat, budget));
-                positions.add(pos);
+                for (BudgetPosition pos : positions)
+                {
+                    System.out.println("2");
+                    System.out.println(pos.toString());
+
+                    if ((pos.getCategory()).equals(cat))
+                    {
+                        inList = true;
+                        break;
+                    }
+                    System.out.println("3");
+                    System.out.println(inList);
+                }
+                if (!inList)
+                {
+                    var pos = this.positionsRepository.save(new BudgetPosition(cat, budget));
+                    positions.add(pos);
+                    System.out.println("4");
+                    System.out.println(pos);
+                }
             }
         }
+
+
+        System.out.println("5");
+        for (BudgetPosition b : positions)
+            System.out.println(b.toString());
 
         return positions;
     }
@@ -364,6 +389,21 @@ class BudgetService
 
     private BudgetPosition readPositionByHash(Integer hash) {
         return this.positionsRepository.findByHash(hash);
+    }
+
+    public List<BudgetPositionDTO> readPositionsDtoByBudgetAndType(Budget budget, Type type)
+    {
+        List<BudgetPositionDTO> dtos = new ArrayList<>();
+
+        for (BudgetPosition bp : this.positionsRepository.findPositionsByBudgetIdAndType(budget.getId(), type.name()))
+            dtos.add(new BudgetPositionDTO(bp));
+
+        return dtos;
+    }
+
+    public BudgetPosition readPositionByBudgetHashAndCategory(Integer hash, Category category)
+    {
+        return this.positionsRepository.findByHashAndCategoryId(hash, category.getId());
     }
 
 

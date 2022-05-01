@@ -20,6 +20,10 @@ public interface BudgetPositionRepository
 
     BudgetPosition findByHash(Integer hash);
 
+    List<BudgetPosition> findPositionsByBudgetIdAndType(Integer budgetId, String type);
+
+    BudgetPosition findByHashAndCategoryId(Integer hash, int id);
+
 //    List<BudgetPosition> getBudgetPositionsByTypeAndBudget(Budget budget, Type type);
 //    List<BudgetPosition> getBudgetPositionsByBudget(Budget budget);
 
