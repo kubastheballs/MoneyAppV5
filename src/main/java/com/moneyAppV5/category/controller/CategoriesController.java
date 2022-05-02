@@ -1,5 +1,6 @@
 package com.moneyAppV5.category.controller;
 
+import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.category.dto.CategoryDTO;
@@ -33,6 +34,9 @@ class CategoriesController
     @GetMapping()
     String showCategories(Model model)
     {
+        System.out.println("11");
+        for (CategoryDTO c : getCategoriesDTO())
+            System.out.println(c.getType());
         model.addAttribute("category", new CategoryDTO());
         return "categories";
     }

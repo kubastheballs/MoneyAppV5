@@ -20,4 +20,6 @@ public interface BudgetRepository
     Budget findByMonthAndYear(int month, int year);
 
     Budget findByHash(Integer hash);
+
+    Integer findNewestBudgetHash();
 }

@@ -4,7 +4,8 @@ spring:
     path: '/console'
   datasource:
 #    D:\inteliJProjects\MoneyAppV5\money-db
-    url: 'jdbc:h2:file:D:\inteliJProjects\MoneyAppV5\money-db'
+#    C:\Users\JJ\Downloads\todo-full\MoneyAppV5\money-db
+    url: 'jdbc:h2:file:C:\Users\JJ\Downloads\todo-full\MoneyAppV5\money-db'
     java:
   jpa:
     hibernate:

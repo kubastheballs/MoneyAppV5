@@ -20,7 +20,7 @@ public class CategoryDTO
     private String sub;
     private String category;
     private List<TransactionDTO> transactionsDTO;
-    private Type type;
+    private String type;
     private String description;
     private Integer hash;
 
@@ -40,7 +40,7 @@ public class CategoryDTO
 //        this.description = description;
 //    }
 
-    public CategoryDTO(MainCategory mainCategory, SubCategory subCategory, Type type, String description)
+    public CategoryDTO(MainCategory mainCategory, SubCategory subCategory, String type, String description)
     {
         this.mainCategory = mainCategory;
         this.subCategory = subCategory;
@@ -54,7 +54,7 @@ public class CategoryDTO
         this.main = mainCategory;
         this.sub = subCategory;
         this.category = toDisplay(mainCategory, subCategory);
-        this.type = type;
+        this.type = type.getName();
         this.description = description;
     }
 
@@ -74,7 +74,7 @@ public class CategoryDTO
         result.setCategory(this.category);
         result.setMainCategory(this.mainCategory);
         result.setSubCategory(this.subCategory);
-        result.setType(this.type);
+        result.setType(Type.valueOf(this.type));
         result.setDescription(this.description);
         result.setHash(result.hashCode());
 
@@ -125,11 +125,11 @@ public class CategoryDTO
 //        this.transactionsDTO = transactionsDTO;
 //    }
 
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(String type) {
         this.type = type;
     }
 

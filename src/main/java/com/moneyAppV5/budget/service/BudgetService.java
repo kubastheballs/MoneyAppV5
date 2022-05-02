@@ -406,6 +406,11 @@ class BudgetService
         return this.positionsRepository.findByHashAndCategoryId(hash, category.getId());
     }
 
+    public Integer readNewestBudgetHash()
+    {
+        return this.repository.findNewestBudgetHash();
+    }
+
 
     //    TODO czy w metodzie powinno być categoryId czy category?
 

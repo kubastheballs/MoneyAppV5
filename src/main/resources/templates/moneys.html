@@ -10,20 +10,18 @@
 <main>
     <h1>MoneyApp - zapanuj nad swoim budżetem!</h1>
 
-    <a th:href="@{/budgetView/{id}(id=${budgetId})}">Aktualny budżet</a>
-
+    <a th:href="@{/budgetView/{hash}(hash=${hash})}">Ostatni budżet</a>
     <a th:href="@{/budgets}">Budżety</a>
-    <a th:href="@{/transactions}">Transackcje</a>
+    <a th:href="@{/transactions}">Transakcje</a>
     <a th:href="@{/payees}">Kontrahenci</a>
     <a th:href="@{/categories}">Kategorie</a>
     <a th:href="@{/accounts}">Konta</a>
+<!--    TODO karta podliczająca wartość netto-->
+<!--TODO karta podlcizająca utrzymanie auta-->
+<!--TODO karta podlcizająca utrzymanie domu-->
+<!--    TODO karta na bieżącą sytuację - aktualne stany kont itd-->
+<!--    TODO - pokazanie płatności zapisanych jako cykliczne itd?-->
 
-<!--&lt;!&ndash;        TODO potrzebny panel tworzenia nowegu budżetu na podstawie podanego miesiąca i roku&ndash;&gt;-->
-<!--&lt;!&ndash;        TODO przejście do listy budżetów?&ndash;&gt;-->
-<!--&lt;!&ndash;        TODO przejście do wybranego budżetu na dany miesiąc&ndash;&gt;-->
-<!--&lt;!&ndash;        TODO przyciski/menu/etc do przejścia do sekcji - transakcje wydatki itd&ndash;&gt;-->
-
-<!--    </form>-->
 </main>
 </body>
 </html>

@@ -69,7 +69,8 @@
             <td>Kategoria</td><td>Podkategoria</td><td>Typ</td><td>Opis</td>
         </tr>
         <tr th:each="category : ${categories}">
-            <td th:text="${category.mainCategory.mainCategory}"></td><td th:text="${category.subCategory.subCategory}"></td><td th:text="${category.type.name}"></td>
+            <td th:text="${category.mainCategory.mainCategory}"></td><td th:text="${category.subCategory.subCategory}"></td>
+            <td th:text="${category.type}"></td>
             <td th:text="${category.description}"></td>
         </tr>
     </table>
