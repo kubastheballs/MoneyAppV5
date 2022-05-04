@@ -16,5 +16,5 @@ interface SqlBudgetRepository extends BudgetRepository, JpaRepository<Budget, In
 
     @Override
     @Query(value = "select hash from budgets order by year, MONTH DESC limit 1", nativeQuery = true)
-    Integer findNewestBudgetHash();
+    Optional<Integer> findNewestBudgetHash();
 }

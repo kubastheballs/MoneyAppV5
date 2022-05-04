@@ -10,7 +10,7 @@
 <main>
     <h1>MoneyApp - zapanuj nad swoim budżetem!</h1>
 
-    <a th:href="@{/budgetView/{hash}(hash=${hash})}">Ostatni budżet</a>
+    <a th:if="${hash != null}" th:href="@{/budgetView/{hash}(hash=${hash})}">Ostatni budżet</a>
     <a th:href="@{/budgets}">Budżety</a>
     <a th:href="@{/transactions}">Transakcje</a>
     <a th:href="@{/payees}">Kontrahenci</a>

@@ -13,8 +13,10 @@ public interface CategoryRepository
     List<Category> findAll();
 
     Optional<Category> findById(Integer id);
+    Category findCategoryByHash(Integer hash);
 
     boolean existsById(int id);
+    boolean existsByCategory(String category);
 
     Category save(Category entity);
 
@@ -24,5 +26,8 @@ public interface CategoryRepository
 
     List<Category> findAllIncomes();
 
-    Category findCategoryByHash(Integer hash);
+
+    boolean existsByMainCategoryAndSubCategoryAndType(MainCategory mainCategory, SubCategory subCategory, Type type);
+
+    boolean existsByMainCategoryAndSubCategory(MainCategory mainCategory, SubCategory subCategory);
 }

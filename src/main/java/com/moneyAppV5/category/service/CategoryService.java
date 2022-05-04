@@ -10,6 +10,7 @@ import com.moneyAppV5.category.dto.SubCategoryDTO;
 import com.moneyAppV5.category.repository.CategoryRepository;
 import com.moneyAppV5.category.repository.MainCategoryRepository;
 import com.moneyAppV5.category.repository.SubCategoryRepository;
+import com.moneyAppV5.transaction.service.TransactionService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,15 +20,17 @@ import java.util.Optional;
 @Service
 public class CategoryService
 {
-    private CategoryRepository repository;
-    private MainCategoryRepository mainCategoryRepository;
-    private SubCategoryRepository subCategoryRepository;
+    private final CategoryRepository repository;
+    private final MainCategoryRepository mainCategoryRepository;
+    private final SubCategoryRepository subCategoryRepository;
+    private final TransactionService transactionService;
 
-    CategoryService(CategoryRepository repository, MainCategoryRepository mainCategoryRepository, SubCategoryRepository subCategoryRepository)
+    CategoryService(CategoryRepository repository, MainCategoryRepository mainCategoryRepository, SubCategoryRepository subCategoryRepository, TransactionService transactionService)
     {
         this.repository = repository;
         this.mainCategoryRepository = mainCategoryRepository;
         this.subCategoryRepository = subCategoryRepository;
+        this.transactionService = transactionService;
     }
 
     public MainCategory createMainCategory(final MainCategoryDTO toSave)
@@ -43,42 +46,28 @@ public class CategoryService
         return this.subCategoryRepository.save(toSave.toSubCategory());
     }
 
+    MainCategory readMainCategoryByName(String name)
+    {
+        return this.mainCategoryRepository.findByMainCategory(name).orElse(null);
+    }
+
+    SubCategory readSubCategoryByName(String name)
+    {
+        return this.subCategoryRepository.findBySubCategory(name).orElse(null);
+    }
+
 //    public Category createCategory(final Category toSave)
 //    {
 //        return this.repository.save(toSave);
 //    }
     public Category createCategory(final CategoryDTO toSave)
     {
-        MainCategory main = null;
-        boolean isMain = false;
-
-        for (MainCategory m : this.mainCategoryRepository.findAll())
-        {
-            if ((toSave.getMain()).equals(m.getMainCategory()))
-            {
-                main = m;
-                isMain = true;
-                break;
-            }
-        }
-
-        if (!isMain)
+        MainCategory main = this.readMainCategoryByName(toSave.getMain());
+        if (main == null)
             main = createMainCategory(new MainCategoryDTO(toSave.getMain()));
 
-        SubCategory sub = null;
-        boolean isSub = false;
-
-        for (SubCategory s : this.subCategoryRepository.findAll())
-        {
-            if ((toSave.getSub()).equals(s.getSubCategory()))
-            {
-                sub = s;
-                isSub = true;
-                break;
-            }
-        }
-
-        if (!isSub)
+        SubCategory sub = readSubCategoryByName(toSave.getSub());
+        if (sub == null)
             sub = createSubCategory(new SubCategoryDTO(toSave.getSub(), main));
 
         var result = new CategoryDTO(main , sub, toSave.getType(), toSave.getDescription());
@@ -111,7 +100,7 @@ public class CategoryService
         return this.repository.findAll();
     }
 
-    public List<CategoryDTO> readAllCategoriesDTO()
+    public List<CategoryDTO> readAllCategoriesDto()
     {
         List<CategoryDTO> dtos = new ArrayList<>();
 
@@ -126,7 +115,7 @@ public class CategoryService
         return this.repository.findCategoriesByType(type.name());
     }
 
-    public List<CategoryDTO> readCategoriesDTOByType(Type type)
+    public List<CategoryDTO> readCategoriesDtoByType(Type type)
     {
         List<CategoryDTO> dtos = new ArrayList<>();
 
@@ -265,6 +254,25 @@ public class CategoryService
         return new CategoryDTO(readCategoryByHash(hash));
     }
 
+    public boolean existsByCategory(String category)
+    {
+        return this.repository.existsByCategory(category);
+    }
+
+    public boolean existsInDatabase(CategoryDTO dto)
+    {
+        return this.repository.existsByMainCategoryAndSubCategoryAndType(readMainCategoryByName(dto.getMain()), readSubCategoryByName(dto.getSub()), dto.getType());
+    }
+
+    public double sumTransactionsByActualMonth(Category category, Integer month, Integer year)
+    {
+        return this.transactionService.sumActualMonthTransactionsByCategory(category, month, year);
+    }
+
+    public double sumOverallTransactions(Category category)
+    {
+        return this.transactionService.sumOverallTransactionsByCategory(category);
+    }
 
 //    public List<String> readSubCategoriesByMainCategory(String main)
 //    {

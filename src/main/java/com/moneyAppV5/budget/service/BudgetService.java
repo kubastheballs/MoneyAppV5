@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public
@@ -408,7 +409,7 @@ class BudgetService
 
     public Integer readNewestBudgetHash()
     {
-        return this.repository.findNewestBudgetHash();
+        return this.repository.findNewestBudgetHash().orElse(null);
     }
 
 

@@ -21,5 +21,5 @@ public interface BudgetRepository
 
     Budget findByHash(Integer hash);
 
-    Integer findNewestBudgetHash();
+    Optional<Integer> findNewestBudgetHash();
 }

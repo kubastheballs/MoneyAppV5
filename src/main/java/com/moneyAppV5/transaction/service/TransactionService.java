@@ -2,6 +2,7 @@ package com.moneyAppV5.transaction.service;
 
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.budget.BudgetPosition;
+import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.transaction.Gainer;
@@ -224,6 +225,16 @@ public class TransactionService
     public double sumOverallTransactionsByAccountAndType(Account a, Type type)
     {
         return this.repository.sumTransactionsByAccountIdAndType(a.getId(), type.name()).orElse(0.0);
+    }
+
+    public double sumActualMonthTransactionsByCategory(Category category, Integer month, Integer year)
+    {
+        return this.repository.sumActualMonthTransactionsByCategoryId(category.getId(), month, year).orElse(0.0);
+    }
+
+    public double sumOverallTransactionsByCategory(Category category)
+    {
+        return this.repository.sumOverallTransactionsByCategoryId(category.getId()).orElse(0.0);
     }
 
 //    public List<Transaction> getTransactionsByMonthAndYear(Month month, Year year)

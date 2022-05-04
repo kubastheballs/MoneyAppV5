@@ -20,7 +20,7 @@ public class CategoryDTO
     private String sub;
     private String category;
     private List<TransactionDTO> transactionsDTO;
-    private String type;
+    private Type type;
     private String description;
     private Integer hash;
 
@@ -40,7 +40,7 @@ public class CategoryDTO
 //        this.description = description;
 //    }
 
-    public CategoryDTO(MainCategory mainCategory, SubCategory subCategory, String type, String description)
+    public CategoryDTO(MainCategory mainCategory, SubCategory subCategory, Type type, String description)
     {
         this.mainCategory = mainCategory;
         this.subCategory = subCategory;
@@ -54,7 +54,7 @@ public class CategoryDTO
         this.main = mainCategory;
         this.sub = subCategory;
         this.category = toDisplay(mainCategory, subCategory);
-        this.type = type.getName();
+        this.type = type;
         this.description = description;
     }
 
@@ -62,6 +62,7 @@ public class CategoryDTO
     {
         this.mainCategory = category.getMainCategory();
         this.subCategory = category.getSubCategory();
+        this.type = category.getType();
         this.category = toDisplay(category.getMainCategory().getMainCategory(), category.getSubCategory().getSubCategory());
         this.hash = category.getHash();
 //        this.transactionsDTO = transactionsToDtos(category.getTransactions());
@@ -74,7 +75,7 @@ public class CategoryDTO
         result.setCategory(this.category);
         result.setMainCategory(this.mainCategory);
         result.setSubCategory(this.subCategory);
-        result.setType(Type.valueOf(this.type));
+        result.setType(this.type);
         result.setDescription(this.description);
         result.setHash(result.hashCode());
 
@@ -125,11 +126,11 @@ public class CategoryDTO
 //        this.transactionsDTO = transactionsDTO;
 //    }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

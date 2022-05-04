@@ -1,6 +1,5 @@
 package com.moneyAppV5.category.controller;
 
-import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.category.dto.CategoryDTO;
@@ -34,20 +33,91 @@ class CategoriesController
     @GetMapping()
     String showCategories(Model model)
     {
-        System.out.println("11");
-        for (CategoryDTO c : getCategoriesDTO())
-            System.out.println(c.getType());
         model.addAttribute("category", new CategoryDTO());
         return "categories";
     }
 
-    @GetMapping(params = {"!sort", "!page", "!size"}, path = "/main")
-    ResponseEntity<List<MainCategory>> readAllMainCategories() {
-        logger.warn("Exposing all the main categories!");
-        return ResponseEntity.ok(this.service.readAllMainCategories());
+    @PostMapping()
+    String addCategory(@ModelAttribute("category") @Valid CategoryDTO current, BindingResult bindingResult, Model model)
+    {
+        if (bindingResult.hasErrors())
+        {
+            model.addAttribute("message", "Błędne dane!");
+
+            return "categories";
+        }
+
+//TODO - czy wynieść to do serwisu? ew czy przejść na optionala zamiast if?
+        if (this.service.existsInDatabase(current))
+        {
+            model.addAttribute("message", "Podana kategoria już istnieje!");
+
+            return "categories";
+        }
+
+//        TODO odświeżenie strony (F5) powoduje ponowne dodanie do bazy jak temu zapobiec?
+
+        this.service.createCategory(current);
+        model.addAttribute("category", new CategoryDTO());
+        model.addAttribute("categories", getCategoriesDto());
+//        wydaje się być zbędne przy obecnym modelu
+//        model.addAttribute("incomeCategories", getIncomeCategoriesDTO());
+//        model.addAttribute("expenseCategories", getExpenseCategoriesDTO());
+        model.addAttribute("message", "Dodano kategorię!");
+
+        return "categories";
     }
 
-//    @GetMapping(params = {"!sort", "!page", "!size"}, path = "/sub")
+    @ModelAttribute("categories")
+    List<CategoryDTO> getCategoriesDto()
+    {
+        return this.service.readAllCategoriesDto();
+    }
+
+//        wydaje się być zbędne przy obecnym modelu
+//    @ModelAttribute("mainCategories")
+//    List<MainCategoryDTO> getMainCategoriesDTO()
+//    {
+//        return this.service.readAllMainCategoriesDTO();
+//    }
+//
+//    @ModelAttribute("subCategories")
+//    List<SubCategoryDTO> getSubCategoriesDTOByMainId(Integer id)
+//    {
+//        return this.service.readSubCategoriesDtoByMainId(id);
+//    }
+//
+//    @ModelAttribute("incomeCategories")
+//    List<MainCategoryDTO> getIncomeCategoriesDTO()
+//    {
+//        return this.service.readMainCategoriesDtoByType(Type.INCOME);
+//    }
+//
+//    @ModelAttribute("expenseCategories")
+//    List<MainCategoryDTO> getExpenseCategoriesDTO()
+//    {
+//        return this.service.readMainCategoriesDtoByType(Type.EXPENSE);
+//    }
+
+
+
+//    @ModelAttribute("subCategories")
+//    List<String> getSubCategoriesByMainCategory(String main)
+//    {
+//        return this.service.readSubCategoriesByMainCategory(main);
+//    }
+
+//    @ModelAttribute("incomeCategories")
+//    List<CategoryDTO> getIncomeCategoriesDTO()
+////    List<String> getIncomeCategoriesDTO()
+//    {
+//        return this.service.readCategoriesDTOByType(Type.INCOME);
+////        return this.service.readMainCategoriesByType(Type.INCOME);
+//    }
+
+
+
+    //    @GetMapping(params = {"!sort", "!page", "!size"}, path = "/sub")
 //    ResponseEntity<List<String>> readAllSubCategories() {
 //        logger.warn("Exposing all the sub categories!");
 //        return ResponseEntity.ok(this.service.readAllSubCategories());
@@ -73,79 +143,10 @@ class CategoriesController
 //        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
 //    }
 
-
 //    @PostMapping()
 //    ResponseEntity<Category> createCategory(@RequestBody @Valid Category toCreate) {
 //        Category result = this.service.createCategory(toCreate);
 //
 //        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
 //    }
-
-    @PostMapping()
-    String addCategory(@ModelAttribute("category") @Valid CategoryDTO current, BindingResult bindingResult, Model model)
-    {
-        if (bindingResult.hasErrors())
-        {
-            model.addAttribute("message", "Błędne dane!");
-
-            return "categories";
-        }
-
-//        TODO odświeżenie strony (F5) powoduje ponowne dodanie do bazy jak temu zapobiec?
-
-        this.service.createCategory(current);
-        model.addAttribute("category", new CategoryDTO());
-        model.addAttribute("categories", getCategoriesDTO());
-        model.addAttribute("incomeCategories", getIncomeCategoriesDTO());
-        model.addAttribute("expenseCategories", getExpenseCategoriesDTO());
-        model.addAttribute("message", "Dodano kategorię!");
-
-        return "categories";
-    }
-
-    @ModelAttribute("categories")
-    List<CategoryDTO> getCategoriesDTO()
-    {
-        return this.service.readAllCategoriesDTO();
-    }
-
-//    @ModelAttribute("subCategories")
-//    List<String> getSubCategoriesByMainCategory(String main)
-//    {
-//        return this.service.readSubCategoriesByMainCategory(main);
-//    }
-
-//    @ModelAttribute("incomeCategories")
-//    List<CategoryDTO> getIncomeCategoriesDTO()
-////    List<String> getIncomeCategoriesDTO()
-//    {
-//        return this.service.readCategoriesDTOByType(Type.INCOME);
-////        return this.service.readMainCategoriesByType(Type.INCOME);
-//    }
-
-    @ModelAttribute("mainCategories")
-    List<MainCategoryDTO> getMainCategoriesDTO()
-    {
-        return this.service.readAllMainCategoriesDTO();
-    }
-
-    @ModelAttribute("subCategories")
-    List<SubCategoryDTO> getSubCategoriesDTOByMainId(Integer id)
-    {
-        return this.service.readSubCategoriesDtoByMainId(id);
-    }
-
-    @ModelAttribute("incomeCategories")
-    List<MainCategoryDTO> getIncomeCategoriesDTO()
-    {
-//          return this.service.readMainCategoriesDtoOfIncomes();
-        return this.service.readMainCategoriesDtoByType(Type.INCOME);
-    }
-
-    @ModelAttribute("expenseCategories")
-    List<MainCategoryDTO> getExpenseCategoriesDTO()
-    {
-       return this.service.readMainCategoriesDtoByType(Type.EXPENSE);
-    }
-
 }

@@ -70,8 +70,10 @@
         </tr>
         <tr th:each="category : ${categories}">
             <td th:text="${category.mainCategory.mainCategory}"></td><td th:text="${category.subCategory.subCategory}"></td>
-            <td th:text="${category.type}"></td>
-            <td th:text="${category.description}"></td>
+            <td th:text="${category.type}"></td><td th:text="${category.description}"></td>
+            <td>
+                <a th:href="@{/categoryView/{hash}(hash=${category.hash})}">Przejdź</a>
+            </td>
         </tr>
     </table>
 <!--    <div class="incomeList">-->

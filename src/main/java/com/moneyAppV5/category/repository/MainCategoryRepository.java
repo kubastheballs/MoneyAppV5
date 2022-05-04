@@ -9,10 +9,13 @@ import java.util.Optional;
 public interface MainCategoryRepository
 {
     List<MainCategory> findAll();
+    List<MainCategory> findByType(String type);
 
     Optional<MainCategory> findById(Integer id);
+    Optional<MainCategory> findByMainCategory(String mainCategory);
 
     boolean existsById(int id);
+    boolean existsByMainCategory(String mainCategory);
 
     MainCategory save(MainCategory entity);
 
@@ -21,5 +24,5 @@ public interface MainCategoryRepository
 //    List<MainCategory> findAllWithType(String type);
 //    List<MainCategory> findAllExpenses();
 
-    List<MainCategory> findByType(String type);
+
 }

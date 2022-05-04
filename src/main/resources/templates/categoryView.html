@@ -19,8 +19,14 @@
     <a th:href="@{/categories}">Powrót do listy kategorii</a>
 
     <p>
-        <Label>Nazwa kategorii: </Label>
-        <label th:text="${category.category}"></label>
+        <Label>Główna kategoria: </Label>
+        <label th:text="${category.mainCategory.mainCategory}"></label>
+        <a th:href="@{/mainCategoryView/{hash}(hash=${category.mainCategory.hash})}">Przejdź</a>
+    </p>
+    <p>
+        <Label>Podkategoria: </Label>
+        <label th:text="${category.subCategory.subCategory}"></label>
+        <a th:href="@{/subCategoryView/{hash}(hash=${category.subCategory.hash})}">Przejdź</a>
     </p>
     <p>
         <label>Typ kategorii: </label>
@@ -30,9 +36,13 @@
         <label>Opis: </label>
         <label th:text="${category.description}"></label>
     </p>
+<!--    TODO opis liczb? np suma z ostaniego miesiąca itd?-->
+<!--    budżet z najwyższą kwotą-->
+<!--    budżet z najniższą kwotą-->
+<!--    itd-->
 
     <div>
-        <h1>Transakcje kategorii</h1>
+        <h1>Transakcje</h1>
         <table>
             <tr>
                 <td>Data</td><td>Konto</td><td>Kwota [zł]</td><td>Kontrahent</td><td>Typ</td><td>Beneficjent</td><td>opis</td>
