@@ -8,6 +8,63 @@
     <title>Kontahent</title>
 </head>
 <body>
+<main>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="payee" type="com.moneyAppV5.transaction.dto.PayeeDTO"*/-->
+    <h1 th:if="${message != null}" th:text="${message}"></h1>
+    <a th:href="@{/moneys}">Strona główna</a>
+    <a th:href="@{/payees}">Powrót do listy kontrahentów</a>
 
+    <p>
+        <label>Nazwa: </label>
+        <label th:text="${payee.name}"></label>
+    </p>
+    <p>
+<!--        TODO link do roli-->
+        <label>Rola: </label>
+        <label th:text="${payee.role}"></label>
+    </p>
+    <p>
+        <label>Opis: </label>
+        <label th:text="${payee.description}"></label>
+    </p>
+
+<!--    TODO statystki jak dla innych-->
+<!--    TODO lista transakcji-->
+<!--    TODO jak wycinać kontrahneta który jest "nagłowkiem"?-->
+    <div>
+        <h1>Transakcje</h1>
+        <table>
+            <tr>
+                <td>Data</td><td>Konto</td><td>Kwota [zł]</td><td>Kontrahent</td><td>Kategoria</td><td>Beneficjent</td><td>Opis</td>
+            </tr>
+            <!--        TODO najlepiej sortowana od najnowszych-->
+            <tr th:each="transaction : ${transactions}">
+                <!--                TODO czemu się nie pojawia data?-->
+                <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
+                <td th:text="${transaction.date}" ></td>
+                <td>
+                    <a th:href="@{/accountView/{hash}(hash=${transaction.account.hash})}"
+                       th:text="${transaction.account.name}"></a>
+                </td>
+                <td th:text="${transaction.amount}"></td>
+                <td>
+                    <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
+                       th:text="${transaction.isPaid.name}"></a>
+                </td>
+                <td>
+                    <a th:href="@{/categoryView/{hash}(hash=${transaction.category.hash})}"
+                       th:text="${transaction.category.category}"></a>
+                </td>
+                <td>
+                    <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
+                       th:text="${transaction.forWhom.name}"></a>
+                </td>
+                <td th:text="${transaction.description}"></td>
+            </tr>
+        </table>
+    </div>
+
+</main>
 </body>
 </html>

@@ -15,9 +15,7 @@ import com.moneyAppV5.transaction.service.TransactionService;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public
@@ -228,6 +226,20 @@ class BudgetService
         return positions;
     }
 
+//    TODO analogiczna metoda dla minimalnego?
+    public Budget readBudgetWithHighestTransactionsSumByCategory(Category category)
+    {
+        var values = new HashMap<Integer, Double>();
+
+        for (BudgetPosition p : this.positionsRepository.findPositionsByCategoryId(category.getId()))
+            values.put(p.getHash(), this.transactionService.sumTransactionsByBudgetPosition(p));
+
+        Integer key = Collections.max(values.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+        return readBudgetByHash(key);
+    }
+
+
     public List<BudgetPosition> updatePositionsListByBudget(Budget budget)
     {
         List<BudgetPosition> positions = readPositionsByBudgetId(budget.getId());
@@ -388,7 +400,7 @@ class BudgetService
         return new BudgetPositionDTO(readPositionByHash(hash));
     }
 
-    private BudgetPosition readPositionByHash(Integer hash) {
+    public BudgetPosition readPositionByHash(Integer hash) {
         return this.positionsRepository.findByHash(hash);
     }
 

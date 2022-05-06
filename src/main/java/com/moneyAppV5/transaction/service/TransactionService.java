@@ -237,6 +237,10 @@ public class TransactionService
         return this.repository.sumOverallTransactionsByCategoryId(category.getId()).orElse(0.0);
     }
 
+    public double sumTransactionsByBudgetPosition(BudgetPosition p) {
+        return this.repository.sumTransactionsByPositionId(p.getId()).orElse(0.0);
+    }
+
 //    public List<Transaction> getTransactionsByMonthAndYear(Month month, Year year)
 //    {
 //        List<Transaction> transactions = new ArrayList<>();

@@ -8,13 +8,14 @@ import java.util.Optional;
 public interface BudgetPositionRepository
 {
     List<BudgetPosition> findAll();
-    List<BudgetPosition> findPositionsByBudgetId(Integer id);
+    List<BudgetPosition> findPositionsByBudgetId(Integer budgetId);
+    List<BudgetPosition> findPositionsByCategoryId(Integer categoryId);
     List<BudgetPosition> findIncomePositionsByBudgetId(Integer id);
     List<BudgetPosition> findExpensePositionsByBudgetId(Integer id);
 
     Optional<BudgetPosition> findById(Integer id);
     //    TODO to prawdopodobnie też powinien być optional
-    BudgetPosition findByBudgetIdAndCategoryId(Integer budgetId, int categoryId);
+    BudgetPosition findByBudgetIdAndCategoryId(Integer budgetId, Integer categoryId);
 
     BudgetPosition save(BudgetPosition entity);
 

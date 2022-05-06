@@ -264,12 +264,12 @@ public class CategoryService
         return this.repository.existsByMainCategoryAndSubCategoryAndType(readMainCategoryByName(dto.getMain()), readSubCategoryByName(dto.getSub()), dto.getType());
     }
 
-    public double sumTransactionsByActualMonth(Category category, Integer month, Integer year)
+    public double sumTransactionsByActualMonthAndCategory(Category category, Integer month, Integer year)
     {
         return this.transactionService.sumActualMonthTransactionsByCategory(category, month, year);
     }
 
-    public double sumOverallTransactions(Category category)
+    public double sumOverallTransactionsByCategory(Category category)
     {
         return this.transactionService.sumOverallTransactionsByCategory(category);
     }

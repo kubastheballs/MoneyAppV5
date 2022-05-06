@@ -33,8 +33,8 @@ public class CategoryViewController
         Integer month = LocalDate.now().getMonthValue();
         Integer year = LocalDate.now().getYear();
 
-        model.addAttribute("actualMonthSum", this.service.sumTransactionsByActualMonth(category, month, year));
-        model.addAttribute("overallSum", this.service.sumOverallTransactions(category));
+        model.addAttribute("actualMonthSum", this.service.sumTransactionsByActualMonthAndCategory(category, month, year));
+        model.addAttribute("overallSum", this.service.sumOverallTransactionsByCategory(category));
 
         return "categoryView";
     }

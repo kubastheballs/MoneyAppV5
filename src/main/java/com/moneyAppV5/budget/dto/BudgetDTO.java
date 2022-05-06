@@ -11,6 +11,7 @@ public class BudgetDTO
 {
     private int month;
     private int year;
+    private String name;
     private double plannedIncomes;
     private double actualIncomes;
     private double balanceIncomes;
@@ -35,6 +36,7 @@ public class BudgetDTO
     {
         this.month = month;
         this.year = year;
+        setName(month, year);
         this.incomes = new ArrayList<>();
         this.expenses = new ArrayList<>();
     }
@@ -43,6 +45,7 @@ public class BudgetDTO
     {
         this.month = month;
         this.year = year;
+        setName(month, year);
         this.description = description;
     }
 
@@ -50,6 +53,7 @@ public class BudgetDTO
     {
         this.month = month;
         this.year = year;
+        setName(month, year);
         this.incomes = incomes;
         this.expenses = expenses;
         this.description = description;
@@ -59,6 +63,7 @@ public class BudgetDTO
     {
         this.month = budget.getMonth();
         this.year = budget.getYear();
+        setName(budget.getMonth(), budget.getYear());
         this.description = budget.getDescription();
         this.hash = budget.getHash();
     }
@@ -90,6 +95,15 @@ public class BudgetDTO
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(int month, int year)
+    {
+        this.name = String.format("%s/%s", month, year);
     }
 
     //    public Month getMonth() {

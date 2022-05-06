@@ -19,16 +19,18 @@
     <a th:href="@{/categories}">Powrót do listy kategorii</a>
 
     <p>
-        <Label>Główna kategoria: </Label>
-        <label th:text="${category.mainCategory.mainCategory}"></label>
-        <a th:href="@{/mainCategoryView/{hash}(hash=${category.mainCategory.hash})}">Przejdź</a>
+        <Label>Nadkategoria: </Label>
+        <a th:href="@{/mainCategoryView/{hash}(hash=${category.mainCategory.hash})}"
+           th:text="${category.mainCategory.mainCategory}"></a>
     </p>
     <p>
         <Label>Podkategoria: </Label>
-        <label th:text="${category.subCategory.subCategory}"></label>
-        <a th:href="@{/subCategoryView/{hash}(hash=${category.subCategory.hash})}">Przejdź</a>
+        <label ></label>
+        <a th:href="@{/subCategoryView/{hash}(hash=${category.subCategory.hash})}"
+           th:text="${category.subCategory.subCategory}"></a>
     </p>
     <p>
+<!--        TODO zrobić typeView tak jak w powyższych-->
         <label>Typ kategorii: </label>
         <label th:text="${category.type}"></label>
     </p>
@@ -36,6 +38,18 @@
         <label>Opis: </label>
         <label th:text="${category.description}"></label>
     </p>
+    <div>
+        <label>Kwoty</label>
+        <p>
+            <label>Suma transakcji w bieżącym miesiącu [zł]: </label>
+            <label th:text="${actualMonthSum}"></label>
+        </p>
+<!--        TODO actualYear?-->
+        <p>
+            <label>Ogólna suma transkcji [zł]: </label>
+            <label th:text="${overallSum}"></label>
+        </p>
+    </div>
 <!--    TODO opis liczb? np suma z ostaniego miesiąca itd?-->
 <!--    budżet z najwyższą kwotą-->
 <!--    budżet z najniższą kwotą-->
@@ -43,7 +57,7 @@
 
     <div>
         <h1>Transakcje</h1>
-        <table>
+        <table th:object="${transaction}">
             <tr>
                 <td>Data</td><td>Konto</td><td>Kwota [zł]</td><td>Kontrahent</td><td>Typ</td><td>Beneficjent</td><td>opis</td>
             </tr>
@@ -51,14 +65,27 @@
             <tr th:each="transaction : ${category.transactionsDTO}">
                 <!--                TODO czemu się nie pojawia data?-->
                 <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
-                <td th:text="${transaction.date}" ></td><td th:text="${transaction.account.name}"></td><td th:text="${transaction.amount}"></td>
-                <td th:text="${transaction.isPaid.name}"></td><td th:text="${transaction.category.type}"></td>
-                <td th:text="${transaction.forWhom.name}"></td><td th:text="${transaction.description}"></td>
+<!--                TODO dateView? pokazujący transakcje z danego dnia-->
+                <td th:text="*{date}" ></td>
+                <td>
+                    <a th:href="@{/accountView/{accountHash}(accountHash=*{account.hash})}"
+                       th:text="${transaction.account.name}"></a>
+                </td>
+                <td th:text="${transaction.amount}"></td>
+                <td>
+                    <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
+                       th:text="${transaction.isPaid.name}"></a>
+                </td>
+<!--                TODO typeView-->
+                <td th:text="${transaction.category.type}"></td>
+                <td>
+                    <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
+                       th:text="${transaction.forWhom.name}"></a>
+                </td>
+                <td th:text="${transaction.description}"></td>
             </tr>
         </table>
     </div>
-
 </main>
-
 </body>
 </html>

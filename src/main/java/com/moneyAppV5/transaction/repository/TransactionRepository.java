@@ -31,4 +31,5 @@ public interface TransactionRepository
     Optional<Double> sumTransactionsByAccountIdAndType(Integer accountId, String type);
     Optional<Double> sumActualMonthTransactionsByCategoryId(Integer categoryId, Integer month, Integer year);
     Optional<Double> sumOverallTransactionsByCategoryId(Integer categoryId);
+    Optional<Double> sumTransactionsByPositionId(Integer positionId);
 }

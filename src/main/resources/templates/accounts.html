@@ -41,11 +41,13 @@
                 <td>Nazwa</td><td>Saldo</td><td>Opis</td>
             </tr>
             <tr th:each="account : ${accounts}">
-                <td th:text="${account.name}"></td><td th:text="${account.actualBalance}"></td><td th:text="${account.description}"></td>
                 <td>
-                    <a th:href="@{/accountView/{hash}(hash=${account.hash})}">Przejdź</a>
+                    <a th:href="@{/accountView/{hash}(hash=${account.hash})}"
+                       th:text="${account.name}"></a>
                 </td>
-<!--                TODO-->
+                <td th:text="${account.actualBalance}"></td>
+                <td th:text="${account.description}"></td>
+            <!--                TODO-->
                 <td>Aktualizuj</td>
                 <td>Usuń</td>
             </tr>

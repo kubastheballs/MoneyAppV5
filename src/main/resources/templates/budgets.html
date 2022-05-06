@@ -46,17 +46,16 @@
         <h1>Dostępne budżety</h1>
         <table>
             <tr>
-                <td>Miesiąc</td><td>Rok</td><td>...</td><td>Opis</td><td>Link</td>
+                <td>Miesiąc</td><td>...</td><td>Opis</td><td>Link</td>
             </tr>
             <tr th:each="budget : ${budgetsList}">
                              <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
 <!--                TODO przy budżecie przycisk/link do przejścia do konkretnego budżetu-->
-                <td th:text="${budget.month}" ></td><td th:text="${budget.year}"></td><td>...</td><td th:text="${budget.description}"></td>
                 <td>
-<!--                    TODO skąd wziąć id? szukanie po miesiącu i roku?-->
-                    <a th:href="@{/budgetView/{hash}(hash=${budget.hash})}">Przejdź</a>
-<!--                    <a th:href="@{/budgetView/{id}(id=${budgetId})}">Przejdź</a>-->
+                    <a th:href="@{/budgetView/{hash}(hash=${budget.hash})}"
+                       th:text="${budget.name}"></a>
                 </td>
+                <td>...</td><td th:text="${budget.description}"></td>
             </tr>
         </table>
     </div>

@@ -11,10 +11,12 @@
 <main>
     <!--/*@thymesVar id="transaction" type="com.moneyAppV5.transaction.dto.TransactionDTO"*/-->
     <!--/*@thymesVar id="positon" type="com.moneyAppV5.budget.dto.BudgetPositionDTO"*/-->
+    <!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
+
     <p>
         <label>Budżet: </label>
 <!--        TODO miesiąc i rok budżetu-->
-        <label></label>
+        <label th:text="${budget.name}"></label>
     </p>
     <p>
         <label>Kategoria: </label>
@@ -31,8 +33,21 @@
             </tr>
 <!--            TODO sortowanie od najnowszej?-->
             <tr th:each="transaction : ${transactions}">
-                <td th:text="${transaction.day}"></td><td th:text="${transaction.account}"></td><td th:text="${transaction.amount}"></td>
-                <td th:text="${transaction.isPaid}"></td><td th:text="${transaction.forWhom}"></td><td th:text="${transaction.description}"></td>
+                <td th:text="${transaction.day}"></td>
+                <td>
+                    <a th:href="@{/accountView/{hash}(hash=${transaction.account.hash})}"
+                       th:text="${transaction.account.name}"></a>
+                </td>
+                <td th:text="${transaction.amount}"></td>
+                <td>
+                    <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
+                       th:text="${transaction.isPaid.name}"></a>
+                </td>
+                <td>
+                    <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
+                       th:text="${transaction.forWhom.name}"></a>
+                </td>
+                <td th:text="${transaction.description}"></td>
             </tr>
         </table>
     </div>
