@@ -84,8 +84,20 @@ public class AccountService
         return this.repository.existsByName(name);
     }
 
-    public double sumActualMonthTransactionsByType(Account a, Integer month, Integer year, Type type)
+    public double sumTransactionsByTypeAndMonth(Account a, Integer month, Integer year, Type type)
     {
+        switch (month)
+        {
+            case 0 -> {
+                month = 12;
+                year = year - 1;
+            }
+            case -1 -> {
+                month = 11;
+                year = year - 1;
+            }
+        }
+
         return this.transactionService.sumTransactionsByAccountAndMonthAndType(a, month, year, type);
     }
 
@@ -94,9 +106,21 @@ public class AccountService
         return this.transactionService.sumOverallTransactionsByAccountAndType(a, type);
     }
 
-    public double balanceActualMonthTransactions(Account account, Integer month, Integer year)
+    public double balanceTransactionsByMonth(Account account, int month, int year)
     {
-        return sumActualMonthTransactionsByType(account, month, year, Type.INCOME) - sumActualMonthTransactionsByType(account, month, year, Type.EXPENSE);
+          switch (month)
+          {
+            case 0 -> {
+                month = 12;
+                year = year - 1;
+            }
+            case -1 -> {
+                month = 11;
+                year = year - 1;
+            }
+          }
+
+        return sumTransactionsByTypeAndMonth(account, month, year, Type.INCOME) - sumTransactionsByTypeAndMonth(account, month, year, Type.EXPENSE);
     }
 
     public double balanceOverallTransactions(Account account)

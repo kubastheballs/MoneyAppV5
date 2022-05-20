@@ -27,9 +27,16 @@ public interface TransactionRepository
 
     double sumActualExpensesByMainCategoryIdAndBudgetId(int mainId, int budgetId);
 
-    Optional<Double> sumTransactionsByAccountIdAndMonthAndType(Integer id, Integer m, Integer y, String type);
+    Optional<Double> sumTransactionsByAccountIdAndMonthAndType(Integer accountId, Integer m, Integer y, String type);
     Optional<Double> sumTransactionsByAccountIdAndType(Integer accountId, String type);
     Optional<Double> sumActualMonthTransactionsByCategoryId(Integer categoryId, Integer month, Integer year);
     Optional<Double> sumOverallTransactionsByCategoryId(Integer categoryId);
     Optional<Double> sumTransactionsByPositionId(Integer positionId);
+    Optional<Double> sumTransactionsByPositionIdAndDates(Integer positionId, Integer startMonth, Integer startYear, Integer endMonth, Integer endYear);
+    Optional<Double> sumTransactionsByPositionIdAndMonth(Integer positionId, Integer month, Integer year);
+
+    Optional<Double> sumTransactionsByPositionIdAndYear(Integer positionId, Integer year);
+
+    Optional<Double> sumTransactionsByBudgetId(Integer budgetId);
+    Optional<Double> sumTransactionsByBudgetIdAndType(Integer budgetId, String type);
 }

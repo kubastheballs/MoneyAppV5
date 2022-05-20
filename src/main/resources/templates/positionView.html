@@ -21,10 +21,18 @@
     <p>
         <label>Kategoria: </label>
 <!--        TODO kategoria pozycji-->
-        <label th:text="${position.category.category}"></label>
-<!--        TODO typ pozycji-->
+        <a th:href="@{/categoryView/{hash}(hash=${position.category.hash})}"
+           th:text="${position.category.category}"></a>
+        <!--        TODO typ pozycji - dodać link jw-->
         <label th:text="${position.category.type}"></label>
     </p>
+<!--    TODO statystyki jak we wszystkich - bieżący miesiąc kwaretał itd-->
+    <div>
+        <h3>Statyski:</h3>
+        <label>Saldo:</label>
+        <label>Ostatni miesiąc: </label>
+        <label th:text="${actualMonthSum}"></label>
+    </div>
     <div>
 <!--        TODO lista transakcji w danej pozycji - tabelka-->
         <table>

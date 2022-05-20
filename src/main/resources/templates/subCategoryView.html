@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_black.css">
+</head>
+<body>
+<main>
+    <!--/*@thymesVar id="subCategory" type="com.moneyAppV5.category.dto.SubCategoryDTO"*/-->
+    <!--/*@thymesVar id="transaction" type="com.moneyAppV5.transaction.dto.TransactionDTO"*/-->
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+
+    <h1 th:if="${message != null}" th:text="${message}"></h1>
+    <a th:href="@{/moneys}">Strona główna</a>
+    <a th:href="@{/categories}">Powrót do listy kategorii</a>
+
+    <p>
+        <Label>Nazwa: </Label>
+        <label th:text="${subCategory.subCategory}"></label>
+    </p>
+    <p>
+        <Label>Nadkategoria: </Label>
+        <a th:href="@{/mainCategoryView/{hash}(hash=${subCategory.mainCategory.hash})}"
+           th:text="${subCategory.mainCategory.mainCategory}"></a>
+    </p>
+<!--    TODO link do typu-->
+<!--    TODO statystyki-->
+<!--    TODO lista transakcji z linkami-->
+</main>
+</body>
+</html>

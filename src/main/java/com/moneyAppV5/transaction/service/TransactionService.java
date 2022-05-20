@@ -1,6 +1,7 @@
 package com.moneyAppV5.transaction.service;
 
 import com.moneyAppV5.account.Account;
+import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.MainCategory;
@@ -239,6 +240,55 @@ public class TransactionService
 
     public double sumTransactionsByBudgetPosition(BudgetPosition p) {
         return this.repository.sumTransactionsByPositionId(p.getId()).orElse(0.0);
+    }
+
+    public double sumTransactionsByPositionAndDates(BudgetPosition position, int startMonth, int startYear, int endMonth, int endYear)
+    {
+        return this.repository.sumTransactionsByPositionIdAndDates(position.getId(), startMonth, startYear, endMonth, endYear).orElse(0.0);
+    }
+
+    public double sumTransactionsByPositionAndMonth(BudgetPosition position, int month, int year)
+    {
+        return this.repository.sumTransactionsByPositionIdAndMonth(position.getId(), month, year).orElse(0.0);
+    }
+
+    public double sumTransactionsByPositionAndQuarter(BudgetPosition position, int month, int year)
+    {
+//        TODO jak przekazać drugi warunek brzegowy aktualnego kwartału
+//        TODO switch na wartość miesiąca? i zwraca pierwszy miesiąc kwartału?
+//        jeśli kwartał jest istotny to można by dodać kolumne w bazie
+//        return this.repository.sumTransactionsByPositionIdAndQuarter(position.getId(), month, year);
+//        TODO tymczasowe żeby nie wywalało błędu
+        return 0;
+    }
+
+    public double sumTransactionsByPositionAndYear(BudgetPosition position, int year) {
+        return this.repository.sumTransactionsByPositionIdAndYear(position.getId(), year).orElse(0.0);
+    }
+
+    public List<TransactionDTO> readTransactionsDtoByBudget(Budget budget)
+    {
+        List<TransactionDTO> dtos = new ArrayList<>();
+
+        for (Transaction t : this.repository.findTransactionsByBudgetId(budget.getId()))
+            dtos.add(new TransactionDTO(t));
+
+        return dtos;
+    }
+
+    public double sumTransactionsByPositionId(int id)
+    {
+        return this.repository.sumTransactionsByPositionId(id).orElse(0.0);
+    }
+
+    public double sumTransactionsByBudgetId(int id)
+    {
+        return this.repository.sumTransactionsByBudgetId(id).orElse(0.0);
+    }
+
+    public double sumTransactionsByBudgetIdAndType(int budgetId, Type type)
+    {
+        return this.repository.sumTransactionsByBudgetIdAndType(budgetId, type.name()).orElse(0.0);
     }
 
 //    public List<Transaction> getTransactionsByMonthAndYear(Month month, Year year)

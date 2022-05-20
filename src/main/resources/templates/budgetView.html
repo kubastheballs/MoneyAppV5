@@ -40,10 +40,10 @@
         <td></td><td>Planowane [zł]</td><td>Rzeczywiste [zł]</td><td>Saldo [zł]</td>
     </tr>
     <tr>
-        <td>Dochody [zł]</td><td th:text="${budget.plannedIncomes}"></td><td th:text="${budget.actualIncomes}"></td><td th:text="${budget.balanceIncomes}"></td>
+        <td>Dochody [zł]</td><td th:text="${budget.plannedIncomes}"></td><td th:text="${actualIncome}"></td><td th:text="${budget.balanceIncomes}"></td>
     </tr>
     <tr>
-        <td>Wydatki [zł]</td><td th:text="${budget.plannedExpenses}"></td><td th:text="${budget.actualExpenses}"></td><td th:text="${budget.balanceExpenses}"></td>
+        <td>Wydatki [zł]</td><td th:text="${budget.plannedExpenses}"></td><td th:text="${actualExpense}"></td><td th:text="${budget.balanceExpenses}"></td>
     </tr>
     <tr>
         <td>Saldo [zł]</td><td th:text="${budget.balancePlanned}"></td><td th:text="${budget.balanceActual}"></td>

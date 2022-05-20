@@ -34,8 +34,17 @@ class AccountsController
     @PostMapping()
     String addAccount(@ModelAttribute("account") @Valid AccountDTO current, BindingResult bindingResult, Model model)
     {
+        System.out.println("czemu nie działa?");
+        System.out.println(current.getName());
+        System.out.println(current.getActualBalance());
+        System.out.println(current.getTransactions());
         if (bindingResult.hasErrors())
+        {
+            model.addAttribute("message", "Błędne dane!");
+
             return "accounts";
+        }
+
 //        TODO odświeżenie strony (F5) powoduje ponowne dodanie do bazy jak temu zapobiec?
 
         if (this.service.existsByName(current.getName()))

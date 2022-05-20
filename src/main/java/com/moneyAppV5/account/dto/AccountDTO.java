@@ -41,7 +41,8 @@ public class AccountDTO
         this.name = account.getName();
         this.actualBalance = account.getActualBalance();
         this.description = account.getDescription();
-        this.transactions = transactionsToDto(account.getTransactions());
+        if (account.getTransactions() != null)
+            this.transactions = transactionsToDto(account.getTransactions());
         this.hash = account.getHash();
     }
 
@@ -63,7 +64,8 @@ public class AccountDTO
         result.setName(this.name);
         result.setActualBalance(this.actualBalance);
         result.setDescription(this.description);
-        result.setTransactions(dtoToTransactions(this.transactions));
+        if (this.transactions != null)
+            result.setTransactions(dtoToTransactions(this.transactions));
         result.setHash(result.hashCode());
 
         return result;

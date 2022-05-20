@@ -11,8 +11,8 @@ import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.category.service.CategoryService;
 import com.moneyAppV5.transaction.Transaction;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
-import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -59,7 +59,7 @@ class BudgetService
     {
         return this.positionsRepository.findPositionsByBudgetId(id);
     }
-
+//TODO typ jako parametr i wtedy podział na income i expense staje się zbędny
     List<BudgetPosition> readIncomeBudgetPositionsByBudgetId(Integer id)
     {
         return this.positionsRepository.findIncomePositionsByBudgetId(id);
@@ -69,7 +69,7 @@ class BudgetService
     {
         return this.positionsRepository.findExpensePositionsByBudgetId(id);
     }
-
+//TODO  jw
     public List<BudgetPositionDTO> readIncomeBudgetPositionsDtoByBudgetId(Integer id)
     {
         List<BudgetPositionDTO> positions = new ArrayList<>();
@@ -163,13 +163,7 @@ class BudgetService
 
     private double sumActualExpensesByBudgetId(int id)
     {
-        double sum = 0;
-
-        for (BudgetPosition bp : readExpensePositionsByBudgetId(id))
-            for (Transaction t :bp.getTransactions())
-                sum += t.getAmount();
-
-        return -sum;
+            return -this.transactionService.sumTransactionsByBudgetId(id);
     }
 
 //    void assignTransactionsToBudget(Budget budget, List<Transaction> transactions)
@@ -237,6 +231,11 @@ class BudgetService
         Integer key = Collections.max(values.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
 
         return readBudgetByHash(key);
+    }
+
+    public double sumTransactionsByPositionAndDates(BudgetPosition position, int startMonth, int startYear, int endMonth, int endYear)
+    {
+        return this.transactionService.sumTransactionsByPositionAndDates(position, startMonth, startYear, endMonth, endYear);
     }
 
 
@@ -313,6 +312,7 @@ class BudgetService
 
     public List<BudgetPosition> readExpensePositionsByBudgetId(int id)
     {
+//        TODO typ pozycji jako parametr
         List<BudgetPosition> ex = new ArrayList<>();
 
         for (BudgetPosition bp : readPositionsByBudgetId(id))
@@ -332,12 +332,7 @@ class BudgetService
 
     double sumTransactionsByPositionId(int id)
     {
-        double sum = 0;
-
-        for (Transaction t : this.transactionService.readTransactionsByPositionId(id))
-            sum += t.getAmount();
-
-        return sum;
+        return this.transactionService.sumTransactionsByPositionId(id);
     }
 
     public List<com.moneyAppV5.budget.dto.BudgetPositionDTO> readExpensePositionsByBudgetIdDto(int id)
@@ -361,7 +356,7 @@ class BudgetService
 
     public List<BudgetDTO> readAllBudgetsDto()
     {
-        List<BudgetDTO> dtos = new ArrayList();
+        List<BudgetDTO> dtos = new ArrayList<>();
 
         for (Budget b : readAllBudgets())
             dtos.add(new BudgetDTO(b));
@@ -409,7 +404,12 @@ class BudgetService
         List<BudgetPositionDTO> dtos = new ArrayList<>();
 
         for (BudgetPosition bp : this.positionsRepository.findPositionsByBudgetIdAndType(budget.getId(), type.name()))
-            dtos.add(new BudgetPositionDTO(bp));
+        {
+            var p = new BudgetPositionDTO(bp);
+            p.setActualAmount(sumTransactionsByPositionId(bp.getId()));
+
+            dtos.add(p);
+        }
 
         return dtos;
     }
@@ -422,6 +422,49 @@ class BudgetService
     public Integer readNewestBudgetHash()
     {
         return this.repository.findNewestBudgetHash().orElse(null);
+    }
+
+    public double sumTransactionsByPositionAndMonth(BudgetPosition position, int month, int year) {
+        return this.transactionService.sumTransactionsByPositionAndMonth(position, month, year);
+    }
+
+    public double sumTransactionsByPositionAndQuarter(BudgetPosition position, int month, int year) {
+        return this.transactionService.sumTransactionsByPositionAndQuarter(position, month, year);
+    }
+
+    public double sumTransactionsByPositionAndYear(BudgetPosition position, int year) {
+        return this.transactionService.sumTransactionsByPositionAndYear(position, year);
+    }
+
+    public List<TransactionDTO> readTransactionsDtoByBudget(Budget budget)
+    {
+        return this.transactionService.readTransactionsDtoByBudget(budget);
+    }
+
+    public void checkPositionsByBudget(Budget budget)
+    {
+        var positions = new HashMap<Category, BudgetPosition>();
+//TODO obczaić wykoanie przez stream i Collector (todo-app?)
+        for (BudgetPosition p : readPositionsByBudgetId(budget.getId()))
+            positions.put(p.getCategory(), p);
+
+        for (Category cat : this.categoryService.readAllCategories())
+            if  (!positions.containsKey(cat))
+            {
+                var pos = this.positionsRepository.save(new BudgetPosition(cat, budget));
+                positions.put(cat, pos);
+            }
+//TODO to raczej zadanie dla transactionService
+        var transactions = this.transactionService.readTransactionsByBudgetId(budget.getId());
+
+        for (Transaction t : transactions)
+            if  (positions.containsKey(t.getCategory()))
+                this.transactionService.updateBudgetDataInTransaction(t.getId(), positions.get(t.getCategory()));
+    }
+
+    public double sumTransactionsByBudgetIdAndType(int budgetId, Type type)
+    {
+        return this.transactionService.sumTransactionsByBudgetIdAndType(budgetId, type);
     }
 
 

@@ -52,16 +52,19 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
     void updateBudgetDetailsInTransaction(int id, int positionId, int budgetId);
 
     @Override
-    @Query(nativeQuery = true, value = "select sum (amount) from transactions inner join categories where main_category_id = :mainId and budget_id = :budgetId")
+    @Query(nativeQuery = true, value = "select sum (amount) from transactions inner join categories" +
+            " on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where main_category_id = :mainId and budget_id = :budgetId")
     double sumActualExpensesByMainCategoryIdAndBudgetId(int mainId, int budgetId);
 
     @Override
-    @Query(nativeQuery = true, value = "select sum (amount) from TRANSACTIONS inner join CATEGORIES where (ACCOUNT_ID = :accountId and " +
+    @Query(nativeQuery = true, value = "select sum (amount) from TRANSACTIONS inner join CATEGORIES" +
+            " on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where (ACCOUNT_ID = :accountId and " +
             "MONTH = :m and year = :y and TYPE = :type)")
     Optional<Double> sumTransactionsByAccountIdAndMonthAndType(Integer accountId, Integer m, Integer y, String type);
 
     @Override
-    @Query(nativeQuery = true, value = "select sum (amount) from TRANSACTIONS inner join CATEGORIES where (ACCOUNT_ID = :accountId and " +
+    @Query(nativeQuery = true, value = "select sum (amount) from TRANSACTIONS inner join CATEGORIES" +
+            " on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where (ACCOUNT_ID = :accountId and " +
             "TYPE = :type)")
     Optional<Double> sumTransactionsByAccountIdAndType(Integer accountId, String type);
 
@@ -73,4 +76,30 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
     @Query(value = "select sum (amount) from TRANSACTIONS where (CATEGORY_ID = :categoryId)", nativeQuery = true)
     Optional<Double> sumOverallTransactionsByCategoryId(Integer categoryId);
 
+    @Override
+    @Query(value = "select sum (amount) from TRANSACTIONS where (Budget_position_ID = :positionId and MONTH = :month and year = :year)", nativeQuery = true)
+    Optional<Double> sumTransactionsByPositionIdAndMonth(Integer positionId, Integer month, Integer year);
+
+    @Override
+    @Query(value="select sum (amount) from TRANSACTIONS where (Budget_position_ID = :positionId and MONTH >= :startMonth and year >= :startYear" +
+            " and month <= :endMonth and year <= :endYear)", nativeQuery = true)
+    Optional<Double> sumTransactionsByPositionIdAndDates(Integer positionId, Integer startMonth, Integer startYear, Integer endMonth, Integer endYear);
+
+    @Override
+    @Query(value="select sum (amount) from TRANSACTIONS where (Budget_position_ID = :positionId and year = :year)", nativeQuery = true)
+    Optional<Double> sumTransactionsByPositionIdAndYear(Integer positionId, Integer year);
+
+    @Override
+    @Query(value="select sum (amount) from TRANSACTIONS where (Budget_position_ID = :positionId)", nativeQuery = true)
+    Optional<Double> sumTransactionsByPositionId(Integer positionId);
+
+    @Override
+    @Query(value="select sum (amount) from TRANSACTIONS where (Budget_ID = :budgetId)", nativeQuery = true)
+    Optional<Double> sumTransactionsByBudgetId(Integer budgetId);
+
+    @Override
+    @Query(nativeQuery = true, value = "select sum (amount) from TRANSACTIONS inner join CATEGORIES" +
+            " on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where (BUDGET_ID = :budgetId and " +
+            "TYPE = :type)")
+    Optional<Double> sumTransactionsByBudgetIdAndType(Integer budgetId, String type);
 }

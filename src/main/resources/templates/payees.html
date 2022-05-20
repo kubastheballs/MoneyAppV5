@@ -36,13 +36,7 @@
         </p>
     </form>
     <a th:href="@{/moneys}">Strona główna</a>
-    <div>
-<!--        TODO podział kontrahentów na opłacanych i beneficjentów-->
-        <p>Kontrahenci</p>
-        <ul>
-            <li th:each="payee : ${payees}" th:text="${payee.name}"></li>
-        </ul>
-    </div>
+
     <table>
         <tr>Kontrahenci</tr>
         <tr>
