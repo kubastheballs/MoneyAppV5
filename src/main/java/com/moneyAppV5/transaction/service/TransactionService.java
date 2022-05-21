@@ -47,51 +47,13 @@ public class TransactionService
     public Transaction createTransaction(final TransactionDTO toSave)
     {
 //        TODO przy tworzeniu transakcji należy sprawdzić czy istnieje budgetPos dla daty i kategorii - jesli tak to dodać a jeśli nie to utworzyć nowy
-
-        Payee isPaid;
-//TODO czy w isPaid jest potrzebny optional? wpierw występuje sprawdzenie exists więc jeśli wyjdzie ok to musi być w bazie
-//        TODO czy da się to zredukować do jednej linijki?
-            if (this.payeeRepository.existsByName(toSave.getIsPaid().getName()))
-                isPaid = this.payeeRepository.findByName(toSave.getIsPaid().getName()).get();
-            else
-                isPaid = this.payeeRepository.save(toSave.getIsPaid());
-
-        Payee forWhom;
-
-            if (this.gainerRepository.existsByGainer(toSave.getForWhom().getName()))
-//                TODO
-                forWhom = this.payeeRepository.findByNameAndRole(toSave.getForWhom().getName(), Role.IS_FOR);
-            else
-                forWhom = createPayee(new PayeeDTO(toSave.getForWhom().getName(), Role.IS_FOR));
-
-//        double amount = Double.parseDouble(toSave.getAmount());
-
-            if ((toSave.getCategory().getType()).equals(Type.EXPENSE))
-                toSave.setAmount(-toSave.getAmount());
-
-        var result = new TransactionDTO(toSave.getDay(), toSave.getMonth(), toSave.getYear(), toSave.getAccount(), toSave.getAmount(), toSave.getCategory(), isPaid, forWhom, toSave.getDescription());
-
-//  TODO tutaj sprawdzenie czy jest budgetPos i jeśli jest to przekazanie do transaction lub utworzenie nowego
-//  TODO czy konstruktor typu Transaction(Transaction, BudgetPosition) ma rację bytu?
-//        TODO existByData? dla budgetPos
-//        np
-//        if (existsByData)
-//            return id
-//            getById()
-//        ALTERNATYWNIE
-//            getByData()
-//        else
-//            create()
-//        TODO to wywołuje zapętlenie wywłań budgetService -> transactionService
-//        Budget b = null;
-//
-//        if (this.budgetService.existsByMonthAndYear(toSave.getMonth(), toSave.getYear()))
-//             b = this.budgetService.readBudgetByMonthAndYear(toSave.getMonth(), toSave.getYear());
-//
-//        var t = this.repository.save(result.toTransaction());
-//        t.setBudget(b);
-
-        return this.repository.save(result.toTransaction());
+//TODO ewentualnie zostawiamy to dla widoku budżetu
+        System.out.println("blabla");
+        System.out.println(toSave.getDay());
+        System.out.println(toSave.getMonth());
+        System.out.println(toSave.getYear());
+        System.out.println(toSave.getDate());
+        return this.repository.save(toSave.toTransaction());
     }
 
     public Gainer createGainer(final GainerDTO toSave)

@@ -1,0 +1,1 @@
+alter table transactions drop column TRANSACTION_DATE;

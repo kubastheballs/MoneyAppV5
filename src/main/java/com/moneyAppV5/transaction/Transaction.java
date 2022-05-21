@@ -18,8 +18,8 @@ public class Transaction
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate transactionDate;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    private LocalDate transactionDate;
     private int day;
     private int month;
     private int year;
@@ -80,15 +80,15 @@ public class Transaction
         this.id = id;
     }
 
-    public LocalDate getDate()
-    {
-        return transactionDate;
-    }
-
-    public void setDate(LocalDate date)
-    {
-        this.transactionDate = date;
-    }
+//    public LocalDate getDate()
+//    {
+//        return transactionDate;
+//    }
+//
+//    public void setDate(LocalDate date)
+//    {
+//        this.transactionDate = date;
+//    }
 
     public Account getAccount()
     {
@@ -217,13 +217,13 @@ public class Transaction
         this.budgetPosition = budgetPosition;
     }
 
-    public LocalDate getTransactionDate() {
-        return transactionDate;
-    }
-
-    public void setTransactionDate(LocalDate transactionDate) {
-        this.transactionDate = transactionDate;
-    }
+//    public LocalDate getTransactionDate() {
+//        return transactionDate;
+//    }
+//
+//    public void setTransactionDate(LocalDate transactionDate) {
+//        this.transactionDate = transactionDate;
+//    }
 
     public Integer getHash() {
         return hash;

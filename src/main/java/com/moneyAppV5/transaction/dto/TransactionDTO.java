@@ -125,7 +125,7 @@ public class TransactionDTO
     {
         var result = new Transaction();
 
-        result.setDate(LocalDate.parse(this.date, DateTimeFormatter.ISO_DATE));
+//        result.setDate(LocalDate.parse(this.date, DateTimeFormatter.ISO_DATE));
         result.setDay(this.day);
         result.setMonth(this.month);
         result.setYear(this.year);
@@ -185,15 +185,6 @@ public class TransactionDTO
     {
         this.amount = amount;
     }
-
-//
-//    public String getAmount() {
-//        return amount;
-//    }
-//
-//    public void setAmount(String amount) {
-//        this.amount = amount;
-//    }
 
     public String getDescription()
     {

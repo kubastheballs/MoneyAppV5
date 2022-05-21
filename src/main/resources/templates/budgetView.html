@@ -60,8 +60,11 @@
         </tr>
         <tr th:each="position : ${incomePositions}">
 <!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
-            <td th:text="${position.category.category}"></td><td th:text="${position.plannedAmount}"></td><td  th:text="${position.actualAmount}"></td>
-            <td  th:text="${position.balance}"></td><td  th:text="${position.description}"></td>
+            <td th:text="${position.category.category}"></td>
+            <td th:text="${position.plannedAmount}"></td>
+            <td  th:text="${position.actualAmount}"></td>
+            <td  th:text="${position.balance}"></td>
+            <td  th:text="${position.description}"></td>
 <!--        TODO zrobienie podlisty z subkategoriami - czy chdzi o tr wewnątrz tr? jest nie zamknięty bo ten od głównego go domyka-->
 <!--        TODO wyciągnięcie listy subkategorii-->
                 <tr>
@@ -76,7 +79,7 @@
             <td>Kategoria</td><td>Planowane wydatki</td><td>Rzeczywiste wydatki</td><td>Różnica</td><td>Opis</td>
         </tr>
         <tr>
-            <td>Suma</td><td th:text="${budget.plannedExpenses}"></td><td th:text="${budget.actualExpenses}"></td><td th:text="${budget.balanceExpenses}"></td><td>Opis</td>
+            <td>Suma</td><td th:text="${budget.plannedExpenses}"></td><td th:text="${actualExpense}"></td><td th:text="${budget.balanceExpenses}"></td><td>Opis</td>
         </tr>
         <tr th:each="position : ${expensePositions}">
             <!--            TODO póki co w najprostszej postaci - póxniej zrobić tak aby była głowna kategoria i w niej podkategorie-->
