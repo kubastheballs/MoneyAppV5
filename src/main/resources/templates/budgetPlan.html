@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<main>
+    <!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
+    <!--/*@thymesVar id="position" type="com.moneyAppV5.budget.dto.BudgetPositionDTO"*/-->
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+
+    <h1 th:if="${message != null}" th:text="${message}"></h1>
+    <p>
+
+        <a th:href="@{/moneys}">Strona główna</a>
+        <a th:href="@{/budgets}">Lista budżetów</a>
+        <!--    TODO przejście przez hash?-->
+        <a th:href="@{/budgetView/{hash}/addTransaction(hash=${hash})}">Dodaj transakcje</a>
+        <a th:href="@{/categories}">Przejdź do kategorii</a>
+    </p>
+    <form action="#" method="post" th:action="@{/budgetView/{hash}/plan(hash=${hash})}" th:object="${budget}">
+        <fieldset th:each="position : ${budget.incomes}">
+
+            <label th:text="${position.category.category}">
+                <input type="number" th:field="${position.plannedAmount}" />
+            </label>
+
+        </fieldset>
+        <p>
+            <button type="submit">Dodaj</button>
+            <button type="reset">Wyczyść</button>
+        </p>
+    </form>
+</main>
+</body>
+</html>

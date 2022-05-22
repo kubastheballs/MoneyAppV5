@@ -253,6 +253,16 @@ public class TransactionService
         return this.repository.sumTransactionsByBudgetIdAndType(budgetId, type.name()).orElse(0.0);
     }
 
+    public List<TransactionDTO> readTransactionsByBudgetPositionIdAsDto(int positionId)
+    {
+        var list = new ArrayList<TransactionDTO>();
+
+        for (Transaction t : readTransactionsByPositionId(positionId))
+            list.add(new TransactionDTO(t));
+
+        return list;
+    }
+
 //    public List<Transaction> getTransactionsByMonthAndYear(Month month, Year year)
 //    {
 //        List<Transaction> transactions = new ArrayList<>();

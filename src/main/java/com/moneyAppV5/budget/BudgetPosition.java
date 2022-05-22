@@ -25,9 +25,6 @@ class BudgetPosition
     @OneToMany(mappedBy = "budgetPosition")
     private Set<Transaction> transactions;
     private double plannedAmount;
-//    TODO to w sumie chyba lepiej będzie wyciągać z bazy na bieżąco
-    private double actualAmount;
-    private double balance;
     private String description;
     private Integer hash;
 
@@ -96,26 +93,6 @@ class BudgetPosition
     public void setPlannedAmount(double plannedAmount)
     {
         this.plannedAmount = plannedAmount;
-    }
-
-    public double getActualAmount()
-    {
-        return actualAmount;
-    }
-
-    public void setActualAmount(double actualAmount)
-    {
-        this.actualAmount = actualAmount;
-    }
-
-    public double getBalance()
-    {
-        return balance;
-    }
-
-    public void setBalance(double balance)
-    {
-        this.balance = balance;
     }
 
     public String getDescription()

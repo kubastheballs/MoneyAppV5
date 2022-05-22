@@ -52,12 +52,7 @@ public class AddTransactionController
 
         model.addAttribute("transaction", dto);
         model.addAttribute("budgetHash", hash);
-//        model.addAttribute("budgetId", id);
         model.addAttribute("budget", budgetDto.toBudget());
-//        TODO czy miesiąc i rok przekazywać jako model czy w ramach dto?
-//        model.addAttribute("month", dto.getMonth());
-//        model.addAttribute("year", dto.getYear());
-
 
         return "addTransaction";
     }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SqlBudgetPositionRepository extends BudgetPositionRepository, JpaRepository<BudgetPosition, Integer>
@@ -28,6 +29,12 @@ public interface SqlBudgetPositionRepository extends BudgetPositionRepository, J
     @Query(nativeQuery = true, value = "select distinct * from BUDGET_POSITIONS inner join categories on BUDGET_POSITIONS.CATEGORY_ID = CATEGORIES.ID " +
             "where BUDGET_ID = :budgetId and CATEGORIES.TYPE = :type")
     List<BudgetPosition> findPositionsByBudgetIdAndType(Integer budgetId, String type);
+
+    @Override
+    @Query(value = "select sum (PLANNED_AMOUNT) from BUDGET_POSITIONS inner join CATEGORIES" +
+            " on BUDGET_POSITIONS.CATEGORY_ID = CATEGORIES.ID where (BUDGET_ID = :budgetId and " +
+            "TYPE = :type)", nativeQuery = true)
+    Optional<Double> sumPlannedByBudgetIdAndType(Integer budgetId, String type);
 
 //    @Override
 //    @Query(nativeQuery = true, value = "select * from BUDGET_POSITIONS where BUDGET_ID = :budget.id")

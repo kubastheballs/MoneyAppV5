@@ -25,6 +25,8 @@ public interface BudgetPositionRepository
 
     BudgetPosition findByHashAndCategoryId(Integer hash, int id);
 
+    Optional<Double> sumPlannedByBudgetIdAndType(Integer budgetId, String type);
+
 //    List<BudgetPosition> getBudgetPositionsByTypeAndBudget(Budget budget, Type type);
 //    List<BudgetPosition> getBudgetPositionsByBudget(Budget budget);
 

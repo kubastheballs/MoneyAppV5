@@ -48,10 +48,9 @@ public class TransactionDTO
         this.day = transaction.getDay();
         this.month = transaction.getMonth();
         this.year = transaction.getYear();
-//        this.date = String.valueOf(transaction.getDate());
+        this.date = createDateString(this.day, this.month, this.year);
         this.account = transaction.getAccount();
         this.amount = transaction.getAmount();
-//        this.amount = String.valueOf(transaction.getAmount());
         this.category = transaction.getCategory();
         this.isPaid = transaction.getIsPaid();
         this.forWhom = transaction.getForWhom();
@@ -131,7 +130,6 @@ public class TransactionDTO
         result.setYear(this.year);
         result.setAccount(this.account);
         result.setAmount(this.amount);
-//        result.setAmount(Double.parseDouble(this.amount));
         result.setCategory(this.category);
         result.setIsPaid(this.isPaid);
         result.setForWhom(this.forWhom);

@@ -22,23 +22,18 @@ public class BudgetViewController
     public String showBudgetView(Model model, @PathVariable Integer hash)
     {
         var budget = this.service.readBudgetByHash(hash);
-        var result = new BudgetDTO(budget);
+        var result = this.service.readBudgetAsDto(budget);
 
         this.service.checkPositionsByBudget(budget);
 
         model.addAttribute("message", String.format("Budżet: %s/%s", result.getMonth(), result.getYear()));
         model.addAttribute("budget", result);
-
-        model.addAttribute("actualIncome", this.service.sumTransactionsByBudgetIdAndType(budget.getId(), Type.INCOME));
-        model.addAttribute("actualExpense", this.service.sumTransactionsByBudgetIdAndType(budget.getId(), Type.EXPENSE));
-
-//        model.addAttribute("id", id);
-//        TODO wczytywanie z obiekut wymaga zapewne dodatkowej aktualizacji danych w obiekcie
-//        model.addAttribute("incomePositions", result.getIncomes());
-//        model.addAttribute("expensePositions", result.getExpenses());
-//        TODO aktualizacja przy wyswietlaniu?
-        model.addAttribute("incomePositions", this.service.readPositionsDtoByBudgetAndType(budget, Type.INCOME));
-        model.addAttribute("expensePositions", this.service.readPositionsDtoByBudgetAndType(budget, Type.EXPENSE));
+//TODO z obiektu
+//        model.addAttribute("actualIncome", this.service.sumTransactionsByBudgetIdAndType(budget.getId(), Type.INCOME));
+//        model.addAttribute("actualExpense", this.service.sumTransactionsByBudgetIdAndType(budget.getId(), Type.EXPENSE));
+//
+//        model.addAttribute("incomePositions", this.service.readPositionsDtoByBudgetAndType(budget, Type.INCOME));
+//        model.addAttribute("expensePositions", this.service.readPositionsDtoByBudgetAndType(budget, Type.EXPENSE));
         model.addAttribute("transactions", this.service.readTransactionsDtoByBudget(budget));
 
         return "budgetView";

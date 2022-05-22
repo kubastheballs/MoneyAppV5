@@ -234,4 +234,24 @@ public class BudgetDTO
     public void setHash(Integer hash) {
         this.hash = hash;
     }
+
+    public List<BudgetPositionDTO> getIncomesDto()
+    {
+        return incomesDto;
+    }
+
+    public void setIncomesDto(List<BudgetPositionDTO> incomesDto)
+    {
+        this.incomesDto = incomesDto;
+    }
+
+    public List<BudgetPositionDTO> getExpensesDto()
+    {
+        return expensesDto;
+    }
+
+    public void setExpensesDto(List<BudgetPositionDTO> expensesDto)
+    {
+        this.expensesDto = expensesDto;
+    }
 }
