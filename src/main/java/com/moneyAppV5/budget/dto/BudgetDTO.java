@@ -2,6 +2,7 @@ package com.moneyAppV5.budget.dto;
 
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,6 +24,7 @@ public class BudgetDTO
 
     private List<BudgetPositionDTO> incomesDto;
     private List<BudgetPositionDTO> expensesDto;
+    private List<TransactionDTO> transactionsDto;
     private List<BudgetPosition> incomes;
     private List<BudgetPosition> expenses;
     private String description;
@@ -253,5 +255,17 @@ public class BudgetDTO
     public void setExpensesDto(List<BudgetPositionDTO> expensesDto)
     {
         this.expensesDto = expensesDto;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<TransactionDTO> getTransactionsDto() {
+        return transactionsDto;
+    }
+
+    public void setTransactionsDto(List<TransactionDTO> transactionsDto) {
+        this.transactionsDto = transactionsDto;
     }
 }

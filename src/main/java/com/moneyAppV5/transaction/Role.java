@@ -3,9 +3,8 @@ package com.moneyAppV5.transaction;
 public enum Role
 {
 //    TODO jak to zgrabnie nazwać po polsku? - czy dodać trzecią rolę "płaci mi?" czy zmienić nazwę "płacę mu"
-    IS_PAID("Płacę mu"),
-    IS_FOR("Dla niego");
-
+    IS_PAID("Kontrahent"),
+    IS_FOR("Beneficjent");
 
     private String name;
 

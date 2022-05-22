@@ -15,7 +15,9 @@ public interface TransactionRepository
 //    List<Transaction> findByGainerId(Integer id);
     List<Transaction> findTransactionsByPositionId(Integer id);
     List<Transaction> findTransactionsByMonthAndYear(int month, int year);
-    List<Transaction> findTransactionsByBudgetId(int id);
+    List<Transaction> findTransactionsByBudgetId(Integer id);
+    List<Transaction> findTransactionsByAccountId(Integer accountId);
+
 
     Optional<Transaction> findById(Integer id);
 
@@ -39,4 +41,6 @@ public interface TransactionRepository
 
     Optional<Double> sumTransactionsByBudgetId(Integer budgetId);
     Optional<Double> sumTransactionsByBudgetIdAndType(Integer budgetId, String type);
+
+
 }

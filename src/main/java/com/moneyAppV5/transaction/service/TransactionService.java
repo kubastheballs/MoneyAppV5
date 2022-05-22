@@ -48,11 +48,7 @@ public class TransactionService
     {
 //        TODO przy tworzeniu transakcji należy sprawdzić czy istnieje budgetPos dla daty i kategorii - jesli tak to dodać a jeśli nie to utworzyć nowy
 //TODO ewentualnie zostawiamy to dla widoku budżetu
-        System.out.println("blabla");
-        System.out.println(toSave.getDay());
-        System.out.println(toSave.getMonth());
-        System.out.println(toSave.getYear());
-        System.out.println(toSave.getDate());
+
         return this.repository.save(toSave.toTransaction());
     }
 
@@ -263,17 +259,18 @@ public class TransactionService
         return list;
     }
 
-//    public List<Transaction> getTransactionsByMonthAndYear(Month month, Year year)
-//    {
-//        List<Transaction> transactions = new ArrayList<>();
-//
-//        for(Transaction t : readAllTransactions())
-//        {
-//
-//        }
-////        if (t.getDate().getYear() == year && t.getDate().getMonth().equals(month))
-//
-//
-//     return null;
-//    }
+    public List<TransactionDTO> readTransactionsByAccountIdAsDto(int accountId)
+    {
+        var list = new ArrayList<TransactionDTO>();
+
+        for (Transaction t : readTransactionsByAccountId(accountId))
+            list.add(new TransactionDTO(t));
+
+        return list;
+    }
+
+    private List<Transaction> readTransactionsByAccountId(int accountId)
+    {
+        return this.repository.findTransactionsByAccountId(accountId);
+    }
 }

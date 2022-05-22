@@ -25,7 +25,7 @@
         <label th:text="${account.description}"></label>
     </p>
     <p>
-        <label>Saldo konta: </label>
+        <label>Bieżące saldo konta: </label>
         <label th:text="${account.actualBalance}"></label>
         <label> [zł]</label>
 <!--        TODO przejście do historii zmian stanu konta-->
@@ -33,32 +33,50 @@
 
     <div>
         <h1>Saldo</h1>
-        <table>
+        <table th:object="${account}">
             <tr>
 <!--                TODO określenia miesięcy-->
-                <td></td><td>Bieżący miesiąc</td><td>Poprzedni</td><td>Jeszcze poprzedni</td><td>Ogółem</td>
+                <td></td>
+                <td>Bieżący miesiąc</td>
+                <td>Poprzedni miesiąc</td>
+                <td>Jeszcze poprzedni miesiąc</td>
+                <td>Bieżący rok</td>
+                <td>Ogółem</td>
             </tr>
             <tr>
                 <td>Dochody</td>
-                <td th:text="${actualMonthIncome}"></td>
-                <td th:text="${actualMonthMinusOneIncome}"></td>
-                <td th:text="${actualMonthMinusTwoIncome}"></td>
+                <td th:text="*{actualMonthIncome}"></td>
+                <td th:text="*{actualMonthMinusOneIncome}"></td>
+                <td th:text="*{actualMonthMinusTwoIncome}"></td>
+                <td th:text="*{actualYearIncome}"></td>
                 <td th:text="${overallIncome}"></td>
             </tr>
             <tr>
                 <td>Wydatki</td>
-                <td th:text="${actualMonthExpense}"></td>
-                <td th:text="${actualMonthMinusOneExpense}"></td>
-                <td th:text="${actualMonthMinusTwoExpense}"></td>
-                <td th:text="${overallExpense}"></td>
+                <td th:text="*{actualMonthExpense}"></td>
+                <td th:text="*{actualMonthMinusOneExpense}"></td>
+                <td th:text="*{actualMonthMinusTwoExpense}"></td>
+                <td th:text="*{actualYearExpense}"></td>
+                <td th:text="*{overallExpense}"></td>
             </tr>
             <tr>
-                <td>Saldo</td>
-                <td th:text="${actualMonthBalance}"></td>
-                <td th:text="${actualMonthMinusOneBalance}"></td>
-                <td th:text="${actualMonthMinusTwoBalance}"></td>
-                <td th:text="${overallBalance}"></td>
+                <td>Saldo transakcji</td>
+                <td th:text="*{actualMonthBalance}"></td>
+                <td th:text="*{actualMonthMinusOneBalance}"></td>
+                <td th:text="*{actualMonthMinusTwoBalance}"></td>
+                <td th:text="*{actualYearBalance}"></td>
+                <td th:text="*{overallBalance}"></td>
             </tr>
+<!--            TODO saldo konta w danym okresie-->
+<!--            <tr>-->
+<!--                <td>Saldo konta</td>-->
+<!--                <td th:text="*{actualMonthAccountBalance}"></td>-->
+<!--                <td th:text="*{actualMonthMinusOneAccountBalance}"></td>-->
+<!--                <td th:text="*{actualMonthMinusTwoAccountBalance}"></td>-->
+<!--                <td th:text="*{actualYearAccountBalance}"></td>-->
+<!--                <td th:text="*{overallAccountBalance}"></td>-->
+<!--            </tr>-->
+
         </table>
     </div>
 

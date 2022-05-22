@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_black.css">
 </head>
 <body>
 <main>
@@ -22,13 +23,14 @@
         <a th:href="@{/budgetView/{hash}/addTransaction(hash=${hash})}">Dodaj transakcje</a>
         <a th:href="@{/categories}">Przejdź do kategorii</a>
     </p>
+
     <form action="#" method="post" th:action="@{/budgetView/{hash}/plan(hash=${hash})}" th:object="${budget}">
-        <fieldset th:each="position : ${budget.incomes}">
-
-            <label th:text="${position.category.category}">
-                <input type="number" th:field="${position.plannedAmount}" />
+        <h2>Plan dochodów</h2>
+        <fieldset th:each="position, stat : *{incomesDto}">
+            <label th:text="*{incomesDto[__${stat.index}__].category.category}">
+<!--                <input type="number" th:field="*{incomesDto[__${stat.index}__].plannedAmout}" >-->
             </label>
-
+<!--TODO jak to ogarnąć-->
         </fieldset>
         <p>
             <button type="submit">Dodaj</button>

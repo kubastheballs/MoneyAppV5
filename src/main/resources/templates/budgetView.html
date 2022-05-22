@@ -55,7 +55,10 @@
         </tr>
         <tr th:each="position : ${budget.incomesDto}">
 <!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
-            <td th:text="${position.category.category}"></td>
+            <td >
+                <a th:href="@{/positionView/{hash}(hash=${position.hash})}"
+                   th:text="${position.category.category}"></a>
+            </td>
             <td th:text="${position.plannedAmount}"></td>
             <td  th:text="${position.actualAmount}"></td>
             <td  th:text="${position.balance}"></td>
@@ -80,8 +83,14 @@
         <tr th:each="position : ${budget.expensesDto}">
             <!--            TODO póki co w najprostszej postaci - póxniej zrobić tak aby była głowna kategoria i w niej podkategorie-->
             <!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
-            <td th:text="${position.category.category}"></td><td th:text="${position.plannedAmount}"></td><td  th:text="${position.actualAmount}"></td>
-            <td  th:text="${position.balance}"></td><td  th:text="${position.description}"></td>
+            <td >
+                <a th:href="@{/positionView/{hash}(hash=${position.hash})}"
+                   th:text="${position.category.category}"></a>
+            </td>
+            <td th:text="${position.plannedAmount}"></td>
+            <td  th:text="${position.actualAmount}"></td>
+            <td  th:text="${position.balance}"></td>
+            <td  th:text="${position.description}"></td>
             <!--        TODO zrobienie podlisty z subkategoriami - czy chdzi o tr wewnątrz tr? jest nie zamknięty bo ten od głównego go domyka-->
             <!--        TODO wyciągnięcie listy subkategorii-->
     </table>
@@ -93,8 +102,7 @@
             <td>Dzień</td><td>Konto</td><td>Kwota [zł]</td><td>Kontrahent</td><td>Kategoria</td><td>Beneficjent</td><td>opis</td>
         </tr>
 <!--        TODO lista transakcji z danego budżetu - najlepiej sortowana od najnowszych-->
-        <tr th:each="transaction : ${transactions}">
-            <!--                TODO czemu się nie pojawia data?-->
+        <tr th:each="transaction : ${budget.transactionsDto}">
             <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
             <td th:text="${transaction.day}" ></td>
             <td>

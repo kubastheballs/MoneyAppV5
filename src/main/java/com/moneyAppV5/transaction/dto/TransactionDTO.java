@@ -13,17 +13,13 @@ import java.time.format.DateTimeFormatter;
 
 public class TransactionDTO
 {
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String date;
-//    private LocalDate date;
     private Account account;
-//    private String amount;
     private double amount;
     private Category category;
     private Payee isPaid;
     private Payee forWhom;
     private String description;
-//    private BudgetPosition budgetPosition;
     private Integer hash;
 
     private Budget budget;

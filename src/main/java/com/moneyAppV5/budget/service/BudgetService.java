@@ -7,7 +7,6 @@ import com.moneyAppV5.budget.dto.BudgetPositionDTO;
 import com.moneyAppV5.budget.repository.BudgetPositionRepository;
 import com.moneyAppV5.budget.repository.BudgetRepository;
 import com.moneyAppV5.category.Category;
-import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.category.service.CategoryService;
 import com.moneyAppV5.transaction.Transaction;
@@ -67,6 +66,7 @@ class BudgetService
 
         budget.setIncomesDto(readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.INCOME));
         budget.setExpensesDto(readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.EXPENSE));
+        budget.setTransactionsDto(readTransactionsByBudgetIdAsDto(b.getId()));
 
         budget.setPlannedIncomes(sumPlannedByList(budget.getIncomesDto()));
         budget.setActualIncomes(sumActualByList(budget.getIncomesDto()));
@@ -244,5 +244,25 @@ class BudgetService
         for (Transaction t : transactions)
             if  (positions.containsKey(t.getCategory()))
                 this.transactionService.updateBudgetDataInTransaction(t.getId(), positions.get(t.getCategory()));
+    }
+
+    public BudgetDTO readBudgetPlanAsDto(Budget b)
+    {
+        var budget = new BudgetDTO(b);
+
+        budget.setIncomesDto(readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.INCOME));
+        budget.setExpensesDto(readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.EXPENSE));
+
+        return budget;
+    }
+
+    private List<TransactionDTO> readTransactionsByBudgetIdAsDto(int budgetId)
+    {
+        var list = new ArrayList<TransactionDTO>();
+
+        for (Transaction t : this.transactionService.readTransactionsByBudgetId(budgetId))
+            list.add(new TransactionDTO(t));
+
+        return list;
     }
 }

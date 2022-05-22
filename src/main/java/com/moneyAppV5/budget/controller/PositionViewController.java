@@ -30,15 +30,15 @@ public class PositionViewController
 
         model.addAttribute("position", result);
         model.addAttribute("budget", new BudgetDTO(this.service.readBudgetById(position.getBudget().getId())));
-        model.addAttribute("transactions", result.getTransactionsDto());
-
-        var month = LocalDate.now().getMonthValue();
-        var year = LocalDate.now().getYear();
-
-        model.addAttribute("actualMonthSum", this.service.sumTransactionsByPositionAndMonth(position, month, year));
-//        TODO - patrz budgetService
-        model.addAttribute("actualQuarterSum", this.service.sumTransactionsByPositionAndQuarter(position, month, year));
-        model.addAttribute("actualYearSum", this.service.sumTransactionsByPositionAndYear(position, year));
+//        model.addAttribute("transactions", result.getTransactionsDto());
+//
+//        var month = LocalDate.now().getMonthValue();
+//        var year = LocalDate.now().getYear();
+//
+//        model.addAttribute("actualMonthSum", this.service.sumTransactionsByPositionAndMonth(position, month, year));
+////        TODO - patrz budgetService
+//        model.addAttribute("actualQuarterSum", this.service.sumTransactionsByPositionAndQuarter(position, month, year));
+//        model.addAttribute("actualYearSum", this.service.sumTransactionsByPositionAndYear(position, year));
 
         return "positionView";
     }

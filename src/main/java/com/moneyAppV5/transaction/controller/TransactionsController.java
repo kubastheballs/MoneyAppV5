@@ -69,12 +69,12 @@ class TransactionsController
 //        return "transactions";
 //    }
 
-    @PostMapping(params = "addPayee")
-    String addPayee(@ModelAttribute ("transaction") PayeeDTO current)
-    {
-        this.service.createPayee(current);
-        return "transactions";
-    }
+//    @PostMapping(params = "addPayee")
+//    String addPayee(@ModelAttribute ("transaction") PayeeDTO current)
+//    {
+//        this.service.createPayee(current);
+//        return "transactions";
+//    }
 
     @ModelAttribute("transactions")
     List<TransactionDTO> getTransactionsDto()

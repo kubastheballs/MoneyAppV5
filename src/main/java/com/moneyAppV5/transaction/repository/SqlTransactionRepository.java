@@ -46,6 +46,10 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
     List<Transaction> findTransactionsByMonthAndYear(int month, int year);
 
     @Override
+    @Query(value = "select * from TRANSACTIONS where ACCOUNT_ID = :accountId", nativeQuery = true)
+    List<Transaction> findTransactionsByAccountId(Integer accountId);
+
+    @Override
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "update TRANSACTIONS set BUDGET_POSITION_ID = :positionId, BUDGET_ID = :budgetId where id = :id")

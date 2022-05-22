@@ -63,6 +63,7 @@
     </p>
 
 <!--    TODO tu chyba lepiej będzie zrobić ogólną listę i wyświetlać typ i dać filtorwanie-->
+<!--    TODO nadkategoria i w niej subkategorie?-->
     <h1>Kategorie</h1>
     <table>
         <tr>
@@ -81,9 +82,6 @@
             <td th:text="${category.type}">
 
             </td><td th:text="${category.description}"></td>
-            <td>
-                <a th:href="@{/categoryView/{hash}(hash=${category.hash})}">Przejdź</a>
-            </td>
         </tr>
     </table>
 <!--    <div class="incomeList">-->
