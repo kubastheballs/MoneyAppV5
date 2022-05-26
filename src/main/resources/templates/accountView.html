@@ -32,7 +32,7 @@
     </p>
 
     <div>
-        <h1>Saldo</h1>
+        <h2>Saldo</h2>
         <table th:object="${account}">
             <tr>
 <!--                TODO określenia miesięcy-->
@@ -79,6 +79,47 @@
 
         </table>
     </div>
+<!--    TODO obkodować-->
+    <div>
+        <h2>Miesiąc z: </h2>
+        <table>
+            <tr>
+                <td></td><td>Budżet</td><td>Kwota/ilość</td>
+            </tr>
+            <tr>
+                <td>Największą suma transakcji: </td>
+                <td >
+                    <a th:href="@{budgetView/{budgetHash}(budgetHash=${highestSumBudget.hash})}"
+                       th:text="${highestSumBudget.name}"></a>
+                </td>
+                <td th:text="${highestSum}"></td>
+            </tr>
+            <tr>
+                <td>Najmniejszą suma transakcji: </td>
+                <td>
+                    <a th:href="@{budgetView/{budgetHash}(budgetHash=${lowestSumBudget.hash})}"
+                       th:text="${lowestSumBudget.name}"></a>
+                </td>
+                <td th:text="${lowestSum}"></td>
+            </tr>
+            <tr>
+                <td>Największą ilością transakcji: </td>
+                <td >
+                    <a th:href="@{budgetView/{budgetHash}(budgetHash=${highestCountBudget.hash})}"
+                       th:text="${highestCountBudget.name}"></a>
+                </td>
+                <td th:text="${highestCount}"></td>
+            </tr>
+            <tr>
+                <td>Najmniejszą ilością transakcji: </td>
+                <td >
+                    <a th:href="@{budgetView/{budgetHash}(budgetHash=${lowestCountBudget.hash})}"
+                       th:text="${lowestCountBudget.name}"></a>
+                </td>
+                <td th:text="${lowestCount}"></td>
+            </tr>
+        </table>
+    </div>
 
     <div>
         <h1>Transakcje konta</h1>
@@ -88,7 +129,6 @@
             </tr>
             <!--        TODO lista transakcji z danego konta - najlepiej sortowana od najnowszych-->
             <tr th:each="transaction : ${account.transactions}">
-                <!--                TODO czemu się nie pojawia data?-->
                 <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
                 <td th:text="${transaction.date}" ></td>
                 <td th:text="${transaction.amount}"></td>

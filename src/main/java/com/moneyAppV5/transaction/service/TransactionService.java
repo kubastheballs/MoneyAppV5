@@ -269,7 +269,7 @@ public class TransactionService
         return list;
     }
 
-    private List<Transaction> readTransactionsByAccountId(int accountId)
+    public List<Transaction> readTransactionsByAccountId(int accountId)
     {
         return this.repository.findTransactionsByAccountId(accountId);
     }

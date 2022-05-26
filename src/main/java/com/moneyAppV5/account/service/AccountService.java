@@ -52,7 +52,11 @@ public class AccountService {
         return dtos;
     }
 
-    public void changeBalance(Integer id, double amount) {
+    public void changeBalanceByAccountId(Integer id, double amount, Type type)
+    {
+        if (type.equals(Type.EXPENSE))
+            amount = -amount;
+
         this.repository.changeBalance(id, amount);
     }
 

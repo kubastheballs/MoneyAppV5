@@ -1,8 +1,11 @@
 package com.moneyAppV5.budget.service;
 
+import com.moneyAppV5.account.dto.AccountBudgetsCountsDTO;
+import com.moneyAppV5.account.dto.AccountBudgetsSumsDTO;
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.budget.dto.BudgetDTO;
+import com.moneyAppV5.budget.dto.BudgetDtoWithSumDTO;
 import com.moneyAppV5.budget.dto.BudgetPositionDTO;
 import com.moneyAppV5.budget.repository.BudgetPositionRepository;
 import com.moneyAppV5.budget.repository.BudgetRepository;
@@ -17,8 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public
-class BudgetService
+public class BudgetService
 {
     private final BudgetRepository repository;
     private final BudgetPositionRepository positionsRepository;
@@ -137,17 +139,107 @@ class BudgetService
     }
 
 //    TODO analogiczna metoda dla minimalnego?
-    public Budget readBudgetWithHighestTransactionsSumByCategory(Category category)
+
+    public BudgetDTO readBudgetWithHighestTransactionsSumByCategoryIdAsDto(int categoryId)
     {
         var values = new HashMap<Integer, Double>();
 
-        for (BudgetPosition p : this.positionsRepository.findPositionsByCategoryId(category.getId()))
+        for (BudgetPosition p : this.positionsRepository.findPositionsByCategoryId(categoryId))
             values.put(p.getHash(), this.transactionService.sumTransactionsByBudgetPosition(p));
 
-        Integer key = Collections.max(values.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+        var key = Collections.max(values.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
 
-        return readBudgetByHash(key);
+        return new BudgetDTO(readBudgetByHash(key));
     }
+
+    public BudgetDTO readBudgetWithHighestTransactionsCountByAccountIdAsDto(int accountId)
+    {
+        var values = new HashMap<Integer, Integer>();
+
+        for (Transaction t : this.transactionService.readTransactionsByAccountId(accountId))
+        {
+            var k = t.getBudget().getHash();
+            var v = values.get(k);
+
+            if (!values.containsKey(k))
+                values.put(k, 1);
+            else
+                values.replace(k, v + 1);
+        }
+        var key = Collections.max(values.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+        return new BudgetDTO(readBudgetByHash(key));
+    }
+
+    public AccountBudgetsCountsDTO readBudgetsWithMaxMinTransactionCountsByAccountIdAsDto(int accountId)
+    {
+        var map = new HashMap<Integer, Integer>();
+
+        for (Transaction t : this.transactionService.readTransactionsByAccountId(accountId))
+        {
+            var k = t.getBudget().getHash();
+            var v = map.get(k);
+
+            if (!map.containsKey(k))
+                map.put(k, 1);
+            else
+                map.replace(k, v + 1);
+        }
+//        TODO obsługa pustej mapy
+        var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+        var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+        return new AccountBudgetsCountsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
+    }
+
+    public BudgetDtoWithSumDTO readBudgetWithHighestTransactionsSumByAccountIdAsDto(int accountId)
+    {
+        var map = createBudgetTransactionsMapByAccountId(accountId);
+//      TODO w pustej mapie nie mozna znaleźc max i wywala noSuchElement
+        var key = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+
+        return new BudgetDtoWithSumDTO(new BudgetDTO(readBudgetByHash(key)), map.get(key));
+    }
+
+    public BudgetDtoWithSumDTO readBudgetWithLowestTransactionsSumByAccountIdAsDto(int accountId)
+    {
+        var map = createBudgetTransactionsMapByAccountId(accountId);
+//      TODO w pustej mapie nie mozna znaleźc min i wywala noSuchElement
+        var key = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+        return new BudgetDtoWithSumDTO(new BudgetDTO(readBudgetByHash(key)), map.get(key));
+    }
+
+    public AccountBudgetsSumsDTO readBudgetsWithMaxMinTransactionSumsByAccountIdAsDto(int accountId)
+    {
+        var map = createBudgetTransactionsMapByAccountId(accountId);
+//      TODO w pustej mapie nie mozna znaleźc min i wywala noSuchElement
+        var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+        var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+        return new AccountBudgetsSumsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
+
+
+    }
+
+    private Map<Integer, Double> createBudgetTransactionsMapByAccountId(int accountId)
+    {
+        var values = new HashMap<Integer, Double>();
+
+        for (Transaction t : this.transactionService.readTransactionsByAccountId(accountId))
+        {
+            var k = t.getBudget().getHash();
+            var v = t.getAmount();
+
+            if (!values.containsKey(k))
+                values.put(k, v);
+            else
+                values.replace(k, v + values.get(k));
+        }
+        return values;
+    }
+
 
     public List<BudgetPosition> readPositionsByBudgetId(int id)
     {
@@ -265,4 +357,6 @@ class BudgetService
 
         return list;
     }
+
+
 }

@@ -7,12 +7,10 @@ import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.budget.service.BudgetService;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.service.CategoryService;
-import com.moneyAppV5.transaction.Gainer;
 import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Role;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +21,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/budgetView/{hash}/addTransaction")
-//@RequestMapping("/budgetView/{id}/addTransaction")
 public class AddTransactionController
 {
     TransactionService service;
@@ -81,7 +78,7 @@ public class AddTransactionController
         transaction.setBudget(budget);
         transaction.setBudgetPosition(position);
 
-        this.accountService.changeBalance(transaction.getAccount().getId(), transaction.getAmount());
+        this.accountService.changeBalanceByAccountId(transaction.getAccount().getId(), transaction.getAmount(), transaction.getCategory().getType());
 
         model.addAttribute("transaction", dto);
         model.addAttribute("budgetHash", hash);
