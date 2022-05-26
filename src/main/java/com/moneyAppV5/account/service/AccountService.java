@@ -2,7 +2,9 @@ package com.moneyAppV5.account.service;
 
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.dto.AccountDTO;
+import com.moneyAppV5.account.dto.AccountTransactionsSumDataDTO;
 import com.moneyAppV5.account.repository.AccountRepository;
+import com.moneyAppV5.budget.service.BudgetService;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
@@ -17,10 +19,13 @@ import java.util.Optional;
 public class AccountService {
     AccountRepository repository;
     TransactionService transactionService;
+    BudgetService budgetService;
 
-    public AccountService(AccountRepository repository, TransactionService transactionService) {
+    public AccountService(AccountRepository repository, TransactionService transactionService, BudgetService budgetService)
+    {
         this.repository = repository;
         this.transactionService = transactionService;
+        this.budgetService = budgetService;
     }
 
     public Optional<Account> readAccountById(int id) {
@@ -115,6 +120,23 @@ public class AccountService {
         return sumOverallTransactionsByType(account, Type.INCOME) - sumOverallTransactionsByType(account, Type.EXPENSE);
     }
 
+    private int[] checkMonthValue(int month, int year) {
+        switch (month) {
+            case 0 -> {
+                month = 12;
+                year = year - 1;
+            }
+            case -1 -> {
+                month = 11;
+                year = year - 1;
+            }
+
+
+        }
+
+        return new int[]{month, year};
+    }
+
     public AccountDTO readAccountAsDto(Account a)
     {
         var account = new AccountDTO(a);
@@ -127,17 +149,21 @@ public class AccountService {
         var month = LocalDate.now().getMonthValue();
         var year = LocalDate.now().getYear();
 
-        account.setActualMonthIncome(sumByListAndTypeAndMonth(account.getTransactions(), income, month, year));
-        account.setActualMonthExpense(sumByListAndTypeAndMonth(account.getTransactions(), expense, month, year));
-        account.setActualMonthBalance(account.getActualMonthIncome() - account.getActualMonthExpense());
+//        account.setActualMonthIncome(sumByListAndTypeAndMonth(account.getTransactions(), income, month, year));
+//        account.setActualMonthExpense(sumByListAndTypeAndMonth(account.getTransactions(), expense, month, year));
+//        account.setActualMonthBalance(account.getActualMonthIncome() - account.getActualMonthExpense());
+//
+//        account.setActualMonthMinusOneIncome(sumByListAndTypeAndMonth(account.getTransactions(), income, month - 1, year));
+//        account.setActualMonthMinusOneExpense(sumByListAndTypeAndMonth(account.getTransactions(), expense, month - 1, year));
+//        account.setActualMonthMinusOneBalance(account.getActualMonthMinusOneIncome() - account.getActualMonthMinusOneExpense());
+//
+//        account.setActualMonthMinusTwoIncome(sumByListAndTypeAndMonth(account.getTransactions(), income, month - 2, year));
+//        account.setActualMonthMinusTwoExpense(sumByListAndTypeAndMonth(account.getTransactions(), expense, month - 2, year));
+//        account.setActualMonthMinusTwoBalance(account.getActualMonthMinusTwoIncome() - account.getActualMonthMinusTwoExpense());
 
-        account.setActualMonthMinusOneIncome(sumByListAndTypeAndMonth(account.getTransactions(), income, month - 1, year));
-        account.setActualMonthMinusOneExpense(sumByListAndTypeAndMonth(account.getTransactions(), expense, month - 1, year));
-        account.setActualMonthMinusOneBalance(account.getActualMonthMinusOneIncome() - account.getActualMonthMinusOneExpense());
-
-        account.setActualMonthMinusTwoIncome(sumByListAndTypeAndMonth(account.getTransactions(), income, month - 2, year));
-        account.setActualMonthMinusTwoExpense(sumByListAndTypeAndMonth(account.getTransactions(), expense, month - 2, year));
-        account.setActualMonthMinusTwoBalance(account.getActualMonthMinusTwoIncome() - account.getActualMonthMinusTwoExpense());
+        account.setActualMonthBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(checkMonthValue(month, year), a.getId()));
+        account.setActualMonthMinusOneBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(checkMonthValue(month - 1, year), a.getId()));
+        account.setActualMonthMinusTwoBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(checkMonthValue(month - 2, year), a.getId()));
 
         account.setActualYearIncome(sumByListAndTypeAndYear(account.getTransactions(), income, year));
         account.setActualYearExpense(sumByListAndTypeAndYear(account.getTransactions(), expense, year));

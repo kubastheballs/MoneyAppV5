@@ -36,6 +36,7 @@ public interface TransactionRepository
     Optional<Double> sumTransactionsByPositionId(Integer positionId);
     Optional<Double> sumTransactionsByPositionIdAndDates(Integer positionId, Integer startMonth, Integer startYear, Integer endMonth, Integer endYear);
     Optional<Double> sumTransactionsByPositionIdAndMonth(Integer positionId, Integer month, Integer year);
+    Optional<Double> sumTransactionsByBudgetIdAndAccountIdAndType(Integer budgetId, Integer accountId, String type);
 
     Optional<Double> sumTransactionsByPositionIdAndYear(Integer positionId, Integer year);
 

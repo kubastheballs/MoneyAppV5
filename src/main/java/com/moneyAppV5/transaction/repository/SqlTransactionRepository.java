@@ -106,4 +106,10 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
             " on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where (BUDGET_ID = :budgetId and " +
             "TYPE = :type)")
     Optional<Double> sumTransactionsByBudgetIdAndType(Integer budgetId, String type);
+
+    @Override
+    @Query(nativeQuery = true, value = "select sum (amount) from TRANSACTIONS inner join CATEGORIES" +
+            " on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where (BUDGET_ID = :budgetId and " +
+            "account_id = :accountId and TYPE = :type)")
+    Optional<Double> sumTransactionsByBudgetIdAndAccountIdAndType(Integer budgetId, Integer accountId, String type);
 }

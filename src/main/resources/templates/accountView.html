@@ -44,26 +44,33 @@
                 <td>Ogółem</td>
             </tr>
             <tr>
+                <td></td>
+<!--                TODO linki do danych budżetów-->
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
                 <td>Dochody</td>
-                <td th:text="*{actualMonthIncome}"></td>
-                <td th:text="*{actualMonthMinusOneIncome}"></td>
-                <td th:text="*{actualMonthMinusTwoIncome}"></td>
+                <td th:text="*{actualMonthBudget.actualIncomes}"></td>
+                <td th:text="*{actualMonthMinusOneBudget.actualIncomes}"></td>
+                <td th:text="*{actualMonthMinusTwoBudget.actualIncomes}"></td>
                 <td th:text="*{actualYearIncome}"></td>
-                <td th:text="${overallIncome}"></td>
+                <td th:text="*{overallIncome}"></td>
             </tr>
             <tr>
                 <td>Wydatki</td>
-                <td th:text="*{actualMonthExpense}"></td>
-                <td th:text="*{actualMonthMinusOneExpense}"></td>
-                <td th:text="*{actualMonthMinusTwoExpense}"></td>
+                <td th:text="*{actualMonthBudget.actualExpenses}"></td>
+                <td th:text="*{actualMonthMinusOneBudget.actualExpenses}"></td>
+                <td th:text="*{actualMonthMinusTwoBudget.actualExpenses}"></td>
                 <td th:text="*{actualYearExpense}"></td>
                 <td th:text="*{overallExpense}"></td>
             </tr>
             <tr>
                 <td>Saldo transakcji</td>
-                <td th:text="*{actualMonthBalance}"></td>
-                <td th:text="*{actualMonthMinusOneBalance}"></td>
-                <td th:text="*{actualMonthMinusTwoBalance}"></td>
+                <td th:text="*{actualMonthBudget.balanceActual}"></td>
+                <td th:text="*{actualMonthMinusOneBudget.balanceActual}"></td>
+                <td th:text="*{actualMonthMinusTwoBudget.balanceActual}"></td>
                 <td th:text="*{actualYearBalance}"></td>
                 <td th:text="*{overallBalance}"></td>
             </tr>

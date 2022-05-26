@@ -1,6 +1,7 @@
 package com.moneyAppV5.account.dto;
 
 import com.moneyAppV5.account.Account;
+import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 
@@ -18,6 +19,9 @@ public class AccountDTO
     private double target;
     private double actualBalance;
     private List<TransactionDTO> transactions;
+    private BudgetDTO actualMonthBudget;
+    private BudgetDTO actualMonthMinusOneBudget;
+    private BudgetDTO actualMonthMinusTwoBudget;
     private double actualMonthIncome;
     private double actualMonthExpense;
     private double actualMonthBalance;
@@ -278,5 +282,29 @@ public class AccountDTO
 
     public void setOverallBalance(double overallBalance) {
         this.overallBalance = overallBalance;
+    }
+
+    public BudgetDTO getActualMonthBudget() {
+        return actualMonthBudget;
+    }
+
+    public void setActualMonthBudget(BudgetDTO actualMonthBudget) {
+        this.actualMonthBudget = actualMonthBudget;
+    }
+
+    public BudgetDTO getActualMonthMinusOneBudget() {
+        return actualMonthMinusOneBudget;
+    }
+
+    public void setActualMonthMinusOneBudget(BudgetDTO actualMonthMinusOneBudget) {
+        this.actualMonthMinusOneBudget = actualMonthMinusOneBudget;
+    }
+
+    public BudgetDTO getActualMonthMinusTwoBudget() {
+        return actualMonthMinusTwoBudget;
+    }
+
+    public void setActualMonthMinusTwoBudget(BudgetDTO actualMonthMinusTwoBudget) {
+        this.actualMonthMinusTwoBudget = actualMonthMinusTwoBudget;
     }
 }

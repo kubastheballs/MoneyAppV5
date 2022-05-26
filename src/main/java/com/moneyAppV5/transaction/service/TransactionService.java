@@ -273,4 +273,9 @@ public class TransactionService
     {
         return this.repository.findTransactionsByAccountId(accountId);
     }
+
+    public double sumTransactionsByBudgetIdAndAccountIdAndType(int budgetId, int accountId, Type type)
+    {
+        return this.repository.sumTransactionsByBudgetIdAndAccountIdAndType(budgetId, accountId, type.name()).orElse(0.0);
+    }
 }

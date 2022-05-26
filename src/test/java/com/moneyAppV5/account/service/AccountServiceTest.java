@@ -17,36 +17,36 @@ import static org.mockito.Mockito.when;
 class
 AccountServiceTest
 {
-    @Test
-    void readAccountByHashShouldReturnAccount()
-    {
-//        given
-        var mockTransactionService = mock(TransactionService.class);
-        var mockRepository = mock(AccountRepository.class);
-        var mockAccount = mock(Account.class);
-        when(mockRepository.findByHash(anyInt())).thenReturn(Optional.of(mockAccount));
-//        system under test
-        var toTest = new AccountService(mockRepository, mockTransactionService);
-//        when
-        toTest.readAccountByHash(1);
-//        then
-
-    }
+//    @Test
+//    void readAccountByHashShouldReturnAccount()
+//    {
+////        given
+//        var mockTransactionService = mock(TransactionService.class);
+//        var mockRepository = mock(AccountRepository.class);
+//        var mockAccount = mock(Account.class);
+//        when(mockRepository.findByHash(anyInt())).thenReturn(Optional.of(mockAccount));
+////        system under test
+//        var toTest = new AccountService(mockRepository, mockTransactionService);
+////        when
+//        toTest.readAccountByHash(1);
+////        then
+//
+//    }
 //TODO
-    @Test
-    void readAccountByHashShouldThrowException()
-    {
-//        given
-        var mockTransactionService = mock(TransactionService.class);
-        var mockRepository = mock(AccountRepository.class);
-        var mockAccount = mock(Account.class);
-        when(mockRepository.findByHash(anyInt())).thenReturn(Optional.of(mockAccount));
-//        system under test
-        var toTest = new AccountService(mockRepository, mockTransactionService);
-//        when
-        toTest.readAccountByHash(1);
-//        then
-
-    }
+//    @Test
+//    void readAccountByHashShouldThrowException()
+//    {
+////        given
+//        var mockTransactionService = mock(TransactionService.class);
+//        var mockRepository = mock(AccountRepository.class);
+//        var mockAccount = mock(Account.class);
+//        when(mockRepository.findByHash(anyInt())).thenReturn(Optional.of(mockAccount));
+////        system under test
+//        var toTest = new AccountService(mockRepository, mockTransactionService);
+////        when
+//        toTest.readAccountByHash(1);
+////        then
+//
+//    }
 
 }
