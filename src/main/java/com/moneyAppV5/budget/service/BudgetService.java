@@ -84,23 +84,29 @@ public class BudgetService
         return budget;
     }
 
-    public BudgetDTO readBudgetOnlyWithActualByAccountIdAndMonthAsDto(int month, int year, int accountId)
+    Budget readBudgetByMonthAndYear(int month, int year)
     {
-        var b = this.repository.findByMonthAndYear(month, year);
-        var budget = new BudgetDTO(b);
-
-        budget.setActualIncomes(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.INCOME));
-
-        budget.setActualExpenses(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.EXPENSE));
-
-        budget.setBalanceActual(budget.getActualIncomes() - budget.getActualExpenses());
-
-        return budget;
+//        TODO jaki błąd?
+        return this.repository.findByMonthAndYear(month, year).orElse(new Budget());
     }
+
+//    public BudgetDTO readBudgetOnlyWithActualByAccountIdAndMonthAsDto(int month, int year, int accountId)
+//    {
+//        var b = readBudgetByMonthAndYear(month, year);
+//        var budget = new BudgetDTO(b);
+//
+//        budget.setActualIncomes(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.INCOME));
+//
+//        budget.setActualExpenses(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.EXPENSE));
+//
+//        budget.setBalanceActual(budget.getActualIncomes() - budget.getActualExpenses());
+//
+//        return budget;
+//    }
 
     public BudgetDTO readBudgetOnlyWithActualByAccountIdAndMonthAsDto(int[] date, int accountId)
     {
-        var b = this.repository.findByMonthAndYear(date[0], date[1]);
+        var b = readBudgetByMonthAndYear(date[0], date[1]);
         var budget = new BudgetDTO(b);
 
         budget.setActualIncomes(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.INCOME));
@@ -152,17 +158,12 @@ public class BudgetService
         return this.repository.existsByMonthAndYear(month, year);
     }
 
-    public List<BudgetPosition> createPositionsListByBudget(Budget budget)
+    public void createPositionsListByBudget(Budget budget)
     {
-        List<BudgetPosition> positions = new ArrayList<>();
-
         for (Category cat : this.categoryService.readAllCategories())
         {
             var pos = this.positionsRepository.save(new BudgetPosition(cat, budget));
-            positions.add(pos);
         }
-
-        return positions;
     }
 
     public AccountBudgetsCountsDTO readBudgetsWithMaxMinTransactionCountsByAccountIdAsDto(int accountId)
@@ -323,10 +324,8 @@ public class BudgetService
 
         return list;
     }
-
-
     public BudgetDTO readBudgetByMonthAndYearAsDto(int month, int year)
     {
-        return new BudgetDTO(this.repository.findByMonthAndYear(month, year));
+        return new BudgetDTO(readBudgetByMonthAndYear(month, year));
     }
 }
