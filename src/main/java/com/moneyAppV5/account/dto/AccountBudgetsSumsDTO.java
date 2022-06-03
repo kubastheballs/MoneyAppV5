@@ -9,6 +9,9 @@ public class AccountBudgetsSumsDTO
     private BudgetDTO lowestSumBudget;
     private double lowestSum;
 
+    public AccountBudgetsSumsDTO() {
+    }
+
     public AccountBudgetsSumsDTO(BudgetDTO highestSumBudget, double highestSum, BudgetDTO lowestSumBudget, double lowestSum) {
         this.highestSumBudget = highestSumBudget;
         this.highestSum = highestSum;

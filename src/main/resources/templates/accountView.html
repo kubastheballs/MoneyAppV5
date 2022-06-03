@@ -87,6 +87,7 @@
         </table>
     </div>
 <!--    TODO obkodować-->
+<!--    TODO thif w td usuwa kolumnę-->
     <div>
         <h2>Miesiąc z: </h2>
         <table>
@@ -95,35 +96,49 @@
             </tr>
             <tr>
                 <td>Największą suma transakcji: </td>
-                <td >
-                    <a th:href="@{budgetView/{budgetHash}(budgetHash=${highestSumBudget.hash})}"
+                <td th:if="${highestSumBudget != null}">
+                    <a
+                            th:href="@{budgetView/{budgetHash}(budgetHash=${highestSumBudget.hash})}"
                        th:text="${highestSumBudget.name}"></a>
                 </td>
-                <td th:text="${highestSum}"></td>
+                <td th:if="${highestSumBudget == null}" >
+                    <label>n/d</label>
+                </td>
+                <td th:if="${highestSum != null}" th:text="${highestSum}"></td>
+
             </tr>
             <tr>
                 <td>Najmniejszą suma transakcji: </td>
-                <td>
+                <td th:if="${lowestSumBudget != null}">
                     <a th:href="@{budgetView/{budgetHash}(budgetHash=${lowestSumBudget.hash})}"
                        th:text="${lowestSumBudget.name}"></a>
                 </td>
-                <td th:text="${lowestSum}"></td>
+                <td th:if="${lowestSumBudget == null}" >
+                    <label>n/d</label>
+                </td>
+                <td th:if="${lowestSum != null}" th:text="${lowestSum}"></td>
             </tr>
             <tr>
                 <td>Największą ilością transakcji: </td>
-                <td >
+                <td th:if="${highestCountBudget != null}">
                     <a th:href="@{budgetView/{budgetHash}(budgetHash=${highestCountBudget.hash})}"
                        th:text="${highestCountBudget.name}"></a>
                 </td>
-                <td th:text="${highestCount}"></td>
+                <td th:if="${highestCountBudget == null}" >
+                    <label>n/d</label>
+                </td>
+                <td th:if="${highestCount != null}" th:text="${highestCount}"></td>
             </tr>
             <tr>
                 <td>Najmniejszą ilością transakcji: </td>
-                <td >
+                <td th:if="${lowestCountBudget != null}">
                     <a th:href="@{budgetView/{budgetHash}(budgetHash=${lowestCountBudget.hash})}"
                        th:text="${lowestCountBudget.name}"></a>
                 </td>
-                <td th:text="${lowestCount}"></td>
+                <td th:if="${lowestCountBudget == null}" >
+                    <label>n/d</label>
+                </td>
+                <td th:if="${lowestCount != null}" th:text="${lowestCount}"></td>
             </tr>
         </table>
     </div>

@@ -13,6 +13,7 @@
     <!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
     <!--/*@thymesVar id="position" type="com.moneyAppV5.budget.dto.BudgetPositionDTO"*/-->
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="positions" type="java.util.ArrayList<com.moneyAppV5.budget.dto.BudgetPositionDTO>"*/-->
 
     <h1 th:if="${message != null}" th:text="${message}"></h1>
     <p>
@@ -24,12 +25,19 @@
         <a th:href="@{/categories}">Przejdź do kategorii</a>
     </p>
 
-    <form action="#" method="post" th:action="@{/budgetView/{hash}/plan(hash=${hash})}" th:object="${budget}">
+    <form action="#" method="post" th:action="@{/budgetView/{hash}/plan(hash=${hash})}" th:object="${incomePositions}">
         <h2>Plan dochodów</h2>
-        <fieldset th:each="position, stat : *{incomesDto}">
-            <label th:text="*{incomesDto[__${stat.index}__].category.category}">
-<!--                <input type="number" th:field="*{incomesDto[__${stat.index}__].plannedAmout}" >-->
-            </label>
+        <fieldset>
+
+            <table>
+                <tr th:each="position, positionStat : ${incomePositions}">
+                    <td th:text="${position.categoryDto.category}"></td>
+                    <td >
+                        <input type="number" th:field="${incomePositions[__${positionStat.index}__].plannedAmount}" >
+<!--                        <input type="number" th:field="${position.plannedAmount}" >-->
+                    </td>
+                </tr>
+            </table>
 <!--TODO jak to ogarnąć-->
         </fieldset>
         <p>

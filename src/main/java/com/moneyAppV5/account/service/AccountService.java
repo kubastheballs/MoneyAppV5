@@ -82,7 +82,7 @@ public class AccountService {
         return this.repository.existsByName(name);
     }
 
-    public double sumTransactionsByTypeAndMonth(Account a, Integer month, Integer year, Type type) {
+    public double sumTransactionsByTypeAndMonth(Account a, int month, int year, Type type) {
         switch (month) {
             case 0 -> {
                 month = 12;
@@ -148,18 +148,6 @@ public class AccountService {
 
         var month = LocalDate.now().getMonthValue();
         var year = LocalDate.now().getYear();
-
-//        account.setActualMonthIncome(sumByListAndTypeAndMonth(account.getTransactions(), income, month, year));
-//        account.setActualMonthExpense(sumByListAndTypeAndMonth(account.getTransactions(), expense, month, year));
-//        account.setActualMonthBalance(account.getActualMonthIncome() - account.getActualMonthExpense());
-//
-//        account.setActualMonthMinusOneIncome(sumByListAndTypeAndMonth(account.getTransactions(), income, month - 1, year));
-//        account.setActualMonthMinusOneExpense(sumByListAndTypeAndMonth(account.getTransactions(), expense, month - 1, year));
-//        account.setActualMonthMinusOneBalance(account.getActualMonthMinusOneIncome() - account.getActualMonthMinusOneExpense());
-//
-//        account.setActualMonthMinusTwoIncome(sumByListAndTypeAndMonth(account.getTransactions(), income, month - 2, year));
-//        account.setActualMonthMinusTwoExpense(sumByListAndTypeAndMonth(account.getTransactions(), expense, month - 2, year));
-//        account.setActualMonthMinusTwoBalance(account.getActualMonthMinusTwoIncome() - account.getActualMonthMinusTwoExpense());
 
         account.setActualMonthBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(checkMonthValue(month, year), a.getId()));
         account.setActualMonthMinusOneBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(checkMonthValue(month - 1, year), a.getId()));

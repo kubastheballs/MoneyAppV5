@@ -44,4 +44,5 @@ public interface TransactionRepository
     Optional<Double> sumTransactionsByBudgetIdAndType(Integer budgetId, String type);
 
 
+    Optional<Double> sumTransactionsByDayAdnPositionId(Integer day, Integer positionId);
 }

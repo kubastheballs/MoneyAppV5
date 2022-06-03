@@ -9,6 +9,9 @@ public class AccountBudgetsCountsDTO
     private BudgetDTO lowestCountBudget;
     private int lowestCount;
 
+    public AccountBudgetsCountsDTO() {
+    }
+
     public AccountBudgetsCountsDTO(BudgetDTO highestCountBudget, int highestCount, BudgetDTO lowestCountBudget, int lowestCount) {
         this.highestCountBudget = highestCountBudget;
         this.highestCount = highestCount;

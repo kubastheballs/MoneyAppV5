@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 
 @Controller
 @RequestMapping("/positionView/{hash}")
@@ -26,10 +28,14 @@ public class PositionViewController
     String showPositionView(Model model, @PathVariable Integer hash)
     {
         var position = this.service.readPositionByHash(hash);
-        var result = new BudgetPositionDTO(position);
+//        var result = new BudgetPositionDTO(position);
+        var result = this.service.readBudgetPositionViewAsDto(position);
+//        var budget = new BudgetDTO(this.service.readBudgetById(position.getBudget().getId()));
 
         model.addAttribute("position", result);
-        model.addAttribute("budget", new BudgetDTO(this.service.readBudgetById(position.getBudget().getId())));
+//        model.addAttribute("budget", budget);
+//        model.addAttribute("dailySums", this.service.sumDailyTransactionsByPositionIdAndMonth(position.getId(), Month.of(budget.getMonth()).length(Year.isLeap(budget.getMonth()))));
+//        model.addAttribute("monthLength", Month.of(budget.getMonth()).length(Year.isLeap(budget.getMonth())));
 //        model.addAttribute("transactions", result.getTransactionsDto());
 //
 //        var month = LocalDate.now().getMonthValue();

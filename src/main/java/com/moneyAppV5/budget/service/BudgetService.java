@@ -10,12 +10,15 @@ import com.moneyAppV5.budget.repository.BudgetPositionRepository;
 import com.moneyAppV5.budget.repository.BudgetRepository;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.Type;
+import com.moneyAppV5.category.dto.CategoryDTO;
 import com.moneyAppV5.category.service.CategoryService;
 import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
 import org.springframework.stereotype.Service;
 
+import java.time.Month;
+import java.time.Year;
 import java.util.*;
 
 @Service
@@ -44,11 +47,52 @@ public class BudgetService
         var position = new BudgetPositionDTO(bp);
         var actual = sumTransactionsByPositionId(bp.getId());
 
+        position.setCategoryDto(new CategoryDTO(bp.getCategory()));
         position.setActualAmount(actual);
         position.setBalance(position.getPlannedAmount() - actual);
         position.setTransactionsDto(this.transactionService.readTransactionsByBudgetPositionIdAsDto(bp.getId()));
 
         return position;
+    }
+
+    public BudgetPositionDTO readBudgetPositionViewAsDto(BudgetPosition bp)
+    {
+        var position = new BudgetPositionDTO();
+
+        position.setHash(bp.getHash());
+        position.setPlannedAmount(bp.getPlannedAmount());
+        position.setActualAmount(this.transactionService.sumTransactionsByPositionId(bp.getId()));
+        position.setUsage((position.getActualAmount() / position.getPlannedAmount()) * 100);
+        position.setBudgetDto(new BudgetDTO(bp.getBudget()));
+        position.setCategoryDto(new CategoryDTO(bp.getCategory()));
+        position.setDailyView(sumDailyTransactionsByPositionIdAndMonth(bp.getId(), Month.of(bp.getBudget().getMonth()).length(Year.isLeap(bp.getBudget().getMonth()))));
+        position.setTransactionsDto(this.transactionService.readTransactionsByBudgetPositionIdAsDto(bp.getId()));
+
+//        TODO
+//        stats
+
+        return position;
+    }
+
+    public LinkedHashMap<String, Double> sumDailyTransactionsByPositionIdAndMonth(int positionId, int monthLength)
+    {
+        var map = new LinkedHashMap<String, Double>();
+
+        for (String day : monthDaysList(monthLength))
+            map.put(day, this.transactionService.sumTransactionsByDayAdnPositionId(day, positionId));
+
+        return map;
+    }
+
+    public List<String> monthDaysList(int monthLength)
+    {
+        var days = new ArrayList<String>();
+
+        for (int i = 1; i <= monthLength; i++)
+            days.add(String.valueOf(i));
+
+        return days;
+
     }
 
     private List<BudgetPositionDTO> readBudgetPositionsByBudgetIdAndTypeAsDto(int budgetId, Type type)
@@ -181,10 +225,20 @@ public class BudgetService
                 map.replace(k, v + 1);
         }
 //        TODO obsługa pustej mapy
-        var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
-        var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
 
-        return new AccountBudgetsCountsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
+        AccountBudgetsCountsDTO data;
+
+        if  (map.size() > 0)
+        {
+            var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+            var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+            data = new AccountBudgetsCountsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
+        }
+        else
+            data = new AccountBudgetsCountsDTO();
+
+        return data;
     }
 
     public AccountBudgetsSumsDTO readBudgetsWithMaxMinTransactionSumsByAccountIdAsDto(int accountId)
@@ -201,11 +255,21 @@ public class BudgetService
             else
                 map.replace(k, v + map.get(k));
         }
-//      TODO w pustej mapie nie mozna znaleźc min i wywala noSuchElement
-        var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
-        var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
 
-        return new AccountBudgetsSumsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
+        AccountBudgetsSumsDTO data;
+
+//        TODO postawienie warunku? != null?
+        if  (map.size() > 0)
+        {
+            var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+            var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+            data = new AccountBudgetsSumsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
+        }
+        else
+            data = new AccountBudgetsSumsDTO();
+
+        return data;
     }
 
     public List<BudgetPosition> readPositionsByBudgetId(int id)
@@ -239,7 +303,7 @@ public class BudgetService
     }
 
     public BudgetPosition readPositionByHash(Integer hash) {
-        return this.positionsRepository.findByHash(hash);
+        return this.positionsRepository.findByHash(hash).orElseThrow();
     }
 
     public List<BudgetPositionDTO> readPositionsDtoByBudgetAndType(Budget budget, Type type)
@@ -327,5 +391,20 @@ public class BudgetService
     public BudgetDTO readBudgetByMonthAndYearAsDto(int month, int year)
     {
         return new BudgetDTO(readBudgetByMonthAndYear(month, year));
+    }
+
+    public void updatePlannedAmountInPositions(List<BudgetPositionDTO> current)
+    {
+        System.out.println("1111");
+        for (BudgetPositionDTO bp : current)
+        {
+            System.out.println("xx");
+            System.out.println(bp);
+            System.out.println(bp.getPlannedAmount());
+            this.positionsRepository.findByHash(bp.getHash())
+                    .ifPresent(b -> {
+                        this.positionsRepository.setPlannedAmountByPositionHash(bp.getPlannedAmount(), bp.getHash());
+                    });
+        }
     }
 }

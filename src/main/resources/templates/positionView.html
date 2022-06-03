@@ -16,22 +16,48 @@
     <p>
         <label>Budżet: </label>
 <!--        TODO miesiąc i rok budżetu-->
-        <label th:text="${budget.name}"></label>
+        <label th:text="${position.budgetDto.name}"></label>
     </p>
     <p>
         <label>Kategoria: </label>
 <!--        TODO kategoria pozycji-->
-        <a th:href="@{/categoryView/{hash}(hash=${position.category.hash})}"
-           th:text="${position.category.category}"></a>
+        <a th:href="@{/categoryView/{hash}(hash=${position.categoryDto.hash})}"
+           th:text="${position.categoryDto.category}"></a>
         <!--        TODO typ pozycji - dodać link jw-->
-        <label th:text="${position.category.type}"></label>
+        <p>Typ pozycji:
+           <label th:text="${position.categoryDto.type}"></label>
     </p>
-<!--    TODO statystyki jak we wszystkich - bieżący miesiąc kwaretał itd-->
+<!--    TODO statystyki jak we wszystkich - bieżący miesiąc kwaretał itd - no nie bo pozycja jest przypisana do danego miesiąca-->
+<!--    TODO wymyślić inne statystyki-->
     <div>
-        <h3>Statyski:</h3>
-        <label>Saldo:</label>
-        <label>Ostatni miesiąc: </label>
-        <label th:text="${actualMonthSum}"></label>
+        <h3>Statystyki:</h3>
+        <p>
+            <label>Planowana wartość: </label>
+            <label th:text="${position.plannedAmount}"></label>
+        </p>
+        <p>
+            <label>Aktualna wartość: </label>
+            <label th:text="${position.actualAmount}"></label>
+        </p>
+        <p th:if="${position.plannedAmount != 0.0}">
+            <label>Realizacja: </label>
+            <label th:text="${position.usage}"></label>
+            <label> %</label>
+        </p>
+    </div>
+    <div>
+        <h3>Widok dzienny</h3>
+        <table>
+            <tr >
+                <td>Dzień miesiąca: </td>
+                <td th:each="day : ${position.dailyView}" th:text="${day.key}"></td>
+            </tr>
+            <tr>
+                <td>Saldo transakcji: </td>
+<!--                TODO placeholder na saldo transakcji z danego dnia-->
+                <td th:each="day : ${position.dailyView}" th:text="${day.value}"></td>
+            </tr>
+        </table>
     </div>
     <div>
 <!--        TODO lista transakcji w danej pozycji - tabelka-->
@@ -40,7 +66,7 @@
                 <td>Dzień</td><td>Konto</td><td>Kwota</td><td>Sklep</td><td>Dla kogo</td><td>Opis</td>
             </tr>
 <!--            TODO sortowanie od najnowszej?-->
-            <tr th:each="transaction : ${transactions}">
+            <tr th:each="transaction : ${position.transactionsDto}">
                 <td th:text="${transaction.day}"></td>
                 <td>
                     <a th:href="@{/accountView/{hash}(hash=${transaction.account.hash})}"

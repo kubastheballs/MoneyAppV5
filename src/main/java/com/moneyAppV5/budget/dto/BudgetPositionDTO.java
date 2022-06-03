@@ -3,10 +3,12 @@ package com.moneyAppV5.budget.dto;
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.Category;
+import com.moneyAppV5.category.dto.CategoryDTO;
 import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +23,11 @@ public class BudgetPositionDTO
     private String description;
     private Integer hash;
     private List<TransactionDTO> transactionsDto;
+//    TODO jeśli będą usunięte normalne obiekty to usunąc dopisek dto z nazwy
+    private BudgetDTO budgetDto;
+    private CategoryDTO categoryDto;
+    private LinkedHashMap<String, Double> dailyView;
+    private double usage;
 
      public BudgetPositionDTO()
     {
@@ -41,7 +48,7 @@ public class BudgetPositionDTO
 
     public BudgetPositionDTO(BudgetPosition position)
     {
-        this.category = position.getCategory();
+//        this.category = position.getCategory();
 //        this.budget = position.getBudget();
 //        this.transactions = position.getTransactions();
         this.plannedAmount = position.getPlannedAmount();
@@ -143,5 +150,37 @@ public class BudgetPositionDTO
 
     public void setTransactionsDto(List<TransactionDTO> transactionsDto) {
         this.transactionsDto = transactionsDto;
+    }
+
+    public BudgetDTO getBudgetDto() {
+        return budgetDto;
+    }
+
+    public void setBudgetDto(BudgetDTO budgetDto) {
+        this.budgetDto = budgetDto;
+    }
+
+    public CategoryDTO getCategoryDto() {
+        return categoryDto;
+    }
+
+    public void setCategoryDto(CategoryDTO categoryDto) {
+        this.categoryDto = categoryDto;
+    }
+
+    public LinkedHashMap<String, Double> getDailyView() {
+        return dailyView;
+    }
+
+    public void setDailyView(LinkedHashMap<String, Double> dailyView) {
+        this.dailyView = dailyView;
+    }
+
+    public double getUsage() {
+        return usage;
+    }
+
+    public void setUsage(double usage) {
+        this.usage = usage;
     }
 }

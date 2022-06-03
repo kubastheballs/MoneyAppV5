@@ -56,13 +56,17 @@
         <tr th:each="position : ${budget.incomesDto}">
 <!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
             <td >
-                <a th:href="@{/positionView/{hash}(hash=${position.hash})}"
-                   th:text="${position.category.category}"></a>
+                <a th:href="@{/categoryView/{hash}(hash=${position.categoryDto.hash})}"
+                   th:text="${position.categoryDto.category}"></a>
             </td>
             <td th:text="${position.plannedAmount}"></td>
             <td  th:text="${position.actualAmount}"></td>
             <td  th:text="${position.balance}"></td>
             <td  th:text="${position.description}"></td>
+            <td>
+                <a th:href="@{/positionView/{hash}(hash=${position.hash})}"
+                   th:text="Szczegóły"></a>
+            </td>
 <!--        TODO zrobienie podlisty z subkategoriami - czy chdzi o tr wewnątrz tr? jest nie zamknięty bo ten od głównego go domyka-->
 <!--        TODO wyciągnięcie listy subkategorii-->
                 <tr>
@@ -84,13 +88,17 @@
             <!--            TODO póki co w najprostszej postaci - póxniej zrobić tak aby była głowna kategoria i w niej podkategorie-->
             <!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
             <td >
-                <a th:href="@{/positionView/{hash}(hash=${position.hash})}"
-                   th:text="${position.category.category}"></a>
+                <a th:href="@{/categoryView/{hash}(hash=${position.categoryDto.hash})}"
+                   th:text="${position.categoryDto.category}"></a>
             </td>
             <td th:text="${position.plannedAmount}"></td>
             <td  th:text="${position.actualAmount}"></td>
             <td  th:text="${position.balance}"></td>
             <td  th:text="${position.description}"></td>
+            <td>
+                <a th:href="@{/positionView/{hash}(hash=${position.hash})}"
+                   th:text="Szczegóły"></a>
+            </td>
             <!--        TODO zrobienie podlisty z subkategoriami - czy chdzi o tr wewnątrz tr? jest nie zamknięty bo ten od głównego go domyka-->
             <!--        TODO wyciągnięcie listy subkategorii-->
     </table>

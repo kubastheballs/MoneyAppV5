@@ -1,17 +1,16 @@
 package com.moneyAppV5.budget.controller;
 
-import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.budget.dto.BudgetPositionDTO;
 import com.moneyAppV5.budget.service.BudgetService;
-import com.moneyAppV5.category.Type;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/budgetView/{hash}/plan")
@@ -30,13 +29,10 @@ class BudgetPlanViewController
         var budget = this.service.readBudgetByHash(hash);
         var result = this.service.readBudgetPlanAsDto(budget);
 
+        model.addAttribute("incomePositions", result.getIncomesDto());
         model.addAttribute("message", String.format("Planowanie budżetu: %s/%s", result.getMonth(), result.getYear()));
         model.addAttribute("budget", result);
         model.addAttribute("position", new BudgetPositionDTO());
-
-        System.out.println("111111111111111");
-        for (BudgetPositionDTO p : result.getIncomesDto())
-        System.out.println(p);
 
 //        model.addAttribute("incomePositions", this.service.readPositionsDtoByBudgetAndType(budget, Type.INCOME));
 //        model.addAttribute("expensePositions", this.service.readPositionsDtoByBudgetAndType(budget, Type.EXPENSE));
@@ -47,7 +43,7 @@ class BudgetPlanViewController
 
 
     @PostMapping()
-    String addBudgetPlan(@ModelAttribute("budget") @Valid BudgetDTO current, BindingResult bindingResult, Model model, @PathVariable("hash") Integer hash)
+    String addBudgetPlan(@ModelAttribute("positions") @Valid ArrayList<BudgetPositionDTO> current, BindingResult bindingResult, Model model, @PathVariable("hash") Integer hash)
     {
         if (bindingResult.hasErrors())
         {
@@ -59,8 +55,16 @@ class BudgetPlanViewController
         var budget = this.service.readBudgetByHash(hash);
         var result = this.service.readBudgetPlanAsDto(budget);
 
-//        result.setIncomes(this.service.readPositionsDtoByBudgetAndType(budget, Type.INCOME));
+        System.out.println("222222");
+        System.out.println(current);
 
+//        TODO zapis zaplanowanych wartości do bazy
+        this.service.updatePlannedAmountInPositions(current);
+//        this.service.updatePlannedAmountInPositions(current);
+//        TODO powinno zaczytywać zaplanwoane wartości z bazy do wyświetlenia
+
+//        result.setIncomes(this.service.readPositionsDtoByBudgetAndType(budget, Type.INCOME));
+        model.addAttribute("incomePositions", result.getIncomesDto());
         model.addAttribute("message", String.format("Budżet: %s/%s", result.getMonth(), result.getYear()));
         model.addAttribute("budget", result);
         model.addAttribute("position", new BudgetPositionDTO());

@@ -112,4 +112,9 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
             " on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where (BUDGET_ID = :budgetId and " +
             "account_id = :accountId and TYPE = :type)")
     Optional<Double> sumTransactionsByBudgetIdAndAccountIdAndType(Integer budgetId, Integer accountId, String type);
+
+    @Override
+    @Query(nativeQuery = true, value = "select sum (amount) from TRANSACTIONS where (BUDGET_position_ID = :positionId and " +
+            "day = :day)")
+    Optional<Double> sumTransactionsByDayAdnPositionId(Integer day, Integer positionId);
 }

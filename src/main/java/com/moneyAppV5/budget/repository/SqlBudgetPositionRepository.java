@@ -2,9 +2,11 @@ package com.moneyAppV5.budget.repository;
 
 import com.moneyAppV5.budget.BudgetPosition;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +37,12 @@ public interface SqlBudgetPositionRepository extends BudgetPositionRepository, J
             " on BUDGET_POSITIONS.CATEGORY_ID = CATEGORIES.ID where (BUDGET_ID = :budgetId and " +
             "TYPE = :type)", nativeQuery = true)
     Optional<Double> sumPlannedByBudgetIdAndType(Integer budgetId, String type);
+
+    @Override
+    @Modifying
+    @Transactional
+    @Query(value = "update BUDGET_POSITIONS set PLANNED_AMOUNT = :planned where HASH = :hash", nativeQuery = true)
+    void setPlannedAmountByPositionHash(Double planned, Integer hash);
 
 //    @Override
 //    @Query(nativeQuery = true, value = "select * from BUDGET_POSITIONS where BUDGET_ID = :budget.id")

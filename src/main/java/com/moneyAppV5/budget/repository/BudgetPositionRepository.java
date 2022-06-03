@@ -19,13 +19,15 @@ public interface BudgetPositionRepository
 
     BudgetPosition save(BudgetPosition entity);
 
-    BudgetPosition findByHash(Integer hash);
+    Optional<BudgetPosition> findByHash(Integer hash);
 
     List<BudgetPosition> findPositionsByBudgetIdAndType(Integer budgetId, String type);
 
     BudgetPosition findByHashAndCategoryId(Integer hash, int id);
 
     Optional<Double> sumPlannedByBudgetIdAndType(Integer budgetId, String type);
+
+    void setPlannedAmountByPositionHash(Double planned, Integer hash);
 
 //    List<BudgetPosition> getBudgetPositionsByTypeAndBudget(Budget budget, Type type);
 //    List<BudgetPosition> getBudgetPositionsByBudget(Budget budget);

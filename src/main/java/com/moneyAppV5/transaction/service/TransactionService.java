@@ -278,4 +278,9 @@ public class TransactionService
     {
         return this.repository.sumTransactionsByBudgetIdAndAccountIdAndType(budgetId, accountId, type.name()).orElse(0.0);
     }
+
+    public double sumTransactionsByDayAdnPositionId(String day, int positionId) 
+    {
+        return this.repository.sumTransactionsByDayAdnPositionId(Integer.valueOf(day), positionId).orElse(0.0);
+    }
 }
