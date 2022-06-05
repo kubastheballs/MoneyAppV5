@@ -29,6 +29,8 @@ public interface BudgetPositionRepository
 
     void setPlannedAmountByPositionHash(Double planned, Integer hash);
 
+    boolean existsByHash(Integer hash);
+
 //    List<BudgetPosition> getBudgetPositionsByTypeAndBudget(Budget budget, Type type);
 //    List<BudgetPosition> getBudgetPositionsByBudget(Budget budget);
 

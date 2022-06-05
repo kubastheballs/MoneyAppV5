@@ -22,4 +22,6 @@ public interface BudgetRepository
     Budget findByHash(Integer hash);
 
     Optional<Integer> findNewestBudgetHash();
+
+    Optional<Integer> readBudgetIdByBudgetHash(Integer hash);
 }

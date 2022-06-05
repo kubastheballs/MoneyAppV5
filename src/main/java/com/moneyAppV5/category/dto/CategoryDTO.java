@@ -4,13 +4,9 @@ import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.SubCategory;
 import com.moneyAppV5.category.Type;
-import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 
-import javax.persistence.SecondaryTable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class CategoryDTO
 {

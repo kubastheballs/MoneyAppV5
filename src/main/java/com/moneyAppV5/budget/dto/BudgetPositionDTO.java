@@ -2,19 +2,17 @@ package com.moneyAppV5.budget.dto;
 
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
-import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.dto.CategoryDTO;
 import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
 public class BudgetPositionDTO
 {
-    private Category category;
+//    private Category category;
     private Budget budget;
     private List<TransactionDTO> transactions;
     private double plannedAmount;
@@ -25,7 +23,7 @@ public class BudgetPositionDTO
     private List<TransactionDTO> transactionsDto;
 //    TODO jeśli będą usunięte normalne obiekty to usunąc dopisek dto z nazwy
     private BudgetDTO budgetDto;
-    private CategoryDTO categoryDto;
+    private CategoryDTO category;
     private LinkedHashMap<String, Double> dailyView;
     private double usage;
 
@@ -35,7 +33,7 @@ public class BudgetPositionDTO
 
 //    TODO czy transakcje są potrzebne?
 
-    BudgetPositionDTO(Category category, Budget budget, Set<Transaction> transactions, double plannedAmount, double actualAmount, double balance, String description)
+    BudgetPositionDTO(CategoryDTO category, Budget budget, Set<Transaction> transactions, double plannedAmount, double actualAmount, double balance, String description)
     {
         this.category = category;
         this.budget = budget;
@@ -51,15 +49,23 @@ public class BudgetPositionDTO
 //        this.category = position.getCategory();
 //        this.budget = position.getBudget();
 //        this.transactions = position.getTransactions();
+        this.category = new CategoryDTO(position.getCategory());
         this.plannedAmount = position.getPlannedAmount();
-       this.description = position.getDescription();
+        this.description = position.getDescription();
         this.hash = position.getHash();
+    }
+
+    public BudgetPositionDTO(CategoryDTO category, double plannedAmount, int hash)
+    {
+        this.category = category;
+        this.plannedAmount = plannedAmount;
+        this.hash = hash;
     }
 
     BudgetPosition toBudgetPosition()
     {
         var result = new BudgetPosition();
-        result.setCategory(this.category);
+        result.setCategory(this.category.toCategory());
         result.setBudget(this.budget);
 //        result.setTransactions(new HashSet<>(this.transactions));
         result.setPlannedAmount(this.plannedAmount);
@@ -69,13 +75,13 @@ public class BudgetPositionDTO
         return result;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+//    public Category getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(Category category) {
+//        this.category = category;
+//    }
 
     public Budget getBudget() {
         return budget;
@@ -160,12 +166,12 @@ public class BudgetPositionDTO
         this.budgetDto = budgetDto;
     }
 
-    public CategoryDTO getCategoryDto() {
-        return categoryDto;
+    public CategoryDTO getCategory() {
+        return category;
     }
 
-    public void setCategoryDto(CategoryDTO categoryDto) {
-        this.categoryDto = categoryDto;
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
     }
 
     public LinkedHashMap<String, Double> getDailyView() {

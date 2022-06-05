@@ -13,7 +13,7 @@
     <!--/*@thymesVar id="budget" type="com.moneyAppV5.budget.dto.BudgetDTO"*/-->
     <!--/*@thymesVar id="position" type="com.moneyAppV5.budget.dto.BudgetPositionDTO"*/-->
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
-    <!--/*@thymesVar id="positions" type="java.util.ArrayList<com.moneyAppV5.budget.dto.BudgetPositionDTO>"*/-->
+    <!--/*@thymesVar id="positions" type="com.moneyAppV5.budget.dto.BudgetPositionsWrapperDTO"*/-->
 
     <h1 th:if="${message != null}" th:text="${message}"></h1>
     <p>
@@ -25,17 +25,26 @@
         <a th:href="@{/categories}">Przejdź do kategorii</a>
     </p>
 
-    <form action="#" method="post" th:action="@{/budgetView/{hash}/plan(hash=${hash})}" th:object="${incomePositions}">
+    <form action="#" method="post" th:action="@{/budgetView/{budgetHash}/plan(budgetHash=${budgetHash})}" th:object="${positions}">
         <h2>Plan dochodów</h2>
         <fieldset>
-
             <table>
-                <tr th:each="position, positionStat : ${incomePositions}">
-                    <td th:text="${position.categoryDto.category}"></td>
+                <tr th:each="position, positionStat : *{list}">
+                    <td th:text="*{list[__${positionStat.index}__].category.category}">
+                        <input type="hidden" th:field="*{list[__${positionStat.index}__].category}"/>
+                    </td>
+<!--                    <td th:text="*{position.categoryDto.category}"></td>-->
+<!--                    <td>&lt;!&ndash;                        <input type="hidden" th:value="${position.categoryDto}" th:field="*{list[__${positionStat.index}__].categoryDto}">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <input type="hidden" th:field="*{list[__${positionStat.index}__].categoryDto}">&ndash;&gt;-->
+<!--                    </td>-->
+<!--                    <td>  &lt;!&ndash;                        <input type="hidden" th:value="${position.hash}" th:field="*{list[__${positionStat.index}__].hash}">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <input type="hidden" th:field="*{list[__${positionStat.index}__].hash}">&ndash;&gt;-->
+<!--                    </td>-->
                     <td >
-                        <input type="number" th:field="${incomePositions[__${positionStat.index}__].plannedAmount}" >
+                        <input type="number" th:field="*{list[__${positionStat.index}__].plannedAmount}" >
 <!--                        <input type="number" th:field="${position.plannedAmount}" >-->
                     </td>
+                    <input type="hidden" th:field="*{list[__${positionStat.index}__].hash}">
                 </tr>
             </table>
 <!--TODO jak to ogarnąć-->

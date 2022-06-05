@@ -6,6 +6,7 @@ import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.budget.dto.BudgetPositionDTO;
+import com.moneyAppV5.budget.dto.BudgetPositionsWrapperDTO;
 import com.moneyAppV5.budget.repository.BudgetPositionRepository;
 import com.moneyAppV5.budget.repository.BudgetRepository;
 import com.moneyAppV5.category.Category;
@@ -47,7 +48,7 @@ public class BudgetService
         var position = new BudgetPositionDTO(bp);
         var actual = sumTransactionsByPositionId(bp.getId());
 
-        position.setCategoryDto(new CategoryDTO(bp.getCategory()));
+        position.setCategory(new CategoryDTO(bp.getCategory()));
         position.setActualAmount(actual);
         position.setBalance(position.getPlannedAmount() - actual);
         position.setTransactionsDto(this.transactionService.readTransactionsByBudgetPositionIdAsDto(bp.getId()));
@@ -64,7 +65,7 @@ public class BudgetService
         position.setActualAmount(this.transactionService.sumTransactionsByPositionId(bp.getId()));
         position.setUsage((position.getActualAmount() / position.getPlannedAmount()) * 100);
         position.setBudgetDto(new BudgetDTO(bp.getBudget()));
-        position.setCategoryDto(new CategoryDTO(bp.getCategory()));
+        position.setCategory(new CategoryDTO(bp.getCategory()));
         position.setDailyView(sumDailyTransactionsByPositionIdAndMonth(bp.getId(), Month.of(bp.getBudget().getMonth()).length(Year.isLeap(bp.getBudget().getMonth()))));
         position.setTransactionsDto(this.transactionService.readTransactionsByBudgetPositionIdAsDto(bp.getId()));
 
@@ -393,18 +394,55 @@ public class BudgetService
         return new BudgetDTO(readBudgetByMonthAndYear(month, year));
     }
 
-    public void updatePlannedAmountInPositions(List<BudgetPositionDTO> current)
+    public void updatePlannedAmountInPositions(BudgetPositionsWrapperDTO current)
     {
-        System.out.println("1111");
-        for (BudgetPositionDTO bp : current)
+        for (BudgetPositionDTO bp : current.getList())
         {
-            System.out.println("xx");
-            System.out.println(bp);
-            System.out.println(bp.getPlannedAmount());
-            this.positionsRepository.findByHash(bp.getHash())
-                    .ifPresent(b -> {
-                        this.positionsRepository.setPlannedAmountByPositionHash(bp.getPlannedAmount(), bp.getHash());
-                    });
+            if (this.positionsRepository.existsByHash(bp.getHash()))
+                this.positionsRepository.setPlannedAmountByPositionHash(bp.getPlannedAmount(), bp.getHash());
         }
+    }
+
+    public List<BudgetPositionDTO> readPositionsByBudgetIdAsDto(Integer budgetId)
+    {
+        var list = new ArrayList<BudgetPositionDTO>();
+
+        for (BudgetPosition bp : readPositionsByBudgetId(budgetId))
+            list.add(new BudgetPositionDTO(bp));
+
+        return list;
+    }
+
+    public BudgetPositionsWrapperDTO readPositionsWrapperAsDto(int hash)
+    {
+        var positions = new BudgetPositionsWrapperDTO();
+        positions.setList(readPositionsByBudgetHashAsDto(hash));
+
+//        System.out.println();
+//        System.out.println("1234");
+//        for (BudgetPositionDTO bp : positions.getList()) {
+//            System.out.println(bp.getHash());
+//            System.out.println(bp.getCategory());
+//            System.out.println(bp.getPlannedAmount());
+//            System.out.println();
+//        }
+        return positions;
+    }
+
+    private List<BudgetPositionDTO> readPositionsByBudgetHashAsDto(Integer hash)
+    {
+        var budgetId = readBudgetIdByBudgetHash(hash);
+
+        var list = new ArrayList<BudgetPositionDTO>();
+
+        for (BudgetPosition bp : readPositionsByBudgetId(budgetId))
+            list.add(new BudgetPositionDTO(bp));
+
+        return list;
+    }
+
+    private int readBudgetIdByBudgetHash(Integer hash)
+    {
+        return this.repository.readBudgetIdByBudgetHash(hash).orElseThrow();
     }
 }
