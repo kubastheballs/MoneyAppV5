@@ -30,8 +30,8 @@
         <fieldset>
             <table>
                 <tr th:each="position, positionStat : *{list}">
-                    <td th:text="*{list[__${positionStat.index}__].category.category}">
-                        <input type="hidden" th:field="*{list[__${positionStat.index}__].category}"/>
+                    <td th:text="${position.category.category}">
+
                     </td>
 <!--                    <td th:text="*{position.categoryDto.category}"></td>-->
 <!--                    <td>&lt;!&ndash;                        <input type="hidden" th:value="${position.categoryDto}" th:field="*{list[__${positionStat.index}__].categoryDto}">&ndash;&gt;-->
@@ -44,6 +44,12 @@
                         <input type="number" th:field="*{list[__${positionStat.index}__].plannedAmount}" >
 <!--                        <input type="number" th:field="${position.plannedAmount}" >-->
                     </td>
+                    <input type="hidden" th:field="*{list[__${positionStat.index}__].category.mainCategory}"/>
+                    <input type="hidden" th:field="*{list[__${positionStat.index}__].category.subCategory}"/>
+                    <input type="hidden" th:field="*{list[__${positionStat.index}__].category.category}"/>
+                    <input type="hidden" th:field="*{list[__${positionStat.index}__].category.type}"/>
+                    <input type="hidden" th:field="*{list[__${positionStat.index}__].category.hash}"/>
+
                     <input type="hidden" th:field="*{list[__${positionStat.index}__].hash}">
                 </tr>
             </table>

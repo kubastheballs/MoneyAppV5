@@ -418,14 +418,6 @@ public class BudgetService
         var positions = new BudgetPositionsWrapperDTO();
         positions.setList(readPositionsByBudgetHashAsDto(hash));
 
-//        System.out.println();
-//        System.out.println("1234");
-//        for (BudgetPositionDTO bp : positions.getList()) {
-//            System.out.println(bp.getHash());
-//            System.out.println(bp.getCategory());
-//            System.out.println(bp.getPlannedAmount());
-//            System.out.println();
-//        }
         return positions;
     }
 

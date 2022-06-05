@@ -48,6 +48,9 @@ class BudgetPlanViewController
         {
             model.addAttribute("message", "Błędne dane!");
 
+//         https://stackoverflow.com/questions/49222177/pass-object-in-spring-form-input-hidden-springmvc
+//            TODO teraz wywala błędne dane gdy categoryDTO jest rozpisane na elementy składowe jak w ww wątku
+
             System.out.println("error");
             for (BudgetPositionDTO bp : current.getList())
             {
@@ -65,7 +68,7 @@ class BudgetPlanViewController
         this.service.updatePlannedAmountInPositions(current);
 
         model.addAttribute("budgetHash", hash);
-        model.addAttribute("positions", this.service.readPositionsWrapperAsDto(hash));
+        model.addAttribute("positions", current);
         model.addAttribute("message", String.format("Budżet: %s/%s", result.getMonth(), result.getYear()));
         model.addAttribute("budget", result);
 //        model.addAttribute("position", new BudgetPositionDTO());
@@ -78,7 +81,7 @@ class BudgetPlanViewController
             System.out.println("hash " + bp.getHash());
 //            TODO dlaczego category jest null?
             System.out.println("categoryDto " + bp.getCategory());
-//            System.out.println("category " + bp.getCategory());
+            System.out.println("category " + bp.getCategoryString());
             System.out.println("planned " + bp.getPlannedAmount());
             System.out.println();
         }

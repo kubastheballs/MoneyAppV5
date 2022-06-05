@@ -26,6 +26,7 @@ public class BudgetPositionDTO
     private CategoryDTO category;
     private LinkedHashMap<String, Double> dailyView;
     private double usage;
+    private String categoryString;
 
      public BudgetPositionDTO()
     {
@@ -49,7 +50,8 @@ public class BudgetPositionDTO
 //        this.category = position.getCategory();
 //        this.budget = position.getBudget();
 //        this.transactions = position.getTransactions();
-        this.category = new CategoryDTO(position.getCategory());
+        this.category = position.getCategory().toDto();
+        this.categoryString = position.getCategory().getCategory();
         this.plannedAmount = position.getPlannedAmount();
         this.description = position.getDescription();
         this.hash = position.getHash();
@@ -58,6 +60,13 @@ public class BudgetPositionDTO
     public BudgetPositionDTO(CategoryDTO category, double plannedAmount, int hash)
     {
         this.category = category;
+        this.plannedAmount = plannedAmount;
+        this.hash = hash;
+    }
+
+    public BudgetPositionDTO(String category, double plannedAmount, int hash)
+    {
+        this.categoryString = category;
         this.plannedAmount = plannedAmount;
         this.hash = hash;
     }
@@ -188,5 +197,13 @@ public class BudgetPositionDTO
 
     public void setUsage(double usage) {
         this.usage = usage;
+    }
+
+    public String getCategoryString() {
+        return categoryString;
+    }
+
+    public void setCategoryString(String categoryString) {
+        this.categoryString = categoryString;
     }
 }

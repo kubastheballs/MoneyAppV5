@@ -1,6 +1,7 @@
 package com.moneyAppV5.category;
 
 import com.moneyAppV5.budget.BudgetPosition;
+import com.moneyAppV5.category.dto.CategoryDTO;
 import com.moneyAppV5.transaction.Transaction;
 
 import javax.persistence.*;
@@ -163,5 +164,18 @@ public class Category
     public String toDisplay()
     {
         return String.format("%s : %s", this.mainCategory.getMainCategory(), this.subCategory.getSubCategory());
+    }
+
+    public CategoryDTO toDto()
+    {
+        var dto = new CategoryDTO();
+
+        dto.setMainCategory(this.mainCategory);
+        dto.setSubCategory(this.subCategory);
+        dto.setCategory(toDisplay());
+        dto.setType(this.type);
+        dto.setHash(this.hash);
+
+        return dto;
     }
 }
