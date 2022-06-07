@@ -13,6 +13,8 @@
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
     <h1 th:if="${message != null}" th:text="${message}"></h1>
     <!--/*@thymesVar id="account" type="com.moneyAppV5.account.dto.AccountDTO"*/-->
+    <a th:href="@{/moneys}">Strona główna</a>
+
 <form action="#" method="post" th:action="@{/accounts}" th:object="${account}">
     <fieldset>
         <legend>Nowe konto</legend>
@@ -33,7 +35,10 @@
         <button type="reset">Wyczyść</button>
     </p>
 </form>
-    <a th:href="@{/moneys}">Strona główna</a>
+    <div>
+        <label>Suma bieżących sald kont: </label>
+        <label th:text="${allAccountsSum}"></label>
+    </div>
     <div>
         <p>Konta</p>
         <table>

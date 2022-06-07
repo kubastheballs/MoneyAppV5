@@ -11,7 +11,9 @@ import java.util.List;
 public class CategoryDTO
 {
     private MainCategory mainCategory;
+    private MainCategoryDTO mainCategoryDto;
     private SubCategory subCategory;
+    private SubCategoryDTO subCategoryDto;
     private String main;
     private String sub;
     private String category;
@@ -56,8 +58,8 @@ public class CategoryDTO
 
     public CategoryDTO(Category category)
     {
-        this.mainCategory = category.getMainCategory();
-        this.subCategory = category.getSubCategory();
+        this.mainCategoryDto = new MainCategoryDTO(category.getMainCategory());
+        this.subCategoryDto = new SubCategoryDTO(category.getSubCategory());
         this.type = category.getType();
         this.category = toDisplay(category.getMainCategory().getMainCategory(), category.getSubCategory().getSubCategory());
         this.hash = category.getHash();

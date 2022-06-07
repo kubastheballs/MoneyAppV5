@@ -47,17 +47,18 @@ class BudgetPlanViewController
         if (bindingResult.hasErrors())
         {
             model.addAttribute("message", "Błędne dane!");
+            System.out.println(bindingResult.getModel());
 
 //         https://stackoverflow.com/questions/49222177/pass-object-in-spring-form-input-hidden-springmvc
-//            TODO teraz wywala błędne dane gdy categoryDTO jest rozpisane na elementy składowe jak w ww wątku
+//            TODO teraz wywala błędne dane gdy categoryDTO jest rozpisane na elementy składowe jak w ww wątku - jest już ok trzeba było też pomniejsze obiekty rozpisać
 
-            System.out.println("error");
-            for (BudgetPositionDTO bp : current.getList())
-            {
-                System.out.println(bp.getHash());
-                System.out.println(bp.getCategory());
-                System.out.println(bp.getPlannedAmount());
-            }
+//            System.out.println("error");
+//            for (BudgetPositionDTO bp : current.getList())
+//            {
+//                System.out.println(bp.getHash());
+//                System.out.println(bp.getCategory());
+//                System.out.println(bp.getPlannedAmount());
+//            }
 
             return "budgetPlan";
         }

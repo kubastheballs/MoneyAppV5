@@ -63,7 +63,7 @@ public class BudgetService
         position.setHash(bp.getHash());
         position.setPlannedAmount(bp.getPlannedAmount());
         position.setActualAmount(this.transactionService.sumTransactionsByPositionId(bp.getId()));
-        position.setUsage((position.getActualAmount() / position.getPlannedAmount()) * 100);
+        position.setUsage((int) ((position.getActualAmount() / position.getPlannedAmount()) * 100));
         position.setBudgetDto(new BudgetDTO(bp.getBudget()));
         position.setCategory(new CategoryDTO(bp.getCategory()));
         position.setDailyView(sumDailyTransactionsByPositionIdAndMonth(bp.getId(), Month.of(bp.getBudget().getMonth()).length(Year.isLeap(bp.getBudget().getMonth()))));

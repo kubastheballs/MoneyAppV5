@@ -25,7 +25,7 @@ public class BudgetPositionDTO
     private BudgetDTO budgetDto;
     private CategoryDTO category;
     private LinkedHashMap<String, Double> dailyView;
-    private double usage;
+    private int usage;
     private String categoryString;
 
      public BudgetPositionDTO()
@@ -191,11 +191,11 @@ public class BudgetPositionDTO
         this.dailyView = dailyView;
     }
 
-    public double getUsage() {
+    public int getUsage() {
         return usage;
     }
 
-    public void setUsage(double usage) {
+    public void setUsage(int usage) {
         this.usage = usage;
     }
 

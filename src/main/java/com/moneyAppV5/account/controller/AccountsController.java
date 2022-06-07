@@ -28,6 +28,7 @@ class AccountsController
     String showAccounts(Model model)
     {
         model.addAttribute("account", new AccountDTO());
+        model.addAttribute("allAccountsSum", this.service.sumAllAccountsBalances());
         return "accounts";
     }
 
@@ -58,6 +59,7 @@ class AccountsController
         model.addAttribute("account", new AccountDTO());
         model.addAttribute("accounts", getAccountsDTO());
         model.addAttribute("message", "Dodano konto!");
+        model.addAttribute("allAccountsSum", this.service.sumAllAccountsBalances());
 
         return "accounts";
     }
@@ -73,6 +75,8 @@ class AccountsController
 //        TODO pobieranie name?
         return this.service.readAccountByName("name").getId();
     }
+
+
 
 //    @GetMapping(params = {"!sort", "!page", "!size"})
 //    ResponseEntity<List<Account>> readAllAccounts() {

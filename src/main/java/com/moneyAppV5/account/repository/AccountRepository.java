@@ -24,4 +24,6 @@ public interface AccountRepository
     Optional<Account> findByHash(Integer hash);
 
     boolean existsByName(String name);
+
+    Optional<Double> sumAllAccountsBalances();
 }

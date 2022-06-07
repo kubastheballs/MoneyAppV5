@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Repository
 interface SqlAccountRepository extends AccountRepository, JpaRepository<Account, Integer>
@@ -20,4 +21,8 @@ interface SqlAccountRepository extends AccountRepository, JpaRepository<Account,
     @Modifying
     @Query(nativeQuery = true, value = "update ACCOUNTS set ACTUAL_BALANCE = ACTUAL_BALANCE + :amount where ID = :id")
     void changeBalance(Integer id, double amount);
+
+    @Override
+    @Query(value = "select  sum (ACTUAL_BALANCE) from ACCOUNTS", nativeQuery = true)
+    Optional<Double> sumAllAccountsBalances();
 }

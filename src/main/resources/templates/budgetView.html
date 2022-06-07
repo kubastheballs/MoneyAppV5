@@ -21,7 +21,7 @@
 
     <a th:href="@{/moneys}">Strona główna</a>
     <a th:href="@{/budgets}">Lista budżetów</a>
-    <!--    TODO przejście przez hash?-->
+    <a th:href="@{/budgetView/{hash}/plan(hash=${hash})}">Plan budżetu</a>
     <a th:href="@{/budgetView/{hash}/addTransaction(hash=${hash})}">Dodaj transakcje</a>
     <a th:href="@{/categories}">Przejdź do kategorii</a>
 </p>
@@ -56,8 +56,8 @@
         <tr th:each="position : ${budget.incomesDto}">
 <!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
             <td >
-                <a th:href="@{/categoryView/{hash}(hash=${position.categoryDto.hash})}"
-                   th:text="${position.categoryDto.category}"></a>
+                <a th:href="@{/categoryView/{hash}(hash=${position.category.hash})}"
+                   th:text="${position.category.category}"></a>
             </td>
             <td th:text="${position.plannedAmount}"></td>
             <td  th:text="${position.actualAmount}"></td>
@@ -88,8 +88,8 @@
             <!--            TODO póki co w najprostszej postaci - póxniej zrobić tak aby była głowna kategoria i w niej podkategorie-->
             <!--            TODO czy na pewno wartości powinny się zaczytywać z pozycji a nie być obliczane?-->
             <td >
-                <a th:href="@{/categoryView/{hash}(hash=${position.categoryDto.hash})}"
-                   th:text="${position.categoryDto.category}"></a>
+                <a th:href="@{/categoryView/{hash}(hash=${position.category.hash})}"
+                   th:text="${position.category.category}"></a>
             </td>
             <td th:text="${position.plannedAmount}"></td>
             <td  th:text="${position.actualAmount}"></td>

@@ -207,4 +207,9 @@ public class AccountService {
 
         return sum;
     }
+
+    public double sumAllAccountsBalances()
+    {
+       return this.repository.sumAllAccountsBalances().orElse(0.0);
+    }
 }

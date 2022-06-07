@@ -33,6 +33,7 @@ public class PositionViewController
 //        var budget = new BudgetDTO(this.service.readBudgetById(position.getBudget().getId()));
 
         model.addAttribute("position", result);
+        model.addAttribute("budgetHash", result.getBudgetDto().getHash());
 //        model.addAttribute("budget", budget);
 //        model.addAttribute("dailySums", this.service.sumDailyTransactionsByPositionIdAndMonth(position.getId(), Month.of(budget.getMonth()).length(Year.isLeap(budget.getMonth()))));
 //        model.addAttribute("monthLength", Month.of(budget.getMonth()).length(Year.isLeap(budget.getMonth())));

@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pozycja budżetu</title>
+    <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_black.css">
 </head>
 <body>
 <main>
@@ -19,13 +20,20 @@
         <label th:text="${position.budgetDto.name}"></label>
     </p>
     <p>
+        <a th:href="@{/moneys}">Strona główna</a>
+        <a th:href="@{/budgets}">Lista budżetów</a>
+        <a th:href="@{/budgetView/{budgetHash}/(budgetHash=${budgetHash})}">Powrót do budżetu</a>
+        <a th:href="@{/budgetView/{budgetHash}/addTransaction(budgetHash=${budgetHash})}">Dodaj transakcje</a>
+        <a th:href="@{/categories}">Przejdź do kategorii</a>
+    </p>
+    <p>
         <label>Kategoria: </label>
 <!--        TODO kategoria pozycji-->
-        <a th:href="@{/categoryView/{hash}(hash=${position.categoryDto.hash})}"
-           th:text="${position.categoryDto.category}"></a>
+        <a th:href="@{/categoryView/{hash}(hash=${position.category.hash})}"
+           th:text="${position.category.category}"></a>
         <!--        TODO typ pozycji - dodać link jw-->
         <p>Typ pozycji:
-           <label th:text="${position.categoryDto.type}"></label>
+           <label th:text="${position.category.type}"></label>
     </p>
 <!--    TODO statystyki jak we wszystkich - bieżący miesiąc kwaretał itd - no nie bo pozycja jest przypisana do danego miesiąca-->
 <!--    TODO wymyślić inne statystyki-->
@@ -54,13 +62,12 @@
             </tr>
             <tr>
                 <td>Saldo transakcji: </td>
-<!--                TODO placeholder na saldo transakcji z danego dnia-->
                 <td th:each="day : ${position.dailyView}" th:text="${day.value}"></td>
             </tr>
         </table>
     </div>
     <div>
-<!--        TODO lista transakcji w danej pozycji - tabelka-->
+        <h3>Transakcje</h3>
         <table>
             <tr>
                 <td>Dzień</td><td>Konto</td><td>Kwota</td><td>Sklep</td><td>Dla kogo</td><td>Opis</td>
