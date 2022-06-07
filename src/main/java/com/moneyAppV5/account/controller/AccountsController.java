@@ -29,24 +29,19 @@ class AccountsController
     {
         model.addAttribute("account", new AccountDTO());
         model.addAttribute("allAccountsSum", this.service.sumAllAccountsBalances());
+
         return "accounts";
     }
 
     @PostMapping()
     String addAccount(@ModelAttribute("account") @Valid AccountDTO current, BindingResult bindingResult, Model model)
     {
-        System.out.println("czemu nie działa?");
-        System.out.println(current.getName());
-        System.out.println(current.getActualBalance());
-        System.out.println(current.getTransactions());
         if (bindingResult.hasErrors())
         {
             model.addAttribute("message", "Błędne dane!");
 
             return "accounts";
         }
-
-//        TODO odświeżenie strony (F5) powoduje ponowne dodanie do bazy jak temu zapobiec?
 
         if (this.service.existsByName(current.getName()))
         {
@@ -56,8 +51,9 @@ class AccountsController
         }
 
         this.service.createAccount(current);
+
         model.addAttribute("account", new AccountDTO());
-        model.addAttribute("accounts", getAccountsDTO());
+        model.addAttribute("accounts", getAccountsDto());
         model.addAttribute("message", "Dodano konto!");
         model.addAttribute("allAccountsSum", this.service.sumAllAccountsBalances());
 
@@ -65,49 +61,8 @@ class AccountsController
     }
 
     @ModelAttribute("accounts")
-    List<AccountDTO> getAccountsDTO()
+    List<AccountDTO> getAccountsDto()
     {
         return this.service.readAllAccountsDTO();
     }
-
-    Integer getAccountIdByName()
-    {
-//        TODO pobieranie name?
-        return this.service.readAccountByName("name").getId();
-    }
-
-
-
-//    @GetMapping(params = {"!sort", "!page", "!size"})
-//    ResponseEntity<List<Account>> readAllAccounts() {
-//        logger.warn("Exposing all the accounts!");
-//        return ResponseEntity.ok(this.service.readAllAccounts());
-//    }
-
-//    @PostMapping
-//    ResponseEntity<Account> createAccount(@RequestBody @Valid Account toCreate) {
-//        Account result = this.service.createAccount(toCreate);
-//
-//        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
-//    }
-//
-//    @GetMapping("/{id}")
-//    ResponseEntity<Account> readAccount(@PathVariable int id) {
-//        return this.service.readAccountById(id)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @PutMapping("/{id}")
-//    ResponseEntity<?> updateAccount(@PathVariable int id, @RequestBody @Valid Account toUpdate) {
-//        if (!this.service.existsById(id)) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        this.service.readAccountById(id)
-//                .ifPresent(account -> {
-//                    account.updateFrom(toUpdate);
-//                    this.service.createAccount(account);
-//                });
-//        return ResponseEntity.noContent().build();
-//    }
 }

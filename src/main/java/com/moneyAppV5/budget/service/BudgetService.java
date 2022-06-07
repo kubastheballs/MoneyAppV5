@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.Month;
 import java.time.Year;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BudgetService
@@ -93,7 +94,6 @@ public class BudgetService
             days.add(String.valueOf(i));
 
         return days;
-
     }
 
     private List<BudgetPositionDTO> readBudgetPositionsByBudgetIdAndTypeAsDto(int budgetId, Type type)
@@ -134,20 +134,6 @@ public class BudgetService
 //        TODO jaki błąd?
         return this.repository.findByMonthAndYear(month, year).orElse(new Budget());
     }
-
-//    public BudgetDTO readBudgetOnlyWithActualByAccountIdAndMonthAsDto(int month, int year, int accountId)
-//    {
-//        var b = readBudgetByMonthAndYear(month, year);
-//        var budget = new BudgetDTO(b);
-//
-//        budget.setActualIncomes(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.INCOME));
-//
-//        budget.setActualExpenses(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.EXPENSE));
-//
-//        budget.setBalanceActual(budget.getActualIncomes() - budget.getActualExpenses());
-//
-//        return budget;
-//    }
 
     public BudgetDTO readBudgetOnlyWithActualByAccountIdAndMonthAsDto(int[] date, int accountId)
     {
@@ -206,9 +192,7 @@ public class BudgetService
     public void createPositionsListByBudget(Budget budget)
     {
         for (Category cat : this.categoryService.readAllCategories())
-        {
-            var pos = this.positionsRepository.save(new BudgetPosition(cat, budget));
-        }
+            this.positionsRepository.save(new BudgetPosition(cat, budget));
     }
 
     public AccountBudgetsCountsDTO readBudgetsWithMaxMinTransactionCountsByAccountIdAsDto(int accountId)
@@ -225,7 +209,6 @@ public class BudgetService
             else
                 map.replace(k, v + 1);
         }
-//        TODO obsługa pustej mapy
 
         AccountBudgetsCountsDTO data;
 
@@ -259,7 +242,6 @@ public class BudgetService
 
         AccountBudgetsSumsDTO data;
 
-//        TODO postawienie warunku? != null?
         if  (map.size() > 0)
         {
             var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
@@ -285,12 +267,7 @@ public class BudgetService
 
     public List<BudgetDTO> readAllBudgetsDto()
     {
-        List<BudgetDTO> dtos = new ArrayList<>();
-
-        for (Budget b : readAllBudgets())
-            dtos.add(new BudgetDTO(b));
-
-        return dtos;
+          return readAllBudgets().stream().map(BudgetDTO::new).collect(Collectors.toList());
     }
 
     private List<Budget> readAllBudgets()
@@ -362,7 +339,7 @@ public class BudgetService
                 var pos = this.positionsRepository.save(new BudgetPosition(cat, budget));
                 positions.put(cat, pos);
             }
-//TODO to raczej zadanie dla transactionService
+
         var transactions = this.transactionService.readTransactionsByBudgetId(budget.getId());
 
         for (Transaction t : transactions)
@@ -389,6 +366,7 @@ public class BudgetService
 
         return list;
     }
+
     public BudgetDTO readBudgetByMonthAndYearAsDto(int month, int year)
     {
         return new BudgetDTO(readBudgetByMonthAndYear(month, year));
@@ -396,7 +374,12 @@ public class BudgetService
 
     public void updatePlannedAmountInPositions(BudgetPositionsWrapperDTO current)
     {
-        for (BudgetPositionDTO bp : current.getList())
+        var list = new ArrayList<BudgetPositionDTO>();
+
+        list.addAll(current.getIncomesList());
+        list.addAll(current.getExpensesList());
+
+        for (BudgetPositionDTO bp : list)
         {
             if (this.positionsRepository.existsByHash(bp.getHash()))
                 this.positionsRepository.setPlannedAmountByPositionHash(bp.getPlannedAmount(), bp.getHash());
@@ -416,9 +399,21 @@ public class BudgetService
     public BudgetPositionsWrapperDTO readPositionsWrapperAsDto(int hash)
     {
         var positions = new BudgetPositionsWrapperDTO();
-        positions.setList(readPositionsByBudgetHashAsDto(hash));
+
+        positions.setIncomesList(readPositionsByBudgetHashAndTypeAsDto(hash, Type.INCOME));
+        positions.setExpensesList(readPositionsByBudgetHashAndTypeAsDto(hash, Type.EXPENSE));
 
         return positions;
+    }
+
+    private List<BudgetPositionDTO> readPositionsByBudgetHashAndTypeAsDto(Integer hash, Type type)
+    {
+        return readPositionsByBudgetIdAndType(readBudgetIdByBudgetHash(hash), type).stream().map(BudgetPositionDTO::new).collect(Collectors.toList());
+    }
+
+    private List<BudgetPosition> readPositionsByBudgetIdAndType(int budgetId, Type type)
+    {
+        return this.positionsRepository.findPositionsByBudgetIdAndType(budgetId, type.name());
     }
 
     private List<BudgetPositionDTO> readPositionsByBudgetHashAsDto(Integer hash)

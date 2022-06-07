@@ -20,14 +20,14 @@
 
     <p>
         <Label>Nadkategoria: </Label>
-        <a th:href="@{/mainCategoryView/{hash}(hash=${category.mainCategory.hash})}"
-           th:text="${category.mainCategory.mainCategory}"></a>
+        <a th:href="@{/mainCategoryView/{hash}(hash=${category.mainCategoryDto.hash})}"
+           th:text="${category.mainCategoryDto.mainCategory}"></a>
     </p>
     <p>
         <Label>Podkategoria: </Label>
         <label ></label>
-        <a th:href="@{/subCategoryView/{hash}(hash=${category.subCategory.hash})}"
-           th:text="${category.subCategory.subCategory}"></a>
+        <a th:href="@{/subCategoryView/{hash}(hash=${category.subCategoryDto.hash})}"
+           th:text="${category.subCategoryDto.subCategory}"></a>
     </p>
     <p>
 <!--        TODO zrobić typeView tak jak w powyższych-->

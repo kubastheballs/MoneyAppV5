@@ -4,13 +4,22 @@ import java.util.List;
 
 public class BudgetPositionsWrapperDTO
 {
-    private List<BudgetPositionDTO> list;
+    private List<BudgetPositionDTO> incomesList;
+    private List<BudgetPositionDTO> expensesList;
 
-    public List<BudgetPositionDTO> getList() {
-        return list;
+    public List<BudgetPositionDTO> getIncomesList() {
+        return incomesList;
     }
 
-    public void setList(List<BudgetPositionDTO> list) {
-        this.list = list;
+    public void setIncomesList(List<BudgetPositionDTO> incomesList) {
+        this.incomesList = incomesList;
+    }
+
+    public List<BudgetPositionDTO> getExpensesList() {
+        return expensesList;
+    }
+
+    public void setExpensesList(List<BudgetPositionDTO> expensesList) {
+        this.expensesList = expensesList;
     }
 }

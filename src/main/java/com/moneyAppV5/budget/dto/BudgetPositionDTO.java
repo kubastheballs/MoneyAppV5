@@ -12,7 +12,6 @@ import java.util.Set;
 
 public class BudgetPositionDTO
 {
-//    private Category category;
     private Budget budget;
     private List<TransactionDTO> transactions;
     private double plannedAmount;
@@ -31,8 +30,6 @@ public class BudgetPositionDTO
      public BudgetPositionDTO()
     {
     }
-
-//    TODO czy transakcje są potrzebne?
 
     BudgetPositionDTO(CategoryDTO category, Budget budget, Set<Transaction> transactions, double plannedAmount, double actualAmount, double balance, String description)
     {
@@ -84,14 +81,6 @@ public class BudgetPositionDTO
         return result;
     }
 
-//    public Category getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(Category category) {
-//        this.category = category;
-//    }
-
     public Budget getBudget() {
         return budget;
     }
@@ -99,15 +88,6 @@ public class BudgetPositionDTO
     public void setBudget(Budget budget) {
         this.budget = budget;
     }
-
-//    public Set<Transaction> getTransactions() {
-//        return transactions;
-//    }
-//
-//    public void setTransactions(Set<Transaction> transactions) {
-//        this.transactions = transactions;
-//    }
-
 
     List<TransactionDTO> getTransactions()
     {

@@ -63,7 +63,6 @@ public class CategoryDTO
         this.type = category.getType();
         this.category = toDisplay(category.getMainCategory().getMainCategory(), category.getSubCategory().getSubCategory());
         this.hash = category.getHash();
-//        this.transactionsDTO = transactionsToDtos(category.getTransactions());
     }
 
     public Category toCategory()
@@ -192,5 +191,21 @@ public class CategoryDTO
 
     public void setTransactionsDTO(List<TransactionDTO> transactionsDTO) {
         this.transactionsDTO = transactionsDTO;
+    }
+
+    public MainCategoryDTO getMainCategoryDto() {
+        return mainCategoryDto;
+    }
+
+    public void setMainCategoryDto(MainCategoryDTO mainCategoryDto) {
+        this.mainCategoryDto = mainCategoryDto;
+    }
+
+    public SubCategoryDTO getSubCategoryDto() {
+        return subCategoryDto;
+    }
+
+    public void setSubCategoryDto(SubCategoryDTO subCategoryDto) {
+        this.subCategoryDto = subCategoryDto;
     }
 }

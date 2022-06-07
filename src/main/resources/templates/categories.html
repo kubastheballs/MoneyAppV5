@@ -29,15 +29,12 @@
     <fieldset>
         <legend>Nowa kategoria</legend>
         <label> Nazwa kategorii
-<!--&lt;!&ndash;            <input type="text"  th:field="${category.main}"/>&ndash;&gt;                                                    tu wprowadzanie z input-->
-
             <input list="mains" name="mainCats" th:field="${category.main}" />
                 <datalist id="mains">
                     <option th:each="main : ${mainCategories}" th:value="${main.getMainCategory()}" th:text="${main.mainCategory}"></option>
                 </datalist>
         </label>
         <label> Nazwa podkategorii
-<!--            <input type="text"  th:field="${category.sub}"/>-->
             <input list="subs" name="subCats" th:field="${category.sub}" />
             <datalist id="subs">
                 <option th:each="subC : ${subCategories}" th:value="${subC.getSubCategory()}" th:text="${subC.subCategory}"></option>
@@ -71,12 +68,12 @@
         </tr>
         <tr th:each="category : ${categories}">
             <td>
-                <a th:href="@{/mainCategoryView/{hash}(hash=${category.mainCategory.hash})}"
-                   th:text="${category.mainCategory.mainCategory}"></a>
+                <a th:href="@{/mainCategoryView/{hash}(hash=${category.mainCategoryDto.hash})}"
+                   th:text="${category.mainCategoryDto.mainCategory}"></a>
             </td>
             <td>
-                <a th:href="@{/subCategoryView/{hash}(hash=${category.subCategory.hash})}"
-                   th:text="${category.subCategory.subCategory}"></a>
+                <a th:href="@{/subCategoryView/{hash}(hash=${category.subCategoryDto.hash})}"
+                   th:text="${category.subCategoryDto.subCategory}"></a>
             </td>
 <!--            TODO typeView-->
             <td th:text="${category.type}">
@@ -84,28 +81,6 @@
             </td><td th:text="${category.description}"></td>
         </tr>
     </table>
-<!--    <div class="incomeList">-->
-<!--        <p>Dochody</p>-->
-<!--        <dl th:each="cat : ${incomeCategories}">-->
-<!--            <dt th:text="${cat.getMainCategory()}"></dt>-->
-<!--           <dd>-->
-<!--               <ul>-->
-<!--                    <li th:each="subC : ${cat.subCategories}" th:text="${subC.subCategory}"></li>-->
-<!--               </ul>-->
-<!--           </dd>-->
-<!--        </dl>-->
-<!--    </div>-->
-<!--    <div class="expenseList">-->
-<!--        <p>Wydatki</p>-->
-<!--        <dl th:each="cat : ${expenseCategories}">-->
-<!--            <dt th:text="${cat.getMainCategory()}"></dt>-->
-<!--            <dd>-->
-<!--                <ul>-->
-<!--                    <li th:each="subC : ${cat.subCategories}" th:text="${subC.subCategory}"></li>-->
-<!--                </ul>-->
-<!--            </dd>-->
-<!--        </dl>-->
-<!--    </div>-->
 </main>
 </body>
 </html>
