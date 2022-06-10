@@ -30,8 +30,6 @@ public class SubCategory
         return Objects.hash(this.subCategory);
     }
 
-
-
     public int getId()
     {
         return id;

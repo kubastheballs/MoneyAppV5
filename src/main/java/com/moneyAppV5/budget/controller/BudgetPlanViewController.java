@@ -23,8 +23,7 @@ class BudgetPlanViewController
     @GetMapping
     String showBudgetPlan(Model model, @PathVariable Integer hash)
     {
-        var budget = this.service.readBudgetByHash(hash);
-        var result = this.service.readBudgetPlanAsDto(budget);
+        var result = this.service.readBudgetPlanAsDto(this.service.readBudgetByHash(hash));
 
         model.addAttribute("budgetHash", hash);
         model.addAttribute("positions", this.service.readPositionsWrapperAsDto(hash));
@@ -34,12 +33,9 @@ class BudgetPlanViewController
         return "budgetPlan";
     }
 
-
-
     @PostMapping()
     String addBudgetPlan(@ModelAttribute("positions") @Valid BudgetPositionsWrapperDTO current, BindingResult bindingResult, Model model, @PathVariable Integer hash)
     {
-
         if (bindingResult.hasErrors())
         {
             model.addAttribute("message", "Błędne dane!");
@@ -47,8 +43,7 @@ class BudgetPlanViewController
             return "budgetPlan";
         }
 
-        var budget = this.service.readBudgetByHash(hash);
-        var result = this.service.readBudgetPlanAsDto(budget);
+        var result = this.service.readBudgetPlanAsDto(this.service.readBudgetByHash(hash));
 
         this.service.updatePlannedAmountInPositions(current);
 

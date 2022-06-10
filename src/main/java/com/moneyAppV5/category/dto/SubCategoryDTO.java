@@ -8,7 +8,8 @@ public class SubCategoryDTO
 {
     private String subCategory;
 //    private String description;
-    private MainCategory mainCategory;
+//    private MainCategory mainCategory;
+    private MainCategoryDTO mainCategory;
     private Integer hash;
 
     SubCategoryDTO()
@@ -18,13 +19,14 @@ public class SubCategoryDTO
     public SubCategoryDTO(SubCategory subCategory)
     {
         this.subCategory = subCategory.getSubCategory();
-        this.mainCategory = subCategory.getMainCategory();
+        this.mainCategory = new MainCategoryDTO(subCategory.getMainCategory());
+//        this.mainCategory = subCategory.getMainCategory();
         this.hash = subCategory.getHash();
     }
 
     public SubCategoryDTO(String subCategory, MainCategory mainCategory) {
         this.subCategory = subCategory;
-        this.mainCategory = mainCategory;
+        this.mainCategory = new MainCategoryDTO(mainCategory);
     }
 
 //    SubCategoryDTO(String subCategory, String description)
@@ -40,7 +42,7 @@ public class SubCategoryDTO
         var result = new SubCategory();
         result.setSubCategory(this.subCategory);
 //        result.setDescription(this.description);
-        result.setMainCategory(this.mainCategory);
+        result.setMainCategory(this.mainCategory.toMainCategory());
         result.setHash(result.hashCode());
 
         return result;
@@ -54,11 +56,11 @@ public class SubCategoryDTO
         this.subCategory = subCategory;
     }
 
-    public MainCategory getMainCategory() {
+    public MainCategoryDTO getMainCategory() {
         return mainCategory;
     }
 
-    public void setMainCategory(MainCategory mainCategory) {
+    public void setMainCategory(MainCategoryDTO mainCategory) {
         this.mainCategory = mainCategory;
     }
 

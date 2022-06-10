@@ -117,4 +117,9 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
     @Query(nativeQuery = true, value = "select sum (amount) from TRANSACTIONS where (BUDGET_position_ID = :positionId and " +
             "day = :day)")
     Optional<Double> sumTransactionsByDayAdnPositionId(Integer day, Integer positionId);
+
+    @Override
+    @Query(value = "select * from transactions inner join categories on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where " +
+            "main_category_id = :mainCatId", nativeQuery = true)
+    List<Transaction> findTransactionsByMainCategoryId(Integer mainCatId);
 }

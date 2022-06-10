@@ -1,18 +1,18 @@
-package com.moneyAppV5.account.dto;
+package com.moneyAppV5.budget.dto;
 
 import com.moneyAppV5.budget.dto.BudgetDTO;
 
-public class AccountBudgetsCountsDTO
+public class BudgetsCountsDTO
 {
     private BudgetDTO highestCountBudget;
     private int highestCount;
     private BudgetDTO lowestCountBudget;
     private int lowestCount;
 
-    public AccountBudgetsCountsDTO() {
+    public BudgetsCountsDTO() {
     }
 
-    public AccountBudgetsCountsDTO(BudgetDTO highestCountBudget, int highestCount, BudgetDTO lowestCountBudget, int lowestCount) {
+    public BudgetsCountsDTO(BudgetDTO highestCountBudget, int highestCount, BudgetDTO lowestCountBudget, int lowestCount) {
         this.highestCountBudget = highestCountBudget;
         this.highestCount = highestCount;
         this.lowestCountBudget = lowestCountBudget;

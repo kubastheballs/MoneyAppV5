@@ -1,7 +1,7 @@
 package com.moneyAppV5.budget.service;
 
-import com.moneyAppV5.account.dto.AccountBudgetsCountsDTO;
-import com.moneyAppV5.account.dto.AccountBudgetsSumsDTO;
+import com.moneyAppV5.budget.dto.BudgetsCountsDTO;
+import com.moneyAppV5.budget.dto.BudgetsSumsDTO;
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.budget.dto.BudgetDTO;
@@ -16,6 +16,7 @@ import com.moneyAppV5.category.service.CategoryService;
 import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
+import com.moneyAppV5.utils.UtilService;
 import org.springframework.stereotype.Service;
 
 import java.time.Month;
@@ -30,13 +31,16 @@ public class BudgetService
     private final BudgetPositionRepository positionsRepository;
     private final TransactionService transactionService;
     private final CategoryService categoryService;
+    private final UtilService utilService;
 
-    BudgetService(BudgetRepository repository, BudgetPositionRepository positionsRepository, TransactionService transactionService, CategoryService categoryService)
+    BudgetService(BudgetRepository repository, BudgetPositionRepository positionsRepository, TransactionService transactionService,
+                  CategoryService categoryService, UtilService utilService)
     {
         this.repository = repository;
         this.positionsRepository = positionsRepository;
         this.transactionService = transactionService;
         this.categoryService = categoryService;
+        this.utilService = utilService;
     }
 
     List<BudgetPosition> readBudgetPositionsByBudgetIdAndType(int id, Type type)
@@ -195,7 +199,7 @@ public class BudgetService
             this.positionsRepository.save(new BudgetPosition(cat, budget));
     }
 
-    public AccountBudgetsCountsDTO readBudgetsWithMaxMinTransactionCountsByAccountIdAsDto(int accountId)
+    public BudgetsCountsDTO readBudgetsWithMaxMinTransactionCountsByAccountIdAsDto(int accountId)
     {
         var map = new HashMap<Integer, Integer>();
 
@@ -210,22 +214,22 @@ public class BudgetService
                 map.replace(k, v + 1);
         }
 
-        AccountBudgetsCountsDTO data;
+        BudgetsCountsDTO data;
 
         if  (map.size() > 0)
         {
             var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
             var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
 
-            data = new AccountBudgetsCountsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
+            data = new BudgetsCountsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
         }
         else
-            data = new AccountBudgetsCountsDTO();
+            data = new BudgetsCountsDTO();
 
         return data;
     }
 
-    public AccountBudgetsSumsDTO readBudgetsWithMaxMinTransactionSumsByAccountIdAsDto(int accountId)
+    public BudgetsSumsDTO readBudgetsWithMaxMinTransactionSumsByAccountIdAsDto(int accountId)
     {
         var map = new HashMap<Integer, Double>();
 
@@ -240,17 +244,77 @@ public class BudgetService
                 map.replace(k, v + map.get(k));
         }
 
-        AccountBudgetsSumsDTO data;
+        BudgetsSumsDTO data;
 
         if  (map.size() > 0)
         {
             var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
             var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
 
-            data = new AccountBudgetsSumsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
+            data = new BudgetsSumsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
         }
         else
-            data = new AccountBudgetsSumsDTO();
+            data = new BudgetsSumsDTO();
+
+        return data;
+    }
+
+    public BudgetsCountsDTO readBudgetsWithMaxMinTransactionCountsByMainCategoryIdAsDto(int mainCatId)
+    {
+        var map = new HashMap<Integer, Integer>();
+
+        for (Transaction t : this.transactionService.readTransactionsByMainCategoryId(mainCatId))
+        {
+            var k = t.getBudget().getHash();
+            var v = map.get(k);
+
+            if (!map.containsKey(k))
+                map.put(k, 1);
+            else
+                map.replace(k, v + 1);
+        }
+
+        BudgetsCountsDTO data;
+
+        if  (map.size() > 0)
+        {
+            var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+            var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+            data = new BudgetsCountsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
+        }
+        else
+            data = new BudgetsCountsDTO();
+
+        return data;
+    }
+
+    public BudgetsSumsDTO readBudgetsWithMaxMinTransactionSumsByMainCategoryIdAsDto(int mainCatId)
+    {
+        var map = new HashMap<Integer, Double>();
+
+        for (Transaction t : this.transactionService.readTransactionsByMainCategoryId(mainCatId))
+        {
+            var k = t.getBudget().getHash();
+            var v = t.getAmount();
+
+            if (!map.containsKey(k))
+                map.put(k, v);
+            else
+                map.replace(k, v + map.get(k));
+        }
+
+        BudgetsSumsDTO data;
+
+        if  (map.size() > 0)
+        {
+            var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+            var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+            data = new BudgetsSumsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
+        }
+        else
+            data = new BudgetsSumsDTO();
 
         return data;
     }
@@ -369,7 +433,9 @@ public class BudgetService
 
     public BudgetDTO readBudgetByMonthAndYearAsDto(int month, int year)
     {
-        return new BudgetDTO(readBudgetByMonthAndYear(month, year));
+        var date = this.utilService.checkMonthValue(month, year);
+
+        return new BudgetDTO(readBudgetByMonthAndYear(date[0], date[1]));
     }
 
     public void updatePlannedAmountInPositions(BudgetPositionsWrapperDTO current)

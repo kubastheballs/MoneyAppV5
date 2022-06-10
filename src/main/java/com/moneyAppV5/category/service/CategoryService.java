@@ -11,11 +11,15 @@ import com.moneyAppV5.category.repository.CategoryRepository;
 import com.moneyAppV5.category.repository.MainCategoryRepository;
 import com.moneyAppV5.category.repository.SubCategoryRepository;
 import com.moneyAppV5.transaction.service.TransactionService;
+import com.moneyAppV5.utils.UtilService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService
@@ -24,13 +28,16 @@ public class CategoryService
     private final MainCategoryRepository mainCategoryRepository;
     private final SubCategoryRepository subCategoryRepository;
     private final TransactionService transactionService;
+    private final UtilService utilService;
 
-    CategoryService(CategoryRepository repository, MainCategoryRepository mainCategoryRepository, SubCategoryRepository subCategoryRepository, TransactionService transactionService)
+    CategoryService(CategoryRepository repository, MainCategoryRepository mainCategoryRepository, SubCategoryRepository subCategoryRepository,
+                    TransactionService transactionService, UtilService utilService)
     {
         this.repository = repository;
         this.mainCategoryRepository = mainCategoryRepository;
         this.subCategoryRepository = subCategoryRepository;
         this.transactionService = transactionService;
+        this.utilService = utilService;
     }
 
     public MainCategory createMainCategory(final MainCategoryDTO toSave)
@@ -272,6 +279,46 @@ public class CategoryService
     public double sumOverallTransactionsByCategory(Category category)
     {
         return this.transactionService.sumOverallTransactionsByCategory(category);
+    }
+
+    public MainCategory readMainCategoryByHash(int hash)
+    {
+        return this.mainCategoryRepository.findByHash(hash).orElseThrow();
+    }
+
+    public MainCategoryDTO readMainCategoryAsDto(MainCategory main)
+    {
+        var mainCat = new MainCategoryDTO(main);
+
+        mainCat.setSubCategories(readSubCategoriesByMainCategoryId(main.getId()).stream().map(SubCategoryDTO::new).collect(Collectors.toList()));
+//TODO dlaczego wyrzuca numberformat exception?
+        //        mainCat.setSubCategoriesDto(main.getSubCategories().stream().map(SubCategoryDTO::new).collect(Collectors.toList()));
+        var transactions = this.transactionService.readTransactionsByMainCategoryIdAsDto(main.getId());
+        mainCat.setTransactions(transactions);
+
+        mainCat.setActualMonthSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
+        mainCat.setActualMonthMinusOneSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
+        mainCat.setActualMonthMinusTwoSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
+        mainCat.setActualYearSum(this.utilService.sumByListAndYear(transactions, this.utilService.getActualYear()));
+        mainCat.setOverallSum(this.utilService.sumByList(transactions));
+
+        mainCat.setActualMonthCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
+        mainCat.setActualMonthMinusOneCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
+        mainCat.setActualMonthMinusTwoCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
+        mainCat.setActualYearCount(this.utilService.countByListAndYear(transactions, this.utilService.getActualYear()));
+        mainCat.setOverallCount(this.utilService.countByList(transactions));
+
+        return mainCat;
+    }
+
+    private List<SubCategory> readSubCategoriesByMainCategoryId(int mainCatId)
+    {
+        return this.subCategoryRepository.findSubCategoriesByMainId(mainCatId);
+    }
+
+    public SubCategoryDTO readSubCategoryByHashAsDto(Integer hash)
+    {
+        return new SubCategoryDTO(this.subCategoryRepository.findSubCategoryByHash(hash).orElseThrow());
     }
 
 //    public List<String> readSubCategoriesByMainCategory(String main)

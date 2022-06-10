@@ -19,6 +19,8 @@ public interface SubCategoryRepository
 
     SubCategory save(SubCategory entity);
 
+    Optional<SubCategory> findSubCategoryByHash(Integer hash);
+
 
 //    List<SubCategory> findExpensesByMainId();
 }

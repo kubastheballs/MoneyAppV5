@@ -8,6 +8,7 @@ import com.moneyAppV5.budget.service.BudgetService;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
+import com.moneyAppV5.utils.UtilService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,16 +17,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AccountService {
-    AccountRepository repository;
-    TransactionService transactionService;
-    BudgetService budgetService;
+public class AccountService
+{
+    private final AccountRepository repository;
+    private final TransactionService transactionService;
+    private final BudgetService budgetService;
+    private final UtilService utilService;
 
-    public AccountService(AccountRepository repository, TransactionService transactionService, BudgetService budgetService)
+    public AccountService(AccountRepository repository, TransactionService transactionService, BudgetService budgetService, UtilService utilService)
     {
         this.repository = repository;
         this.transactionService = transactionService;
         this.budgetService = budgetService;
+        this.utilService = utilService;
     }
 
     public Optional<Account> readAccountById(int id) {
@@ -83,18 +87,10 @@ public class AccountService {
     }
 
     public double sumTransactionsByTypeAndMonth(Account a, int month, int year, Type type) {
-        switch (month) {
-            case 0 -> {
-                month = 12;
-                year = year - 1;
-            }
-            case -1 -> {
-                month = 11;
-                year = year - 1;
-            }
-        }
 
-        return this.transactionService.sumTransactionsByAccountAndMonthAndType(a, month, year, type);
+        var date = this.utilService.checkMonthValue(month, year);
+
+        return this.transactionService.sumTransactionsByAccountAndMonthAndType(a, date[0], date[1], type);
     }
 
     public double sumOverallTransactionsByType(Account a, Type type) {
@@ -102,40 +98,16 @@ public class AccountService {
     }
 
     public double balanceTransactionsByMonth(Account account, int month, int year) {
-        switch (month) {
-            case 0 -> {
-                month = 12;
-                year = year - 1;
-            }
-            case -1 -> {
-                month = 11;
-                year = year - 1;
-            }
-        }
+      var date = this.utilService.checkMonthValue(month, year);
 
-        return sumTransactionsByTypeAndMonth(account, month, year, Type.INCOME) - sumTransactionsByTypeAndMonth(account, month, year, Type.EXPENSE);
+        return sumTransactionsByTypeAndMonth(account, date[0], date[1], Type.INCOME) - sumTransactionsByTypeAndMonth(account, date[0], date[1], Type.EXPENSE);
     }
 
     public double balanceOverallTransactions(Account account) {
         return sumOverallTransactionsByType(account, Type.INCOME) - sumOverallTransactionsByType(account, Type.EXPENSE);
     }
 
-    private int[] checkMonthValue(int month, int year) {
-        switch (month) {
-            case 0 -> {
-                month = 12;
-                year = year - 1;
-            }
-            case -1 -> {
-                month = 11;
-                year = year - 1;
-            }
 
-
-        }
-
-        return new int[]{month, year};
-    }
 
     public AccountDTO readAccountAsDto(Account a)
     {
@@ -149,64 +121,21 @@ public class AccountService {
         var month = LocalDate.now().getMonthValue();
         var year = LocalDate.now().getYear();
 
-        account.setActualMonthBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(checkMonthValue(month, year), a.getId()));
-        account.setActualMonthMinusOneBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(checkMonthValue(month - 1, year), a.getId()));
-        account.setActualMonthMinusTwoBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(checkMonthValue(month - 2, year), a.getId()));
+        account.setActualMonthBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month, year), a.getId()));
+        account.setActualMonthMinusOneBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month - 1, year), a.getId()));
+        account.setActualMonthMinusTwoBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month - 2, year), a.getId()));
 
-        account.setActualYearIncome(sumByListAndTypeAndYear(account.getTransactions(), income, year));
-        account.setActualYearExpense(sumByListAndTypeAndYear(account.getTransactions(), expense, year));
+        account.setActualYearIncome(this.utilService.sumByListAndTypeAndYear(account.getTransactions(), income, year));
+        account.setActualYearExpense(this.utilService.sumByListAndTypeAndYear(account.getTransactions(), expense, year));
         account.setActualYearBalance(account.getActualYearIncome() - account.getActualYearExpense());
 
-        account.setOverallIncome(sumByListAndType(account.getTransactions(), income));
-        account.setOverallExpense(sumByListAndType(account.getTransactions(), expense));
+        account.setOverallIncome(this.utilService.sumByListAndType(account.getTransactions(), income));
+        account.setOverallExpense(this.utilService.sumByListAndType(account.getTransactions(), expense));
         account.setOverallBalance(account.getOverallIncome() - account.getOverallExpense());
 
         return account;
     }
 
-    private double sumByListAndTypeAndMonth(List<TransactionDTO> transactions, Type type, int month, int year)
-    {
-        switch (month) {
-            case 0 -> {
-                month = 12;
-                year = year - 1;
-            }
-            case -1 -> {
-                month = 11;
-                year = year - 1;
-            }
-        }
-
-        double sum = 0;
-
-        for (TransactionDTO t : transactions)
-            if ((t.getCategory().getType()).equals(type) && t.getMonth() == month && t.getYear() == year)
-                sum += t.getAmount();
-
-            return sum;
-    }
-
-    private double sumByListAndTypeAndYear(List<TransactionDTO> transactions, Type type, int year)
-    {
-        double sum = 0;
-
-        for (TransactionDTO t : transactions)
-            if ((t.getCategory().getType()).equals(type) && t.getYear() == year)
-                sum += t.getAmount();
-
-        return sum;
-    }
-
-    private double sumByListAndType(List<TransactionDTO> transactions, Type type)
-    {
-        double sum = 0;
-
-        for (TransactionDTO t : transactions)
-            if ((t.getCategory().getType()).equals(type))
-                sum += t.getAmount();
-
-        return sum;
-    }
 
     public double sumAllAccountsBalances()
     {

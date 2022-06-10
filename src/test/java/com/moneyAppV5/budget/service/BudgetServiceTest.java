@@ -5,6 +5,7 @@ import com.moneyAppV5.budget.repository.BudgetPositionRepository;
 import com.moneyAppV5.budget.repository.BudgetRepository;
 import com.moneyAppV5.category.service.CategoryService;
 import com.moneyAppV5.transaction.service.TransactionService;
+import com.moneyAppV5.utils.UtilService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -25,10 +26,12 @@ class BudgetServiceTest
         var mockPositionRepository = mock(BudgetPositionRepository.class);
         var mockTransactionService = mock(TransactionService.class);
         var mockCategoryService = mock(CategoryService.class);
+        var mockUtilService = mock(UtilService.class);
         var mockBudget = mock(Budget.class);
         when(mockBudgetRepository.findByMonthAndYear(anyInt(), anyInt())).thenReturn(Optional.of(mockBudget));
 //        system under test
-        var toTest = new BudgetService(mockBudgetRepository, mockPositionRepository, mockTransactionService, mockCategoryService);
+        var toTest = new BudgetService(mockBudgetRepository, mockPositionRepository, mockTransactionService, mockCategoryService,
+                mockUtilService);
 //        when
         var budget = toTest.readBudgetByMonthAndYear(5,2022);
 //        then

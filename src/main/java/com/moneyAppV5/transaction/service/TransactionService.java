@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService
@@ -282,5 +283,15 @@ public class TransactionService
     public double sumTransactionsByDayAdnPositionId(String day, int positionId) 
     {
         return this.repository.sumTransactionsByDayAdnPositionId(Integer.valueOf(day), positionId).orElse(0.0);
+    }
+
+    public List<TransactionDTO> readTransactionsByMainCategoryIdAsDto(int mainCatId)
+    {
+        return this.repository.findTransactionsByMainCategoryId(mainCatId).stream().map(TransactionDTO::new).collect(Collectors.toList());
+    }
+
+    public List<Transaction> readTransactionsByMainCategoryId(int mainCatId)
+    {
+        return this.repository.findTransactionsByMainCategoryId(mainCatId);
     }
 }

@@ -2,6 +2,7 @@ package com.moneyAppV5.transaction.repository;
 
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.transaction.Transaction;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +18,7 @@ public interface TransactionRepository
     List<Transaction> findTransactionsByMonthAndYear(int month, int year);
     List<Transaction> findTransactionsByBudgetId(Integer id);
     List<Transaction> findTransactionsByAccountId(Integer accountId);
+    List<Transaction> findTransactionsByMainCategoryId(Integer mainCatId);
 
 
     Optional<Transaction> findById(Integer id);
@@ -45,4 +47,6 @@ public interface TransactionRepository
 
 
     Optional<Double> sumTransactionsByDayAdnPositionId(Integer day, Integer positionId);
+
+
 }

@@ -13,11 +13,14 @@ public interface MainCategoryRepository
 
     Optional<MainCategory> findById(Integer id);
     Optional<MainCategory> findByMainCategory(String mainCategory);
+    Optional<MainCategory> findByHash(Integer hash);
 
     boolean existsById(int id);
     boolean existsByMainCategory(String mainCategory);
 
     MainCategory save(MainCategory entity);
+
+
 
 //    List<MainCategory> findAllWithType();
 //    List<MainCategory> findAllIncomes();
