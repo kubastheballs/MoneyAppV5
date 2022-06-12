@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/typeView/{hash}")
+@RequestMapping("/typeView/{type}")
 public class TypeViewController
 {
     private final CategoryService service;
@@ -22,7 +22,7 @@ public class TypeViewController
     }
 
     @GetMapping
-    String showTypeView(Model model, @PathVariable Integer hash)
+    String showTypeView(Model model, @PathVariable String type)
     {
 //        TODO - typeDTO
 

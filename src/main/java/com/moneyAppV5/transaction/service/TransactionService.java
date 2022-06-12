@@ -294,4 +294,14 @@ public class TransactionService
     {
         return this.repository.findTransactionsByMainCategoryId(mainCatId);
     }
+
+    public List<Transaction> readTransactionsBySubCategoryId(int subCatId)
+    {
+        return this.repository.findTransactionsBySubCategoryId(subCatId);
+    }
+
+    public List<TransactionDTO> readTransactionsBySubCategoryIdAsDto(int subCatId)
+    {
+        return this.repository.findTransactionsBySubCategoryId(subCatId).stream().map(TransactionDTO::new).collect(Collectors.toList());
+    }
 }

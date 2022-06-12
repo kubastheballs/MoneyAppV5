@@ -1,12 +1,8 @@
 package com.moneyAppV5.budget.service;
 
-import com.moneyAppV5.budget.dto.BudgetsCountsDTO;
-import com.moneyAppV5.budget.dto.BudgetsSumsDTO;
+import com.moneyAppV5.budget.dto.*;
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
-import com.moneyAppV5.budget.dto.BudgetDTO;
-import com.moneyAppV5.budget.dto.BudgetPositionDTO;
-import com.moneyAppV5.budget.dto.BudgetPositionsWrapperDTO;
 import com.moneyAppV5.budget.repository.BudgetPositionRepository;
 import com.moneyAppV5.budget.repository.BudgetRepository;
 import com.moneyAppV5.category.Category;
@@ -199,11 +195,11 @@ public class BudgetService
             this.positionsRepository.save(new BudgetPosition(cat, budget));
     }
 
-    public BudgetsCountsDTO readBudgetsWithMaxMinTransactionCountsByAccountIdAsDto(int accountId)
+    public BudgetsCountsDTO readBudgetsWithMaxMinTransactionCountsByListAsDto(List<Transaction> transactions)
     {
         var map = new HashMap<Integer, Integer>();
 
-        for (Transaction t : this.transactionService.readTransactionsByAccountId(accountId))
+        for (Transaction t : transactions)
         {
             var k = t.getBudget().getHash();
             var v = map.get(k);
@@ -229,71 +225,11 @@ public class BudgetService
         return data;
     }
 
-    public BudgetsSumsDTO readBudgetsWithMaxMinTransactionSumsByAccountIdAsDto(int accountId)
+    public BudgetsSumsDTO readBudgetsWithMaxMinTransactionSumsByListAsDto(List<Transaction> transactions)
     {
         var map = new HashMap<Integer, Double>();
 
-        for (Transaction t : this.transactionService.readTransactionsByAccountId(accountId))
-        {
-            var k = t.getBudget().getHash();
-            var v = t.getAmount();
-
-            if (!map.containsKey(k))
-                map.put(k, v);
-            else
-                map.replace(k, v + map.get(k));
-        }
-
-        BudgetsSumsDTO data;
-
-        if  (map.size() > 0)
-        {
-            var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
-            var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
-
-            data = new BudgetsSumsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
-        }
-        else
-            data = new BudgetsSumsDTO();
-
-        return data;
-    }
-
-    public BudgetsCountsDTO readBudgetsWithMaxMinTransactionCountsByMainCategoryIdAsDto(int mainCatId)
-    {
-        var map = new HashMap<Integer, Integer>();
-
-        for (Transaction t : this.transactionService.readTransactionsByMainCategoryId(mainCatId))
-        {
-            var k = t.getBudget().getHash();
-            var v = map.get(k);
-
-            if (!map.containsKey(k))
-                map.put(k, 1);
-            else
-                map.replace(k, v + 1);
-        }
-
-        BudgetsCountsDTO data;
-
-        if  (map.size() > 0)
-        {
-            var maxKey = Collections.max(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
-            var minKey = Collections.min(map.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
-
-            data = new BudgetsCountsDTO(new BudgetDTO(readBudgetByHash(maxKey)), map.get(maxKey), new BudgetDTO(readBudgetByHash(minKey)), map.get(minKey));
-        }
-        else
-            data = new BudgetsCountsDTO();
-
-        return data;
-    }
-
-    public BudgetsSumsDTO readBudgetsWithMaxMinTransactionSumsByMainCategoryIdAsDto(int mainCatId)
-    {
-        var map = new HashMap<Integer, Double>();
-
-        for (Transaction t : this.transactionService.readTransactionsByMainCategoryId(mainCatId))
+        for (Transaction t : transactions)
         {
             var k = t.getBudget().getHash();
             var v = t.getAmount();
@@ -435,6 +371,12 @@ public class BudgetService
     {
         var date = this.utilService.checkMonthValue(month, year);
 
+        BudgetDTO budget;
+
+//        if  (!this.repository.existsByMonthAndYear(date[0], date[1]))
+//            budget =
+//        else
+
         return new BudgetDTO(readBudgetByMonthAndYear(date[0], date[1]));
     }
 
@@ -497,5 +439,17 @@ public class BudgetService
     private int readBudgetIdByBudgetHash(Integer hash)
     {
         return this.repository.readBudgetIdByBudgetHash(hash).orElseThrow();
+    }
+
+    public ActualBudgetsWrapperDTO readActualBudgetsWrapper(int month, int year)
+    {
+        var wrapper = new ActualBudgetsWrapperDTO();
+
+        wrapper.setActual(readBudgetByMonthAndYearAsDto(month, year));
+        wrapper.setActualMinusOne(readBudgetByMonthAndYearAsDto(month - 1, year));
+        wrapper.setActualMinusTwo(readBudgetByMonthAndYearAsDto(month - 2, year));
+//        TODO jeszcze roczny i ogólny?
+
+        return wrapper;
     }
 }

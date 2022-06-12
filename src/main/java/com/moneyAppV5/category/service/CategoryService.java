@@ -12,10 +12,8 @@ import com.moneyAppV5.category.repository.MainCategoryRepository;
 import com.moneyAppV5.category.repository.SubCategoryRepository;
 import com.moneyAppV5.transaction.service.TransactionService;
 import com.moneyAppV5.utils.UtilService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -311,6 +309,30 @@ public class CategoryService
         return mainCat;
     }
 
+    public SubCategoryDTO readSubCategoryAsDto(SubCategory sub)
+    {
+        var subCat = new SubCategoryDTO(sub);
+
+//TODO dlaczego wyrzuca numberformat exception?
+        //        mainCat.setSubCategoriesDto(main.getSubCategories().stream().map(SubCategoryDTO::new).collect(Collectors.toList()));
+        var transactions = this.transactionService.readTransactionsBySubCategoryIdAsDto(sub.getId());
+        subCat.setTransactions(transactions);
+
+        subCat.setActualMonthSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
+        subCat.setActualMonthMinusOneSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
+        subCat.setActualMonthMinusTwoSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
+        subCat.setActualYearSum(this.utilService.sumByListAndYear(transactions, this.utilService.getActualYear()));
+        subCat.setOverallSum(this.utilService.sumByList(transactions));
+
+        subCat.setActualMonthCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
+        subCat.setActualMonthMinusOneCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
+        subCat.setActualMonthMinusTwoCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
+        subCat.setActualYearCount(this.utilService.countByListAndYear(transactions, this.utilService.getActualYear()));
+        subCat.setOverallCount(this.utilService.countByList(transactions));
+
+        return subCat;
+    }
+
     private List<SubCategory> readSubCategoriesByMainCategoryId(int mainCatId)
     {
         return this.subCategoryRepository.findSubCategoriesByMainId(mainCatId);
@@ -319,6 +341,11 @@ public class CategoryService
     public SubCategoryDTO readSubCategoryByHashAsDto(Integer hash)
     {
         return new SubCategoryDTO(this.subCategoryRepository.findSubCategoryByHash(hash).orElseThrow());
+    }
+
+    public SubCategory readSubCategoryBudgetByHash(int hash)
+    {
+       return this.subCategoryRepository.findSubCategoryByHash(hash).orElseThrow();
     }
 
 //    public List<String> readSubCategoriesByMainCategory(String main)

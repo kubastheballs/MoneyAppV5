@@ -1,6 +1,5 @@
 package com.moneyAppV5.transaction.repository;
 
-import com.moneyAppV5.category.Type;
 import com.moneyAppV5.transaction.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -122,4 +121,9 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
     @Query(value = "select * from transactions inner join categories on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where " +
             "main_category_id = :mainCatId", nativeQuery = true)
     List<Transaction> findTransactionsByMainCategoryId(Integer mainCatId);
+
+    @Override
+    @Query(value = "select * from transactions inner join categories on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where " +
+            "sub_category_id = :subCatId", nativeQuery = true)
+    List<Transaction> findTransactionsBySubCategoryId(Integer subCatId);
 }

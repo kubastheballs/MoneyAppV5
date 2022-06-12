@@ -1,7 +1,9 @@
 package com.moneyAppV5.category.controller;
 
+import com.moneyAppV5.budget.dto.BudgetStatsWrapperDTO;
 import com.moneyAppV5.budget.service.BudgetService;
 import com.moneyAppV5.category.service.CategoryService;
+import com.moneyAppV5.transaction.service.TransactionService;
 import com.moneyAppV5.utils.UtilService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,40 +18,30 @@ public class SubCategoryViewController
     private final CategoryService service;
     private final BudgetService budgetService;
     private final UtilService utilService;
+    private final TransactionService transactionService;
 
-    public SubCategoryViewController(CategoryService service, BudgetService budgetService, UtilService utilService)
+    public SubCategoryViewController(CategoryService service, BudgetService budgetService, UtilService utilService, TransactionService transactionService)
     {
         this.service = service;
         this.budgetService = budgetService;
         this.utilService = utilService;
+        this.transactionService = transactionService;
     }
 
     @GetMapping
     String showSubCategory(Model model, @PathVariable Integer hash)
     {
-        var subCat = this.budgetService.readBudgetByHash(hash);
+        var subCat = this.service.readSubCategoryBudgetByHash(hash);
 
         model.addAttribute("subCategory", this.service.readSubCategoryByHashAsDto(hash));
 
-        //        TODO dopracować przypadek braku budżetu
-//        TODO może faktycznie warto to zrolować do jednej klasy?
-        model.addAttribute("actualBudget", this.budgetService.readBudgetByMonthAndYearAsDto(this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
-        model.addAttribute("actualBudgetMinusOne", this.budgetService.readBudgetByMonthAndYearAsDto(this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
-        model.addAttribute("actualBudgetMinusTwo", this.budgetService.readBudgetByMonthAndYearAsDto(this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
+        //        TODO dopracować przypadek braku budżetu - póki co ogarnięte na poziomie html
+        model.addAttribute("actualBudgets", this.budgetService.readActualBudgetsWrapper(this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
 
-        var budgetSumsData = this.budgetService.readBudgetsWithMaxMinTransactionSumsByMainCategoryIdAsDto(subCat.getId());
+        var transactions = this.transactionService.readTransactionsBySubCategoryId(subCat.getId());
 
-        model.addAttribute("highestSumBudget", budgetSumsData.getHighestSumBudget());
-        model.addAttribute("highestSum", budgetSumsData.getHighestSum());
-        model.addAttribute("lowestSumBudget", budgetSumsData.getLowestSumBudget());
-        model.addAttribute("lowestSum", budgetSumsData.getLowestSum());
-
-        var budgetCountsData = this.budgetService.readBudgetsWithMaxMinTransactionCountsByMainCategoryIdAsDto(subCat.getId());
-
-        model.addAttribute("highestCountBudget", budgetCountsData.getHighestCountBudget());
-        model.addAttribute("highestCount", budgetCountsData.getHighestCount());
-        model.addAttribute("lowestCountBudget", budgetCountsData.getLowestCountBudget());
-        model.addAttribute("lowestCount", budgetCountsData.getLowestCount());
+        model.addAttribute("budgetStats", new BudgetStatsWrapperDTO(this.budgetService.readBudgetsWithMaxMinTransactionCountsByListAsDto(transactions),
+                this.budgetService.readBudgetsWithMaxMinTransactionSumsByListAsDto(transactions)));
 
         return "subCategoryView";
     }
