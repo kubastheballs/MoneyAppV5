@@ -4,12 +4,11 @@ import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.SubCategory;
 import com.moneyAppV5.category.Type;
-import com.moneyAppV5.category.dto.CategoryDTO;
-import com.moneyAppV5.category.dto.MainCategoryDTO;
-import com.moneyAppV5.category.dto.SubCategoryDTO;
+import com.moneyAppV5.category.dto.*;
 import com.moneyAppV5.category.repository.CategoryRepository;
 import com.moneyAppV5.category.repository.MainCategoryRepository;
 import com.moneyAppV5.category.repository.SubCategoryRepository;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
 import com.moneyAppV5.utils.UtilService;
 import org.springframework.stereotype.Service;
@@ -61,10 +60,6 @@ public class CategoryService
         return this.subCategoryRepository.findBySubCategory(name).orElse(null);
     }
 
-//    public Category createCategory(final Category toSave)
-//    {
-//        return this.repository.save(toSave);
-//    }
     public Category createCategory(final CategoryDTO toSave)
     {
         MainCategory main = this.readMainCategoryByName(toSave.getMain());
@@ -90,29 +85,14 @@ public class CategoryService
         return this.repository.existsById(id);
     }
 
-//    public List<MainCategory> readAllMainCategories()
-//    {
-//        return this.mainCategoryRepository.findAll();
-//    }
-//    public List<SubCategory> readAllSubCategories()
-//    {
-//        return this.subCategoryRepository.findAll();
-//    }
-
-
     public List<Category> readAllCategories()
     {
         return this.repository.findAll();
     }
 
-    public List<CategoryDTO> readAllCategoriesDto()
+    public List<CategoryDTO> readAllCategoriesAsDto()
     {
-        List<CategoryDTO> dtos = new ArrayList<>();
-
-         for(Category cat : readAllCategories())
-             dtos.add(new CategoryDTO(cat));
-
-        return dtos;
+        return readAllCategories().stream().map(CategoryDTO::new).collect(Collectors.toList());
     }
 
     public List<Category> readCategoriesByType(Type type)
@@ -120,51 +100,17 @@ public class CategoryService
         return this.repository.findCategoriesByType(type.name());
     }
 
-    public List<CategoryDTO> readCategoriesDtoByType(Type type)
+    public List<CategoryDTO> readCategoriesByTypeAsDto(Type type)
     {
-        List<CategoryDTO> dtos = new ArrayList<>();
-
-        for(Category cat : readCategoriesByType(type))
-            dtos.add(new CategoryDTO(cat));
-
-        return dtos;
+        return readCategoriesByType(type).stream().map(CategoryDTO::new).collect(Collectors.toList());
     }
-
-//    public List<MainCategoryDTO> readMainCategoriesDtoOfIncomes()
-//    {
-////        List<MainCategoryDTO> dtos = new ArrayList<>();
-////
-////        for(MainCategory cat : readMainCategoriesOfIncomes())
-////        {
-////            var dto = new MainCategoryDTO(cat, readSubCategoriesByMainId(cat.getId()));
-////
-////            if (!dtos.contains(dto))
-////                dtos.add(dto);
-////        }
-////
-////        return dtos;
-//
-//        return createMainCategoriesDtoList(readMainCategoriesOfIncomes());
-//    }
 
     public List<MainCategoryDTO> readMainCategoriesDtoByType(Type type)
     {
-//        List<MainCategoryDTO> dtos = new ArrayList<>();
-//
-//        for(MainCategory cat : readMainCategoriesOfExpenses())
-//        {
-//            var dto = new MainCategoryDTO(cat, readSubCategoriesByMainId(cat.getId()));
-//
-//            if (!dtos.contains(dto))
-//                dtos.add(dto);
-//        }
-//
-//        return dtos;
-
-        return createMainCategoriesDtoList(readMainCategoriesByType(type));
+        return readMainCategoriesByType(type).stream().map(MainCategoryDTO::new).collect(Collectors.toList());
     }
 
-    private List<MainCategoryDTO> createMainCategoriesDtoList(List<MainCategory> list)
+    private List<MainCategoryDTO> readMainCategoriesAsDto(List<MainCategory> list)
     {
         List<MainCategoryDTO> dtos = new ArrayList<>();
 
@@ -178,30 +124,15 @@ public class CategoryService
 
         return dtos;
     }
-//
-//    public List<MainCategory> readMainCategoriesOfIncomes()
-//    {
-//         return this.mainCategoryRepository.findAllIncomes();
-//    }
-//
-//    public List<MainCategory> readMainCategoriesOfExpenses()
-//    {
-//        return this.mainCategoryRepository.findAllExpenses();
-//    }
 
     public List<MainCategory> readAllMainCategories()
     {
         return this.mainCategoryRepository.findAll();
     }
 
-    public List<MainCategoryDTO> readAllMainCategoriesDTO()
+    public List<MainCategoryDTO> readAllMainCategoriesAsDto()
     {
-        List<MainCategoryDTO> dtos = new ArrayList<>();
-
-        for(MainCategory cat : readAllMainCategories())
-            dtos.add(new MainCategoryDTO(cat));
-
-        return dtos;
+        return readAllMainCategories().stream().map(MainCategoryDTO::new).collect(Collectors.toList());
     }
 
     public List<SubCategory> readAllSubCategories()
@@ -209,14 +140,9 @@ public class CategoryService
         return this.subCategoryRepository.findAll();
     }
 
-    public List<SubCategoryDTO> readAllSubCategoriesDTO()
+    public List<SubCategoryDTO> readAllSubCategoriesAsDto()
     {
-        List<SubCategoryDTO> dtos = new ArrayList<>();
-
-        for(SubCategory cat : readAllSubCategories())
-            dtos.add(new SubCategoryDTO(cat));
-
-        return dtos;
+        return readAllSubCategories().stream().map(SubCategoryDTO::new).collect(Collectors.toList());
     }
 
     public List<SubCategory> readSubCategoriesByMainId(Integer id)
@@ -224,14 +150,9 @@ public class CategoryService
         return this.subCategoryRepository.findSubCategoriesByMainId(id);
     }
 
-    public List<SubCategoryDTO> readSubCategoriesDtoByMainId(Integer id)
+    public List<SubCategoryDTO> readSubCategoriesDtoByMainId(int mainCatId)
     {
-        List<SubCategoryDTO> dtos = new ArrayList<>();
-
-        for(SubCategory cat : readSubCategoriesByMainId(id))
-            dtos.add(new SubCategoryDTO(cat));
-
-        return dtos;
+        return readSubCategoriesByMainId(mainCatId).stream().map(SubCategoryDTO::new).collect(Collectors.toList());
     }
 
     public List<Category> readExpenseCategories()
@@ -294,19 +215,28 @@ public class CategoryService
         var transactions = this.transactionService.readTransactionsByMainCategoryIdAsDto(main.getId());
         mainCat.setTransactions(transactions);
 
-        mainCat.setActualMonthSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
-        mainCat.setActualMonthMinusOneSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
-        mainCat.setActualMonthMinusTwoSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
-        mainCat.setActualYearSum(this.utilService.sumByListAndYear(transactions, this.utilService.getActualYear()));
-        mainCat.setOverallSum(this.utilService.sumByList(transactions));
-
-        mainCat.setActualMonthCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
-        mainCat.setActualMonthMinusOneCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
-        mainCat.setActualMonthMinusTwoCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
-        mainCat.setActualYearCount(this.utilService.countByListAndYear(transactions, this.utilService.getActualYear()));
-        mainCat.setOverallCount(this.utilService.countByList(transactions));
+        mainCat.setWrapper(setActualDataWrapperDto(transactions));
 
         return mainCat;
+    }
+
+    private ActualDataWrapperDTO setActualDataWrapperDto(List<TransactionDTO> transactions)
+    {
+        var wrapper = new ActualDataWrapperDTO();
+
+        wrapper.setActualMonthSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
+        wrapper.setActualMonthMinusOneSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
+        wrapper.setActualMonthMinusTwoSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
+        wrapper.setActualYearSum(this.utilService.sumByListAndYear(transactions, this.utilService.getActualYear()));
+        wrapper.setOverallSum(this.utilService.sumByList(transactions));
+
+        wrapper.setActualMonthCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
+        wrapper.setActualMonthMinusOneCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
+        wrapper.setActualMonthMinusTwoCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
+        wrapper.setActualYearCount(this.utilService.countByListAndYear(transactions, this.utilService.getActualYear()));
+        wrapper.setOverallCount(this.utilService.countByList(transactions));
+
+        return wrapper;
     }
 
     public SubCategoryDTO readSubCategoryAsDto(SubCategory sub)
@@ -318,17 +248,7 @@ public class CategoryService
         var transactions = this.transactionService.readTransactionsBySubCategoryIdAsDto(sub.getId());
         subCat.setTransactions(transactions);
 
-        subCat.setActualMonthSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
-        subCat.setActualMonthMinusOneSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
-        subCat.setActualMonthMinusTwoSum(this.utilService.sumByListAndMonth(transactions, this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
-        subCat.setActualYearSum(this.utilService.sumByListAndYear(transactions, this.utilService.getActualYear()));
-        subCat.setOverallSum(this.utilService.sumByList(transactions));
-
-        subCat.setActualMonthCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
-        subCat.setActualMonthMinusOneCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue() - 1, this.utilService.getActualYear()));
-        subCat.setActualMonthMinusTwoCount(this.utilService.countByListAndMonth(transactions, this.utilService.getActualMonthValue() - 2, this.utilService.getActualYear()));
-        subCat.setActualYearCount(this.utilService.countByListAndYear(transactions, this.utilService.getActualYear()));
-        subCat.setOverallCount(this.utilService.countByList(transactions));
+        subCat.setWrapper(setActualDataWrapperDto(transactions));
 
         return subCat;
     }
@@ -343,21 +263,22 @@ public class CategoryService
         return new SubCategoryDTO(this.subCategoryRepository.findSubCategoryByHash(hash).orElseThrow());
     }
 
-    public SubCategory readSubCategoryBudgetByHash(int hash)
+    public SubCategory readSubCategoryByHash(int hash)
     {
        return this.subCategoryRepository.findSubCategoryByHash(hash).orElseThrow();
     }
 
-//    public List<String> readSubCategoriesByMainCategory(String main)
-//    {
-//        List<String> subs = new ArrayList<>();
-//
-//        for(CategoryDTO dto : readAllCategoriesDTO())
-//            if ((dto.getMainCategory()).equals(main))
-//                subs.add(dto.getSubCategory());
-//
-//        return subs;
-//    }
+    public TypeDTO readTypeAsDto(String t)
+    {
+        var type = new TypeDTO();
 
+        type.setType(t);
 
+        var transactions = this.transactionService.readTransactionsByTypeNameAsDto(t);
+        type.setTransactions(transactions);
+
+        type.setWrapper(setActualDataWrapperDto(transactions));
+
+        return  type;
+    }
 }

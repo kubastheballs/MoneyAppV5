@@ -1,6 +1,7 @@
 package com.moneyAppV5.transaction.repository;
 
 import com.moneyAppV5.transaction.Transaction;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -48,4 +49,6 @@ public interface TransactionRepository
 
 
     List<Transaction> findTransactionsBySubCategoryId(Integer subCatId);
+
+    List<Transaction> findTransactionsByTypeName(String t);
 }

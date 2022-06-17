@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/categories")
@@ -21,7 +20,6 @@ class CategoriesController
 {
     private static final Logger logger = LoggerFactory.getLogger(CategoriesController.class);
     CategoryService service;
-
 
     CategoriesController(CategoryService service)
     {
@@ -32,6 +30,10 @@ class CategoriesController
     String showCategories(Model model)
     {
         model.addAttribute("category", new CategoryDTO());
+        model.addAttribute("categories", this.service.readAllCategoriesAsDto());
+
+        model.addAttribute("mainCategories", this.service.readAllMainCategoriesAsDto());
+        model.addAttribute("subCategories", this.service.readAllSubCategoriesAsDto());
 
         return "categories";
     }
@@ -57,16 +59,13 @@ class CategoriesController
         this.service.createCategory(current);
 
         model.addAttribute("category", new CategoryDTO());
-        model.addAttribute("categories", getCategoriesDto());
+        model.addAttribute("categories", this.service.readAllCategoriesAsDto());
+
+        model.addAttribute("mainCategories", this.service.readAllMainCategoriesAsDto());
+        model.addAttribute("subCategories", this.service.readAllSubCategoriesAsDto());
 
         model.addAttribute("message", "Dodano kategorię!");
 
         return "categories";
-    }
-
-    @ModelAttribute("categories")
-    List<CategoryDTO> getCategoriesDto()
-    {
-         return this.service.readAllCategoriesDto();
     }
 }

@@ -61,6 +61,7 @@
 
 <!--    TODO tu chyba lepiej będzie zrobić ogólną listę i wyświetlać typ i dać filtorwanie-->
 <!--    TODO nadkategoria i w niej subkategorie?-->
+<!--    TODO przejście do kategorii jako takiej-->
     <h1>Kategorie</h1>
     <table>
         <tr>
@@ -76,9 +77,11 @@
                    th:text="${category.subCategoryDto.subCategory}"></a>
             </td>
 <!--            TODO typeView-->
-            <td th:text="${category.type}">
-
-            </td><td th:text="${category.description}"></td>
+            <td>
+                <a th:href="@{/typeView/{type}(type=${category.type.name})}"
+                   th:text="${category.type.name}"></a>
+            </td>
+            <td th:text="${category.description}"></td>
         </tr>
     </table>
 </main>

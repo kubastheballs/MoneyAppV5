@@ -8,20 +8,30 @@ public class TypeDTO
 {
     private String type;
     private List<TransactionDTO> transactions;
-//    TODO type nie ma hasha
-    private int hash;
 
-    private double actualMonthSum;
-    private double actualMonthMinusOneSum;
-    private double actualMonthMinusTwoSum;
-    private double actualYearSum;
-    private double overallSum;
+    private ActualDataWrapperDTO wrapper;
 
-    private int actualMonthCount;
-    private int actualMonthMinusOneCount;
-    private int actualMonthMinusTwoCount;
-    private int actualYearCount;
-    private int overallCount;
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 
+    public List<TransactionDTO> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<TransactionDTO> transactions) {
+        this.transactions = transactions;
+    }
+
+    public ActualDataWrapperDTO getWrapper() {
+        return wrapper;
+    }
+
+    public void setWrapper(ActualDataWrapperDTO wrapper) {
+        this.wrapper = wrapper;
+    }
 }

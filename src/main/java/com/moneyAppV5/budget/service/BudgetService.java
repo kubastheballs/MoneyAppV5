@@ -98,12 +98,7 @@ public class BudgetService
 
     private List<BudgetPositionDTO> readBudgetPositionsByBudgetIdAndTypeAsDto(int budgetId, Type type)
     {
-        var dtos = new ArrayList<BudgetPositionDTO>();
-
-        for (BudgetPosition bp : readBudgetPositionsByBudgetIdAndType(budgetId, type))
-            dtos.add(readBudgetPositionAsDto(bp));
-
-        return dtos;
+        return readBudgetPositionsByBudgetIdAndType(budgetId, type).stream().map(BudgetPositionDTO::new).collect(Collectors.toList());
     }
 
     public BudgetDTO readBudgetAsDto(Budget b)
@@ -359,12 +354,7 @@ public class BudgetService
 
     private List<TransactionDTO> readTransactionsByBudgetIdAsDto(int budgetId)
     {
-        var list = new ArrayList<TransactionDTO>();
-
-        for (Transaction t : this.transactionService.readTransactionsByBudgetId(budgetId))
-            list.add(new TransactionDTO(t));
-
-        return list;
+        return this.transactionService.readTransactionsByBudgetId(budgetId).stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
 
     public BudgetDTO readBudgetByMonthAndYearAsDto(int month, int year)
@@ -396,12 +386,7 @@ public class BudgetService
 
     public List<BudgetPositionDTO> readPositionsByBudgetIdAsDto(Integer budgetId)
     {
-        var list = new ArrayList<BudgetPositionDTO>();
-
-        for (BudgetPosition bp : readPositionsByBudgetId(budgetId))
-            list.add(new BudgetPositionDTO(bp));
-
-        return list;
+        return readPositionsByBudgetId(budgetId).stream().map(BudgetPositionDTO::new).collect(Collectors.toList());
     }
 
     public BudgetPositionsWrapperDTO readPositionsWrapperAsDto(int hash)
@@ -428,12 +413,7 @@ public class BudgetService
     {
         var budgetId = readBudgetIdByBudgetHash(hash);
 
-        var list = new ArrayList<BudgetPositionDTO>();
-
-        for (BudgetPosition bp : readPositionsByBudgetId(budgetId))
-            list.add(new BudgetPositionDTO(bp));
-
-        return list;
+        return readPositionsByBudgetId(budgetId).stream().map(BudgetPositionDTO::new).collect(Collectors.toList());
     }
 
     private int readBudgetIdByBudgetHash(Integer hash)
