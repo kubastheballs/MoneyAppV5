@@ -126,4 +126,9 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
     @Query(value = "select * from transactions inner join categories on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where " +
             "sub_category_id = :subCatId", nativeQuery = true)
     List<Transaction> findTransactionsBySubCategoryId(Integer subCatId);
+
+    @Override
+    @Query(value = "select * from transactions inner join categories on TRANSACTIONS.CATEGORY_ID = CATEGORIES.ID where " +
+            "type = :t", nativeQuery = true)
+    List<Transaction> findTransactionsByTypeName(String t);
 }

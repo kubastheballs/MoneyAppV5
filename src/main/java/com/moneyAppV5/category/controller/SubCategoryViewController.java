@@ -31,7 +31,7 @@ public class SubCategoryViewController
     @GetMapping
     String showSubCategory(Model model, @PathVariable Integer hash)
     {
-        var subCat = this.service.readSubCategoryBudgetByHash(hash);
+        var subCat = this.service.readSubCategoryByHash(hash);
 
         model.addAttribute("subCategory", this.service.readSubCategoryByHashAsDto(hash));
 

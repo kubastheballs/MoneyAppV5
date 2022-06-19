@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService
@@ -52,13 +53,9 @@ public class AccountService
         return this.repository.getAccountActualBalance(account);
     }
 
-    public List<AccountDTO> readAllAccountsDTO() {
-        List<AccountDTO> dtos = new ArrayList<>();
-
-        for (Account acc : readAllAccounts())
-            dtos.add(new AccountDTO(acc));
-
-        return dtos;
+    public List<AccountDTO> readAllAccountsDTO()
+    {
+        return readAllAccounts().stream().map(AccountDTO::new).collect(Collectors.toList());
     }
 
     public void changeBalanceByAccountId(Integer id, double amount, Type type)

@@ -22,6 +22,8 @@ public class CategoryDTO
     private String description;
     private Integer hash;
 
+    private ActualDataWrapperDTO wrapper;
+
      public CategoryDTO()
     {
     }
@@ -207,5 +209,13 @@ public class CategoryDTO
 
     public void setSubCategoryDto(SubCategoryDTO subCategoryDto) {
         this.subCategoryDto = subCategoryDto;
+    }
+
+    public ActualDataWrapperDTO getWrapper() {
+        return wrapper;
+    }
+
+    public void setWrapper(ActualDataWrapperDTO wrapper) {
+        this.wrapper = wrapper;
     }
 }

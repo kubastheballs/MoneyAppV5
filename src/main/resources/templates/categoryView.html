@@ -25,14 +25,14 @@
     </p>
     <p>
         <Label>Podkategoria: </Label>
-        <label ></label>
         <a th:href="@{/subCategoryView/{hash}(hash=${category.subCategoryDto.hash})}"
            th:text="${category.subCategoryDto.subCategory}"></a>
     </p>
     <p>
 <!--        TODO zrobić typeView tak jak w powyższych-->
         <label>Typ kategorii: </label>
-        <label th:text="${category.type}"></label>
+        <a th:href="@{/typeView/{type}(type=${category.type.name})}"
+           th:text="${category.type.name}"></a>
     </p>
     <p>
         <label>Opis: </label>

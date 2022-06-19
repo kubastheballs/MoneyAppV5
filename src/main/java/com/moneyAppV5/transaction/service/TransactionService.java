@@ -100,32 +100,17 @@ public class TransactionService
 
     public List<TransactionDTO> readAllTransactionsDTO()
     {
-        List<TransactionDTO> dtos = new ArrayList<>();
-
-        for(Transaction tran : readAllTransactions())
-            dtos.add(new TransactionDTO(tran));
-
-        return dtos;
+        return readAllTransactions().stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
 
     public List<PayeeDTO> readAllPayeesDto()
     {
-        List<PayeeDTO> dtos = new ArrayList<>();
-
-        for(Payee pay : readAllPayees())
-            dtos.add(new PayeeDTO(pay));
-
-        return dtos;
+        return readAllPayees().stream().map(PayeeDTO::new).collect(Collectors.toList());
     }
 
     public List<GainerDTO> readAllGainersDto()
     {
-        List<GainerDTO> dtos = new ArrayList<>();
-
-        for(Gainer gai : readAllGainers())
-            dtos.add(new GainerDTO(gai));
-
-        return dtos;
+        return readAllGainers().stream().map(GainerDTO::new).collect(Collectors.toList());
     }
 
     public List<Transaction> readTransactionsByPositionId(Integer id)
@@ -169,12 +154,7 @@ public class TransactionService
 
     public List<TransactionDTO> readTransactionsDtoByPayeeId(Integer id)
     {
-        List<TransactionDTO> dtos = new ArrayList<>();
-
-        for (Transaction t : this.repository.findByPayeeId(id))
-            dtos.add(new TransactionDTO(t));
-
-        return dtos;
+        return this.repository.findByPayeeId(id).stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
 
     public double sumTransactionsByAccountAndMonthAndType(Account a, Integer m, Integer y, Type type)
@@ -227,12 +207,7 @@ public class TransactionService
 
     public List<TransactionDTO> readTransactionsDtoByBudget(Budget budget)
     {
-        List<TransactionDTO> dtos = new ArrayList<>();
-
-        for (Transaction t : this.repository.findTransactionsByBudgetId(budget.getId()))
-            dtos.add(new TransactionDTO(t));
-
-        return dtos;
+        return this.repository.findTransactionsByBudgetId(budget.getId()).stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
 
     public double sumTransactionsByPositionId(int id)
@@ -252,22 +227,12 @@ public class TransactionService
 
     public List<TransactionDTO> readTransactionsByBudgetPositionIdAsDto(int positionId)
     {
-        var list = new ArrayList<TransactionDTO>();
-
-        for (Transaction t : readTransactionsByPositionId(positionId))
-            list.add(new TransactionDTO(t));
-
-        return list;
+        return readTransactionsByPositionId(positionId).stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
 
     public List<TransactionDTO> readTransactionsByAccountIdAsDto(int accountId)
     {
-        var list = new ArrayList<TransactionDTO>();
-
-        for (Transaction t : readTransactionsByAccountId(accountId))
-            list.add(new TransactionDTO(t));
-
-        return list;
+        return readTransactionsByAccountId(accountId).stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
 
     public List<Transaction> readTransactionsByAccountId(int accountId)
@@ -303,5 +268,15 @@ public class TransactionService
     public List<TransactionDTO> readTransactionsBySubCategoryIdAsDto(int subCatId)
     {
         return this.repository.findTransactionsBySubCategoryId(subCatId).stream().map(TransactionDTO::new).collect(Collectors.toList());
+    }
+
+    public List<TransactionDTO> readTransactionsByTypeNameAsDto(String t)
+    {
+        return this.repository.findTransactionsByTypeName(t).stream().map(TransactionDTO::new).collect(Collectors.toList());
+    }
+
+    public List<Transaction> readTransactionsByTypeName(String t)
+    {
+        return this.repository.findTransactionsByTypeName(t);
     }
 }

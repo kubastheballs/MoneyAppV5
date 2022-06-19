@@ -65,19 +65,19 @@
             </tr>
             <tr>
                 <td>Suma transakcji: </td>
-                <td th:text="${subCategory.actualMonthSum}"></td>
-                <td th:text="${subCategory.actualMonthMinusOneSum}"></td>
-                <td th:text="${subCategory.actualMonthMinusTwoSum}"></td>
-                <td th:text="${subCategory.actualYearSum}"></td>
-                <td th:text="${subCategory.overallSum}"></td>
+                <td th:text="${subCategory.wrapper.actualMonthSum}"></td>
+                <td th:text="${subCategory.wrapper.actualMonthMinusOneSum}"></td>
+                <td th:text="${subCategory.wrapper.actualMonthMinusTwoSum}"></td>
+                <td th:text="${subCategory.wrapper.actualYearSum}"></td>
+                <td th:text="${subCategory.wrapper.overallSum}"></td>
             </tr>
             <tr>
                 <td>Ilość transakcji: </td>
-                <td th:text="${subCategory.actualMonthCount}"></td>
-                <td th:text="${subCategory.actualMonthMinusOneCount}"></td>
-                <td th:text="${subCategory.actualMonthMinusTwoCount}"></td>
-                <td th:text="${subCategory.actualYearCount}"></td>
-                <td th:text="${subCategory.overallCount}"></td>
+                <td th:text="${subCategory.wrapper.actualMonthCount}"></td>
+                <td th:text="${subCategory.wrapper.actualMonthMinusOneCount}"></td>
+                <td th:text="${subCategory.wrapper.actualMonthMinusTwoCount}"></td>
+                <td th:text="${subCategory.wrapper.actualYearCount}"></td>
+                <td th:text="${subCategory.wrapper.overallCount}"></td>
             </tr>
         </table>
         <h3>Miesiąc z: </h3>

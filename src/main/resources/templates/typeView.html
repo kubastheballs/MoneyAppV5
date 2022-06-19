@@ -8,6 +8,143 @@
     <title>Document</title>
 </head>
 <body>
-
+<!--/*@thymesVar id="typeDto" type="com.moneyAppV5.category.dto.TypeDTO"*/-->
+<!--/*@thymesVar id="transaction" type="com.moneyAppV5.transaction.dto.TransactionDTO"*/-->
+<!--TODO nagłówek z nazwą itd-->
+<!--TDO lista kategorii danego typu-->
+<div>
+    <h2>Statystyki</h2>
+    <table>
+        <tr>
+            <td></td><td>Obecny miesiąc</td><td>Poprzedni miesiąc</td><td>Jeszcze poprzedni</td><td>Obecny rok</td><td>Ogółem</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td th:if="${actualBudgets.actual.month != 0}">
+                <a th:href="@{/budgetView/{budgetHash}(budgetHash=${actualBudgets.actual.hash})}"
+                   th:text="${actualBudgets.actual.name}"></a>
+            </td>
+            <td th:if="${actualBudgets.actual.month == 0}">
+                <label>n/d</label>
+            </td>
+            <td th:if="${actualBudgets.actualMinusOne.month != 0}">
+                <a th:href="@{/budgetView/{budgetHash}(budgetHash=${actualBudgets.actualMinusOne.hash})}"
+                   th:text="${actualBudgets.actualMinusOne.name}"></a>
+            </td>
+            <td th:if="${actualBudgets.actualMinusOne.month == 0}">
+                <label>n/d</label>
+            </td>
+            <td th:if="${actualBudgets.actualMinusTwo.month != 0}">
+                <a th:href="@{/budgetView/{budgetHash}(budgetHash=${actualBudgets.actualMinusTwo.hash})}"
+                   th:text="${actualBudgets.actualMinusTwo.name}"></a>
+            </td>
+            <td th:if="${actualBudgets.actualMinusTwo.month == 0}">
+                <label>n/d</label>
+            </td>
+            <!--            TODO roczny i ogólny-->
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Suma transakcji: </td>
+            <td th:text="${typeDto.wrapper.actualMonthSum}"></td>
+            <td th:text="${typeDto.wrapper.actualMonthMinusOneSum}"></td>
+            <td th:text="${typeDto.wrapper.actualMonthMinusTwoSum}"></td>
+            <td th:text="${typeDto.wrapper.actualYearSum}"></td>
+            <td th:text="${typeDto.wrapper.overallSum}"></td>
+        </tr>
+        <tr>
+            <td>Ilość transakcji: </td>
+            <td th:text="${typeDto.wrapper.actualMonthCount}"></td>
+            <td th:text="${typeDto.wrapper.actualMonthMinusOneCount}"></td>
+            <td th:text="${typeDto.wrapper.actualMonthMinusTwoCount}"></td>
+            <td th:text="${typeDto.wrapper.actualYearCount}"></td>
+            <td th:text="${typeDto.wrapper.overallCount}"></td>
+        </tr>
+    </table>
+    <h3>Miesiąc z: </h3>
+    <table>
+        <tr>
+            <td></td><td>Budżet</td><td>Suma/ilość</td>
+        </tr>
+        <tr>
+            <td>Największą sumą transakcji: </td>
+            <td th:if="${budgetStats.sums.highestSumBudget != null}">
+                <a th:href="@{/budgetView/{budgetHash}(budgetHash=${budgetStats.sums.highestSumBudget.hash})}"
+                   th:text="${budgetStats.sums.highestSumBudget.name}"></a>
+            </td>
+            <td th:if="${budgetStats.sums.highestSumBudget == null}" >
+                <label>n/d</label>
+            <td th:if="${budgetStats.sums.highestSum != null}" th:text="${budgetStats.sums.highestSum}"></td>
+        </tr>
+        <tr>
+            <td>Najmniejszą sumą transakcji: </td>
+            <td th:if="${budgetStats.sums.lowestSumBudget != null}">
+                <a th:href="@{/budgetView/{budgetHash}(budgetHash=${budgetStats.sums.lowestSumBudget.hash})}"
+                   th:text="${budgetStats.sums.lowestSumBudget.name}"></a>
+            </td>
+            <td th:if="${budgetStats.sums.lowestSumBudget == null}" >
+                <label>n/d</label>
+            </td>
+            <td th:if="${budgetStats.sums.lowestSum != null}" th:text="${budgetStats.sums.lowestSum}"></td>
+        </tr>
+        <tr>
+            <td>Największą ilością transakcji: </td>
+            <td th:if="${budgetStats.counts.highestCountBudget != null}">
+                <a th:href="@{/budgetView/{budgetHash}(budgetHash=${budgetStats.counts.highestCountBudget.hash})}"
+                   th:text="${budgetStats.counts.highestCountBudget.name}"></a>
+            </td>
+            <td th:if="${budgetStats.counts.highestCountBudget == null}" >
+                <label>n/d</label>
+            </td>
+            <td th:if="${budgetStats.counts.highestCount != null}" th:text="${budgetStats.counts.highestCount}"></td>
+        </tr>
+        <tr>
+            <td>Najmniejszą ilością transakcji: </td>
+            <td th:if="${budgetStats.counts.lowestCountBudget != null}">
+                <a th:href="@{/budgetView/{budgetHash}(budgetHash=${budgetStats.counts.lowestCountBudget.hash})}"
+                   th:text="${budgetStats.counts.lowestCountBudget.name}"></a>
+            </td>
+            <td th:if="${budgetStats.counts.lowestCountBudget == null}" >
+                <label>n/d</label>
+            </td>
+            <td th:if="${budgetStats.counts.lowestCount != null}" th:text="${budgetStats.counts.lowestCount}"></td>
+        </tr>
+    </table>
+</div>
+<div>
+    <h3>Transakcje</h3>
+    <table th:object="${transaction}">
+        <tr>
+            <td>Data</td><td>Konto</td><td>Kwota [zł]</td><td>Podkategoria</td><td>Kontrahent</td><td>Typ</td><td>Beneficjent</td><td>opis</td>
+        </tr>
+        <!--        TODO lista transakcji z daneej nadkategorii - najlepiej sortowana od najnowszych-->
+        <tr th:each="transaction : ${typeDto.transactions}">
+            <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
+            <!--                TODO dateView? pokazujący transakcje z danego dnia-->
+            <td th:text="${transaction.date}" ></td>
+            <td>
+                <a th:href="@{/accountView/{accountHash}(accountHash=${transaction.account.hash})}"
+                   th:text="${transaction.account.name}"></a>
+            </td>
+            <td th:text="${transaction.amount}"></td>
+            <td>
+                <a th:href="@{/subCategoryView/{subCatHash}(subCatHash=${transaction.category.subCategory.hash})}"
+                   th:text="${transaction.category.subCategory.subCategory}"></a>
+            </td>
+            <td>
+                <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
+                   th:text="${transaction.isPaid.name}"></a>
+            </td>
+            <!--                TODO typeView-->
+            <td th:text="${transaction.category.type}"></td>
+            <td>
+                <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
+                   th:text="${transaction.forWhom.name}"></a>
+            </td>
+            <td th:text="${transaction.description}"></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
