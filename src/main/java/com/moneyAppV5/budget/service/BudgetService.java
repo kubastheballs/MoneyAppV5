@@ -46,39 +46,50 @@ public class BudgetService
 
     BudgetPositionDTO readBudgetPositionAsDto(BudgetPosition bp)
     {
-        var position = new BudgetPositionDTO(bp);
         var actual = sumTransactionsByPositionId(bp.getId());
 
-        position.setCategory(new CategoryDTO(bp.getCategory()));
-        position.setActualAmount(actual);
-        position.setBalance(position.getPlannedAmount() - actual);
-        position.setTransactionsDto(this.transactionService.readTransactionsByBudgetPositionIdAsDto(bp.getId()));
-
-        return position;
+        return new BudgetPositionDTO.BudgetPositionDtoBuilder()
+                .buildCategory(bp.getCategory().toDto())
+                .buildPlannedAmount(bp.getPlannedAmount())
+                .buildDescription(bp.getDescription())
+                .buildHash(bp.getHash())
+                .buildActualAmount(actual)
+                .buildBalance()
+                .buildTransactionsDto(this.transactionService.readTransactionsByBudgetPositionIdAsDto(bp.getId()))
+                .build();
     }
 
     public BudgetPositionDTO readBudgetPositionViewAsDto(BudgetPosition bp)
     {
-        var position = new BudgetPositionDTO();
-
-        position.setHash(bp.getHash());
-        position.setPlannedAmount(bp.getPlannedAmount());
-        position.setActualAmount(this.transactionService.sumTransactionsByPositionId(bp.getId()));
-        position.setUsage((int) ((position.getActualAmount() / position.getPlannedAmount()) * 100));
-        position.setBudgetDto(new BudgetDTO(bp.getBudget()));
-        position.setCategory(new CategoryDTO(bp.getCategory()));
-        position.setDailyView(sumDailyTransactionsByPositionIdAndMonth(bp.getId(), Month.of(bp.getBudget().getMonth()).length(Year.isLeap(bp.getBudget().getMonth()))));
-        position.setTransactionsDto(this.transactionService.readTransactionsByBudgetPositionIdAsDto(bp.getId()));
+//        var position = new BudgetPositionDTO();
+//
+//        position.setHash(bp.getHash());
+//        position.setPlannedAmount(bp.getPlannedAmount());
+//        position.setActualAmount();
+//        position.setUsage((int) ((position.getActualAmount() / position.getPlannedAmount()) * 100));
+//        position.setBudgetDto(new BudgetDTO(bp.getBudget()));
+//        position.setCategory(new CategoryDTO(bp.getCategory()));
+//        position.setDailyView(sumDailyTransactionsByPositionIdAndMonth(bp.getId(), Month.of(bp.getBudget().getMonth()).length(Year.isLeap(bp.getBudget().getMonth()))));
+//        position.setTransactionsDto(this.transactionService.readTransactionsByBudgetPositionIdAsDto(bp.getId()));
 
 //        TODO
 //        stats
 
-        return position;
+        return new BudgetPositionDTO.BudgetPositionDtoBuilder()
+                .buildHash(bp.getHash())
+                .buildPlannedAmount(bp.getPlannedAmount())
+                .buildActualAmount(this.transactionService.sumTransactionsByPositionId(bp.getId()))
+                .buildUsage()
+                .buildBudgetDto(new BudgetDTO(bp.getBudget()))
+                .buildCategory(new CategoryDTO(bp.getCategory()))
+                .buildDailyView(sumDailyTransactionsByPositionIdAndMonth(bp.getId(), Month.of(bp.getBudget().getMonth()).length(Year.isLeap(bp.getBudget().getMonth()))))
+                .buildTransactionsDto(this.transactionService.readTransactionsByBudgetPositionIdAsDto(bp.getId()))
+                .build();
     }
 
-    public LinkedHashMap<String, Double> sumDailyTransactionsByPositionIdAndMonth(int positionId, int monthLength)
+    public HashMap<String, Double> sumDailyTransactionsByPositionIdAndMonth(int positionId, int monthLength)
     {
-        var map = new LinkedHashMap<String, Double>();
+        var map = new HashMap<String, Double>();
 
         for (String day : monthDaysList(monthLength))
             map.put(day, this.transactionService.sumTransactionsByDayAdnPositionId(day, positionId));
@@ -103,45 +114,67 @@ public class BudgetService
 
     public BudgetDTO readBudgetAsDto(Budget b)
     {
-        var budget = new BudgetDTO(b);
+//        var budget = new BudgetDTO(b);
 
-        budget.setIncomesDto(readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.INCOME));
-        budget.setExpensesDto(readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.EXPENSE));
-        budget.setTransactionsDto(readTransactionsByBudgetIdAsDto(b.getId()));
+//        this.month = budget.getMonth();
+//        this.year = budget.getYear();
+//        setMonthName(budget.getMonth());
+//        setName(budget.getMonth(), budget.getYear());
+//        this.description = budget.getDescription();
+//        this.hash = budget.getHash();
 
-        budget.setPlannedIncomes(sumPlannedByList(budget.getIncomesDto()));
-        budget.setActualIncomes(sumActualByList(budget.getIncomesDto()));
+//        budget.setIncomesDto();
+//        budget.setExpensesDto();
+//        budget.setTransactionsDto();
+//
+//        budget.setPlannedIncomes();
+//        budget.setActualIncomes();
+//
+//        budget.setPlannedExpenses();
+//        budget.setActualExpenses();
 
-        budget.setPlannedExpenses(sumPlannedByList(budget.getExpensesDto()));
-        budget.setActualExpenses(sumActualByList(budget.getExpensesDto()));
+//        budget.setBalancePlanned(budget.getPlannedIncomes() - budget.getPlannedExpenses());
+//        budget.setBalanceActual(budget.getActualIncomes() - budget.getActualExpenses());
 
-        budget.setBalancePlanned(budget.getPlannedIncomes() - budget.getPlannedExpenses());
-        budget.setBalanceActual(budget.getActualIncomes() - budget.getActualExpenses());
+//        budget.setBalanceIncomes(budget.getPlannedIncomes() - budget.getActualIncomes());
+//        budget.setBalanceExpenses(budget.getPlannedExpenses() - budget.getActualExpenses());
+//
+//        return budget;
+        var incomes = readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.INCOME);
+        var expenses = readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.EXPENSE);
 
-        budget.setBalanceIncomes(budget.getPlannedIncomes() - budget.getActualIncomes());
-        budget.setBalanceExpenses(budget.getPlannedExpenses() - budget.getActualExpenses());
-
-        return budget;
+        return buildBudgetDtoByBudgetData(b)
+                .buildIncomesDto(incomes)
+                .buildExpensesDto(expenses)
+                .buildTransactionsDto(readTransactionsByBudgetIdAsDto(b.getId()))
+                .buildPlannedIncomes(sumPlannedByList(incomes))
+                .buildActualIncomes(sumActualByList(incomes))
+                .buildPlannedExpenses(sumPlannedByList(expenses))
+                .buildActualExpenses(sumActualByList(expenses))
+                .buildBalancePlanned(sumPlannedByList(incomes) - sumPlannedByList(expenses))
+                .buildBalanceActual(sumActualByList(incomes) - sumActualByList(expenses))
+                .buildBalanceIncomes(sumPlannedByList(incomes) - sumActualByList(incomes))
+                .buildBalanceExpenses(sumPlannedByList(expenses) - sumActualByList(expenses))
+                .build();
     }
 
     Budget readBudgetByMonthAndYear(int month, int year)
     {
-//        TODO jaki błąd?
-        return this.repository.findByMonthAndYear(month, year).orElse(new Budget());
+        var empty = new Budget.BudgetBuilder().buildMonth(month).buildYear(year).build();
+
+        return this.repository.findByMonthAndYear(month, year).orElse(empty);
     }
 
     public BudgetDTO readBudgetOnlyWithActualByAccountIdAndMonthAsDto(int[] date, int accountId)
     {
         var b = readBudgetByMonthAndYear(date[0], date[1]);
-        var budget = new BudgetDTO(b);
 
-        budget.setActualIncomes(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.INCOME));
-
-        budget.setActualExpenses(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.EXPENSE));
-
-        budget.setBalanceActual(budget.getActualIncomes() - budget.getActualExpenses());
-
-        return budget;
+        return buildBudgetDtoByBudgetData(b)
+                .buildActualIncomes(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.INCOME))
+                .buildActualExpenses(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.EXPENSE))
+                .buildBalanceActual(this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.INCOME)
+                        - this.transactionService.sumTransactionsByBudgetIdAndAccountIdAndType(b.getId(), accountId, Type.EXPENSE))
+                .build();
     }
 
     private double sumPlannedByList(List<BudgetPositionDTO> list)
@@ -344,12 +377,21 @@ public class BudgetService
 
     public BudgetDTO readBudgetPlanAsDto(Budget b)
     {
-        var budget = new BudgetDTO(b);
+        return buildBudgetDtoByBudgetData(b)
+                .buildIncomesDto(readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.INCOME))
+                .buildExpensesDto(readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.EXPENSE))
+                .build();
+    }
 
-        budget.setIncomesDto(readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.INCOME));
-        budget.setExpensesDto(readBudgetPositionsByBudgetIdAndTypeAsDto(b.getId(), Type.EXPENSE));
-
-        return budget;
+    private BudgetDTO.BudgetDtoBuilder buildBudgetDtoByBudgetData(Budget b)
+    {
+        return new BudgetDTO.BudgetDtoBuilder()
+                .buildHash(b.getHash())
+                .buildMonth(b.getMonth())
+                .buildYear(b.getYear())
+                .buildName()
+                .buildMonthName()
+                .buildDescription(b.getDescription());
     }
 
     private List<TransactionDTO> readTransactionsByBudgetIdAsDto(int budgetId)
@@ -360,12 +402,6 @@ public class BudgetService
     public BudgetDTO readBudgetByMonthAndYearAsDto(int month, int year)
     {
         var date = this.utilService.checkMonthValue(month, year);
-
-        BudgetDTO budget;
-
-//        if  (!this.repository.existsByMonthAndYear(date[0], date[1]))
-//            budget =
-//        else
 
         return new BudgetDTO(readBudgetByMonthAndYear(date[0], date[1]));
     }
@@ -431,5 +467,26 @@ public class BudgetService
 //        TODO jeszcze roczny i ogólny?
 
         return wrapper;
+    }
+
+    public YearBudgetDTO readYearBudgetByYearAsDto(int year)
+    {
+        var budget = new YearBudgetDTO();
+
+        budget.setYear(year);
+
+        var months = new ArrayList<BudgetDTO>();
+
+        for (int i = 1; i <= 12; i++)
+            months.add(readBudgetByMonthAndYearAsDto(i, year));
+
+        budget.setMonths(months);
+
+        return budget;
+    }
+
+    private List<BudgetDTO> readBudgetsByYearAsDto(int year)
+    {
+        return this.repository.findBudgetsByYear(year).stream().map(BudgetDTO::new).collect(Collectors.toList());
     }
 }

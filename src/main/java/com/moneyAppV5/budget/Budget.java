@@ -1,5 +1,6 @@
 package com.moneyAppV5.budget;
 
+import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.transaction.Transaction;
 
 import javax.persistence.*;
@@ -36,42 +37,23 @@ class Budget
         this.year = year;
     }
 
+    private Budget(BudgetBuilder builder)
+    {
+        this.id = builder.id;
+        this.month = builder.month;
+        this.year = builder.year;
+        this.transactions = builder.transactions;
+        this.incomes = builder.incomes;
+        this.expenses = builder.expenses;
+        this.description = builder.description;
+        this.hash = builder.hash;
+    }
+
     @Override
     public int hashCode()
     {
         return Objects.hash(this.month, this.year);
     }
-
-//     public Integer getId()
-//    {
-//        return id;
-//    }
-//
-//    public void setId(Integer id)
-//    {
-//        this.id = id;
-//    }
-
-//    public Month getMonth()
-//    {
-//        return month;
-//    }
-//
-//    public void setMonth(Month month)
-//    {
-//        this.month = month;
-//    }
-//
-//    public Year getYear()
-//    {
-//        return year;
-//    }
-//
-//    public void setYear(Year year)
-//    {
-//        this.year = year;
-//    }
-
 
     public int getId() {
         return id;
@@ -141,5 +123,79 @@ class Budget
 
     public void setHash(Integer hash) {
         this.hash = hash;
+    }
+
+    public static class BudgetBuilder
+    {
+        private int id;
+        private int month;
+        private int year;
+        private Set<Transaction> transactions;
+        private Set<BudgetPosition> incomes;
+        private Set<BudgetPosition> expenses;
+        private String description;
+        private Integer hash;
+
+        public BudgetBuilder buildId(int id)
+        {
+            this.id = id;
+
+            return this;
+        }
+
+        public BudgetBuilder buildMonth(int month)
+        {
+            this.month = month;
+
+            return this;
+        }
+
+        public BudgetBuilder buildYear(int year)
+        {
+            this.year = year;
+
+            return this;
+        }
+
+        public BudgetBuilder buildTransactions(Set<Transaction> transactions)
+        {
+            this.transactions = transactions;
+
+            return this;
+        }
+
+        public BudgetBuilder buildIncomes(Set<BudgetPosition> incomes)
+        {
+            this.incomes = incomes;
+
+            return this;
+        }
+
+        public BudgetBuilder buildExpenses(Set<BudgetPosition> expenses)
+        {
+            this.expenses = expenses;
+
+            return this;
+        }
+
+        public BudgetBuilder buildDescription(String description)
+        {
+            this.description = description;
+
+            return this;
+        }
+        public BudgetBuilder buildHash(Integer hash)
+        {
+            this.hash = hash;
+
+            return this;
+        }
+
+        public Budget build()
+        {
+            return new Budget(this);
+        }
+
+
     }
 }

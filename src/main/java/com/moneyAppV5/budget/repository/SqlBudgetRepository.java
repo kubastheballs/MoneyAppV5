@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,4 +22,8 @@ interface SqlBudgetRepository extends BudgetRepository, JpaRepository<Budget, In
     @Override
     @Query(value = "select id from budgets where hash = :hash", nativeQuery = true)
     Optional<Integer> readBudgetIdByBudgetHash(Integer hash);
+
+    @Override
+    @Query(value = "select * from budgets where year = :year order by MONTH asc", nativeQuery = true)
+    List<Budget> findBudgetsByYear(Integer year);
 }

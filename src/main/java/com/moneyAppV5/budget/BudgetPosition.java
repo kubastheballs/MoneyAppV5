@@ -1,5 +1,6 @@
 package com.moneyAppV5.budget;
 
+import com.moneyAppV5.budget.dto.BudgetPositionDTO;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.transaction.Transaction;
 
@@ -37,6 +38,16 @@ class BudgetPosition
         this.category = category;
         this.budget = budget;
         this.hash = hashCode();
+    }
+
+    public BudgetPositionDTO toDto()
+    {
+        return new BudgetPositionDTO.BudgetPositionDtoBuilder()
+                .buildCategory(this.category.toDto())
+                .buildPlannedAmount(this.plannedAmount)
+                .buildDescription(this.description)
+                .buildHash(this.hash)
+                .build();
     }
 
     @Override

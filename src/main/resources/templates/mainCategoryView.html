@@ -153,8 +153,10 @@
                 <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
                    th:text="${transaction.isPaid.name}"></a>
             </td>
-            <!--                TODO typeView-->
-            <td th:text="${transaction.category.type}"></td>
+            <td>
+                <a th:href="@{/typeView/{type}(type=${category.type.name})}"
+                   th:text="${category.type.name}"></a>
+            </td>
             <td>
                 <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
                    th:text="${transaction.forWhom.name}"></a>

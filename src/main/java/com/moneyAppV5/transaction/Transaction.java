@@ -21,27 +21,30 @@ public class Transaction
     private int day;
     private int month;
     private int year;
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
-    private double amount;
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-    @ManyToOne
-    @JoinColumn(name = "is_paid_id")
-    private Payee isPaid;
+//    @ManyToOne
+//    @JoinColumn(name = "account_id")
+//    private Account account;
+//    private double amount;
+//    @ManyToOne
+//    @JoinColumn(name = "category_id")
+//    private Category category;
+//    @ManyToOne
+//    @JoinColumn(name = "is_paid_id")
+//    private Payee isPaid;
     @ManyToOne
     @JoinColumn(name = "for_whom_id")
     private Payee forWhom;
     private String description;
-    @ManyToOne
-    @JoinColumn(name = "budget_id")
-    private Budget budget;
+//    @ManyToOne
+//    @JoinColumn(name = "budget_id")
+//    private Budget budget;
     @ManyToOne
     @JoinColumn(name = "budget_position_id")
     private BudgetPosition budgetPosition;
     private Integer hash;
+//    @ManyToOne
+//    @joinColumn(name = "bill_id")
+//    private Bill bill;
 
      public Transaction()
     {

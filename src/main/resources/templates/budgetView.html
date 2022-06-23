@@ -71,7 +71,6 @@
                 <tr>
                     <td>Nazwa subkategorii</td><td>Planowane dochody</td><td>Rzeczywsite dochody</td><td>Różnica</td><td>Opis</td>
        </tr>
-<!--        TODO przycisk do przejścia szczegółów pozycji buydżetowej - lista transakcji i itd (również w wydatkach)-->
     </table>
 </div>
 <div>
@@ -102,13 +101,14 @@
             <!--        TODO wyciągnięcie listy subkategorii-->
     </table>
 </div>
+<!--TODO statystyki - największa suma transakcji najjwiększa ilość transakcji w pozycji itp-->
 <div>
     <h1>Transakcje w tym miesiącu</h1>
     <table>
         <tr>
             <td>Dzień</td><td>Konto</td><td>Kwota [zł]</td><td>Kontrahent</td><td>Kategoria</td><td>Beneficjent</td><td>opis</td>
         </tr>
-<!--        TODO lista transakcji z danego budżetu - najlepiej sortowana od najnowszych-->
+<!--        TODO - najlepiej domyslnie sortowana od najnowszych-->
         <tr th:each="transaction : ${budget.transactionsDto}">
             <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
             <td th:text="${transaction.day}" ></td>

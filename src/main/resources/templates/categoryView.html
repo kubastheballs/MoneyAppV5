@@ -29,7 +29,6 @@
            th:text="${category.subCategoryDto.subCategory}"></a>
     </p>
     <p>
-<!--        TODO zrobić typeView tak jak w powyższych-->
         <label>Typ kategorii: </label>
         <a th:href="@{/typeView/{type}(type=${category.type.name})}"
            th:text="${category.type.name}"></a>

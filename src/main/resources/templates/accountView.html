@@ -169,7 +169,7 @@
             <tr>
                 <td>Data</td><td>Kwota [zł]</td><td>Kontrahent</td><td>Typ</td><td>Kategoria</td><td>Beneficjent</td><td>opis</td>
             </tr>
-            <!--        TODO lista transakcji z danego konta - najlepiej sortowana od najnowszych-->
+            <!--        TODO  najlepiej domyslnie sortowana od najnowszych-->
             <tr th:each="transaction : ${account.transactions}">
                 <!--                TODO w wolnej chwili dodać opcje filtrowania listy-->
                 <td th:text="${transaction.date}" ></td>
@@ -178,7 +178,10 @@
                     <a th:href="@{/payeeView/{payeeHash}(payeeHash=${transaction.isPaid.hash})}"
                        th:text="${transaction.isPaid.name}"></a>
                 </td>
-                <td th:text="${transaction.category.type}"></td>
+                <td>
+                    <a th:href="@{/typeView/{type}(type=${category.type.name})}"
+                       th:text="${category.type.name}"></a>
+                </td>
                 <td>
                     <a th:href="@{/categoryView/{hash}(hash=${transaction.category.hash})}"
                        th:text="${transaction.category.category}"></a>

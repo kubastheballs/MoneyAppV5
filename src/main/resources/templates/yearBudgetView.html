@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_black.css">
+</head>
+<body>
+
+<h1>Rok </h1>
+<h1 th:text="${budget.year}"></h1>
+
+<table>
+    <tr>
+        <td>Miesiąc: </td>
+        <td  th:each="month : ${budget.months}">
+            <label th:if="${month.hash == null}" th:text="${month.monthName}"></label>
+            <a th:if="${month.hash != null}"
+                th:href="@{/budgetView/{hash}(hash=${month.hash})}"
+               th:text="${month.monthName}"></a>
+        </td>
+    </tr>
+    <tr>
+        <td>Planowane dochody: </td>
+        <td th:each="month : ${budget.months}" >
+            <label th:text="${month.plannedIncomes}"></label>
+        </td>
+    </tr>
+    <tr>
+        <td>Rzeczywiste dochody: </td>
+        <td th:each="month : ${budget.months}" >
+            <label th:text="${month.actualIncomes}"></label>
+        </td>
+    </tr>
+    <tr>
+        <td>Wykonanie planu dochodów: </td>
+        <td th:each="month : ${budget.months}" >
+            <label th:text="${month.plannedIncomes / month.actualIncomes}"></label>
+        </td>
+    </tr>
+    <tr>
+        <td>Planowane wydatki: </td>
+        <td th:each="month : ${budget.months}" >
+            <label th:text="${month.plannedIncomes}"></label>
+        </td>
+    </tr>
+    <tr>
+        <td>Rzeczywiste wydatki:</td>
+        <td th:each="month : ${budget.months}" >
+            <label th:text="${month.actualIncomes}"></label>
+        </td>
+    </tr>
+    <tr>
+        <td>Wykonanie planu wydatków: </td>
+        <td th:each="month : ${budget.months}" >
+            <label th:text="${month.plannedIncomes / month.actualIncomes}"></label>
+        </td>
+    </tr>
+</table>
+<!--TODO statystyki - najwieksze dochody wydatki największe sumy i ilosci w kategoriach itd-->
+<h3>Statystyki</h3>
+<table>
+    <tr>
+        <td></td>
+        <td>
+            budżet
+<!--            TODO link i wyświetlenie-->
+        </td>
+        <td>
+            suma / ilość
+        </td>
+    </tr>
+    <tr>
+        <td>Największa suma dochodów</td>
+    </tr>
+    <tr>
+        <td>Największa ilość dochodów</td>
+    </tr>
+    <tr>
+        <td>Największa suma wydatków</td>
+    </tr>
+    <tr>
+        <td>Największa ilość wydatków</td>
+    </tr>
+</table>
+<!--TODO lista transakcji-->
+</body>
+</html>
