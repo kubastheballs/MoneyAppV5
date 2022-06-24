@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.Month;
 import java.time.Year;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -229,7 +230,7 @@ public class BudgetService
 
         for (Transaction t : transactions)
         {
-            var k = t.getBudget().getHash();
+            var k = t.getBill().getBudget().getHash();
             var v = map.get(k);
 
             if (!map.containsKey(k))
@@ -259,7 +260,7 @@ public class BudgetService
 
         for (Transaction t : transactions)
         {
-            var k = t.getBudget().getHash();
+            var k = t.getBill().getBudget().getHash();
             var v = t.getAmount();
 
             if (!map.containsKey(k))
@@ -356,10 +357,13 @@ public class BudgetService
 
     public void checkPositionsByBudget(Budget budget)
     {
-        var positions = new HashMap<Category, BudgetPosition>();
-//TODO obczaić wykoanie przez stream i Collector (todo-app?)
-        for (BudgetPosition p : readPositionsByBudgetId(budget.getId()))
-            positions.put(p.getCategory(), p);
+//        var positions = new HashMap<Category, BudgetPosition>();
+////TODO obczaić wykoanie przez stream i Collector (todo-app?)
+//        for (BudgetPosition p : readPositionsByBudgetId(budget.getId()))
+//            positions.put(p.getCategory(), p);
+
+        var positions = readPositionsByBudgetId(budget.getId()).stream()
+                .collect(Collectors.toMap(BudgetPosition::getCategory, Function.identity()));
 
         for (Category cat : this.categoryService.readAllCategories())
             if  (!positions.containsKey(cat))

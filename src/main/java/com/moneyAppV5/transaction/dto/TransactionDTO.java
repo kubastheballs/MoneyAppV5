@@ -1,9 +1,13 @@
 package com.moneyAppV5.transaction.dto;
 
 import com.moneyAppV5.account.Account;
+import com.moneyAppV5.account.dto.AccountDTO;
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
+import com.moneyAppV5.budget.dto.BudgetDTO;
+import com.moneyAppV5.budget.dto.BudgetPositionDTO;
 import com.moneyAppV5.category.Category;
+import com.moneyAppV5.category.dto.CategoryDTO;
 import com.moneyAppV5.transaction.Gainer;
 import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Transaction;
@@ -14,21 +18,21 @@ import java.time.format.DateTimeFormatter;
 public class TransactionDTO
 {
     private String date;
-    private Account account;
+    private AccountDTO account;
     private double amount;
-    private Category category;
-    private Payee isPaid;
-    private Payee forWhom;
+    private CategoryDTO category;
+    private PayeeDTO payee;
+    private PayeeDTO gainer;
     private String description;
     private Integer hash;
 
-    private Budget budget;
-    private BudgetPosition budgetPosition;
+    private BudgetDTO budget;
+    private BudgetPositionDTO budgetPosition;
 
-    private int accountId;
-    private int categoryId;
-    private int payeeId;
-    private int gainerId;
+//    private int accountId;
+//    private int categoryId;
+//    private int payeeId;
+//    private int gainerId;
 
     private int day;
     private int month;
@@ -41,15 +45,15 @@ public class TransactionDTO
 
     public TransactionDTO(Transaction transaction)
     {
-        this.day = transaction.getDay();
-        this.month = transaction.getMonth();
-        this.year = transaction.getYear();
+        this.day = transaction.getBill().getDay();
+//        this.month = transaction.getBill().getgetMonth();
+        this.year = transaction.getBill().getBudget().getYear();
         this.date = createDateString(this.day, this.month, this.year);
-        this.account = transaction.getAccount();
+//        this.account = transaction.getAccount();
         this.amount = transaction.getAmount();
-        this.category = transaction.getCategory();
-        this.isPaid = transaction.getIsPaid();
-        this.forWhom = transaction.getForWhom();
+//        this.category = transaction.getCategory();
+//        this.isPaid = transaction.getIsPaid();
+//        this.forWhom = transaction.getForWhom();
         this.description = transaction.getDescription();
         this.hash = transaction.getHash();
     }
@@ -72,11 +76,11 @@ public class TransactionDTO
         this.month = month;
         this.year = year;
         this.date = createDateString(day, month, year);
-        this.account = account;
+//        this.account = account;
         this.amount = amount;
-        this.category = category;
-        this.isPaid = isPaid;
-        this.forWhom = forWhom;
+//        this.category = category;
+//        this.isPaid = isPaid;
+//        this.forWhom = forWhom;
         this.description = description;
     }
 
@@ -95,12 +99,12 @@ public class TransactionDTO
     {
         this.date = String.valueOf(date);
 //        this.date = date;
-        this.account = account;
+//        this.account = account;
         this.amount = amount;
 //        this.amount = String.valueOf(amount);
-        this.category = category;
-        this.isPaid = isPaid;
-        this.forWhom = forWhom;
+//        this.category = category;
+//        this.isPaid = isPaid;
+//        this.forWhom = forWhom;
         this.description = description;
     }
 
@@ -110,10 +114,29 @@ public class TransactionDTO
         this.amount = amount;
 //        this.amount = String.valueOf(amount);
         this.description = description;
-        this.accountId = accountId;
-        this.categoryId = categoryId;
-        this.payeeId = payeeId;
-        this.gainerId = gainerId;
+//        this.accountId = accountId;
+//        this.categoryId = categoryId;
+//        this.payeeId = payeeId;
+//        this.gainerId = gainerId;
+    }
+
+    private TransactionDTO(TransactionDtoBuilder builder)
+    {
+        this.date = builder.date;
+        this.account = builder.account;
+        this.amount = builder.amount;
+        this.category = builder.category;
+        this.payee = builder.payee;
+        this.gainer = builder.gainer;
+        this.description = builder.description;
+        this.hash = builder.hash;
+
+        this.budget = builder.budget;
+        this.budgetPosition = builder.budgetPosition;
+
+        this.day = builder.day;
+        this.month = builder.month;
+        this.year = builder.year;
     }
 
     public Transaction toTransaction()
@@ -121,16 +144,16 @@ public class TransactionDTO
         var result = new Transaction();
 
 //        result.setDate(LocalDate.parse(this.date, DateTimeFormatter.ISO_DATE));
-        result.setDay(this.day);
-        result.setMonth(this.month);
-        result.setYear(this.year);
-        result.setAccount(this.account);
-        result.setAmount(this.amount);
-        result.setCategory(this.category);
-        result.setIsPaid(this.isPaid);
-        result.setForWhom(this.forWhom);
+//        result.setDay(this.day);
+//        result.setMonth(this.month);
+//        result.setYear(this.year);
+//        result.setAccount(this.account);
+//        result.setAmount(this.amount);
+//        result.setCategory(this.category);
+//        result.setIsPaid(this.isPaid);
+//        result.setForWhom(this.forWhom);
         result.setDescription(this.description);
-        result.setBudget(this.budget);
+//        result.setBudget(this.budget);
         result.setHash(result.hashCode());
 
         return result;
@@ -190,77 +213,77 @@ public class TransactionDTO
         this.description = description;
     }
 
-    public int getAccountId()
-    {
-        return accountId;
-    }
+//    public int getAccountId()
+//    {
+//        return accountId;
+//    }
+//
+//    void setAccountId(int accountId)
+//    {
+//        this.accountId = accountId;
+//    }
+//
+//    public int getCategoryId()
+//    {
+//        return categoryId;
+//    }
+//
+//    void setCategoryId(int categoryId)
+//    {
+//        this.categoryId = categoryId;
+//    }
 
-    void setAccountId(int accountId)
-    {
-        this.accountId = accountId;
-    }
-
-    public int getCategoryId()
-    {
-        return categoryId;
-    }
-
-    void setCategoryId(int categoryId)
-    {
-        this.categoryId = categoryId;
-    }
-
-    public int getPayeeId()
-    {
-        return payeeId;
-    }
-
-    void setPayeeId(int payeeId)
-    {
-        this.payeeId = payeeId;
-    }
-
-    public int getGainerId()
-    {
-        return gainerId;
-    }
-
-    void setGainerId(int gainerId)
-    {
-        this.gainerId = gainerId;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Payee getIsPaid() {
-        return isPaid;
-    }
-
-    public void setIsPaid(Payee isPaid) {
-        this.isPaid = isPaid;
-    }
-
-    public Payee getForWhom() {
-        return forWhom;
-    }
-
-    public void setForWhom(Payee forWhom) {
-        this.forWhom = forWhom;
-    }
+//    public int getPayeeId()
+//    {
+//        return payeeId;
+//    }
+//
+//    void setPayeeId(int payeeId)
+//    {
+//        this.payeeId = payeeId;
+//    }
+//
+//    public int getGainerId()
+//    {
+//        return gainerId;
+//    }
+//
+//    void setGainerId(int gainerId)
+//    {
+//        this.gainerId = gainerId;
+//    }
+//
+//    public Account getAccount() {
+//        return account;
+//    }
+//
+//    public void setAccount(Account account) {
+//        this.account = account;
+//    }
+//
+//    public Category getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(Category category) {
+//        this.category = category;
+//    }
+//
+//    public Payee getIsPaid() {
+//        return isPaid;
+//    }
+//
+//    public void setIsPaid(Payee isPaid) {
+//        this.isPaid = isPaid;
+//    }
+//
+//    public Payee getForWhom() {
+//        return forWhom;
+//    }
+//
+//    public void setForWhom(Payee forWhom) {
+//        this.forWhom = forWhom;
+//    }
 
     public int getDay() {
         return day;
@@ -286,21 +309,21 @@ public class TransactionDTO
         this.year = year;
     }
 
-    public Budget getBudget() {
-        return budget;
-    }
-
-    public void setBudget(Budget budget) {
-        this.budget = budget;
-    }
-
-    public BudgetPosition getBudgetPosition() {
-        return budgetPosition;
-    }
-
-    public void setBudgetPosition(BudgetPosition budgetPosition) {
-        this.budgetPosition = budgetPosition;
-    }
+//    public Budget getBudget() {
+//        return budget;
+//    }
+//
+//    public void setBudget(Budget budget) {
+//        this.budget = budget;
+//    }
+//
+//    public BudgetPosition getBudgetPosition() {
+//        return budgetPosition;
+//    }
+//
+//    public void setBudgetPosition(BudgetPosition budgetPosition) {
+//        this.budgetPosition = budgetPosition;
+//    }
 
     public Integer getHash() {
         return hash;
@@ -308,5 +331,175 @@ public class TransactionDTO
 
     public void setHash(Integer hash) {
         this.hash = hash;
+    }
+
+    public AccountDTO getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountDTO account) {
+        this.account = account;
+    }
+
+    public CategoryDTO getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
+    }
+
+    public PayeeDTO getPayee() {
+        return payee;
+    }
+
+    public void setPayee(PayeeDTO payee) {
+        this.payee = payee;
+    }
+
+    public PayeeDTO getGainer() {
+        return gainer;
+    }
+
+    public void setGainer(PayeeDTO gainer) {
+        this.gainer = gainer;
+    }
+
+    public BudgetDTO getBudget() {
+        return budget;
+    }
+
+    public void setBudget(BudgetDTO budget) {
+        this.budget = budget;
+    }
+
+    public BudgetPositionDTO getBudgetPosition() {
+        return budgetPosition;
+    }
+
+    public void setBudgetPosition(BudgetPositionDTO budgetPosition) {
+        this.budgetPosition = budgetPosition;
+    }
+
+    public static class TransactionDtoBuilder
+    {
+        private String date;
+        private AccountDTO account;
+        private double amount;
+        private CategoryDTO category;
+        private PayeeDTO payee;
+        private PayeeDTO gainer;
+        private String description;
+        private Integer hash;
+
+        private BudgetDTO budget;
+        private BudgetPositionDTO budgetPosition;
+
+        private int day;
+        private int month;
+        private int year;
+        
+        public TransactionDtoBuilder buildDay(int day)
+        {
+            this.day = day;
+            
+            return this;
+        }
+
+        public TransactionDtoBuilder buildMonth(int month)
+        {
+            this.month = month;
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildYear(int year)
+        {
+            this.year = year;
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildDate()
+        {
+            this.date = String.format("%s/%s/%s", this.day, this.month, this.year);
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildDate(int day, int month, int year)
+        {
+            this.date = String.format("%s/%s/%s", day, month, year);
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildAccount(AccountDTO account)
+        {
+            this.account = account;
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildAmount(double amount)
+        {
+            this.amount = amount;
+            
+            return this;
+        }
+        
+        public TransactionDtoBuilder buildCategory(CategoryDTO category)
+        {
+            this.category = category;
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildPayee(PayeeDTO payee)
+        {
+            this.payee = payee;
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildGainer(PayeeDTO gainer)
+        {
+            this.gainer = gainer;
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildDescription(String description)
+        {
+            this.description = description;
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildHash(int hash)
+        {
+            this.hash = hash;
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildBudget(BudgetDTO budget)
+        {
+            this.budget = budget;
+
+            return this;
+        }
+
+        public TransactionDtoBuilder buildBudgetPosition(BudgetPositionDTO budgetPosition)
+        {
+            this.budgetPosition = budgetPosition;
+
+            return this;
+        }
+
+        public TransactionDTO build()
+        {
+            return new TransactionDTO(this);
+        }
     }
 }

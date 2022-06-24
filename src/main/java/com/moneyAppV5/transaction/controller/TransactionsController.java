@@ -114,13 +114,6 @@ class TransactionsController
         return this.service.readAllPayees();
     }
 
-    @ModelAttribute("gainersList")
-    List<Gainer> getGainers()
-    {
-        return this.service.readAllGainers();
-    }
-
-
 //    @PostMapping
 //    ResponseEntity<Transaction> createTransaction(@RequestBody @Valid Transaction toCreate) {
 //        Transaction result = this.service.createTransaction(toCreate);

@@ -40,4 +40,10 @@ class BudgetServiceTest
         assertThat(budget.getYear()).isEqualTo(2022);
     }
 
+    @Test
+    public void listToMap()
+    {
+        //    TODO nazwa itd - za baeldung
+    }
+
 }

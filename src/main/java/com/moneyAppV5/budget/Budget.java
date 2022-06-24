@@ -195,7 +195,5 @@ class Budget
         {
             return new Budget(this);
         }
-
-
     }
 }

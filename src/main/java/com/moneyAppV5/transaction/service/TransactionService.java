@@ -26,18 +26,13 @@ import java.util.stream.Collectors;
 @Service
 public class TransactionService
 {
-    private TransactionRepository repository;
-    private GainerRepository gainerRepository;
-    private PayeeRepository payeeRepository;
-//    private BudgetService budgetService;
+    private final TransactionRepository repository;
+    private final PayeeRepository payeeRepository;
 
-    TransactionService(TransactionRepository repository, GainerRepository gainerRepository, PayeeRepository payeeRepository)
-//    TransactionService(TransactionRepository repository, GainerRepository gainerRepository, PayeeRepository payeeRepository, BudgetService budgetService)
+    TransactionService(TransactionRepository repository, PayeeRepository payeeRepository)
     {
         this.repository = repository;
-        this.gainerRepository = gainerRepository;
         this.payeeRepository = payeeRepository;
-//        this.budgetService = budgetService;
     }
 
     public boolean existsById(int id)
@@ -47,15 +42,7 @@ public class TransactionService
 
     public Transaction createTransaction(final TransactionDTO toSave)
     {
-//        TODO przy tworzeniu transakcji należy sprawdzić czy istnieje budgetPos dla daty i kategorii - jesli tak to dodać a jeśli nie to utworzyć nowy
-//TODO ewentualnie zostawiamy to dla widoku budżetu
-
         return this.repository.save(toSave.toTransaction());
-    }
-
-    public Gainer createGainer(final GainerDTO toSave)
-    {
-        return this.gainerRepository.save(toSave.toGainer());
     }
 
     public Payee addPayee(final String name, final Role role)
@@ -73,11 +60,6 @@ public class TransactionService
         return this.repository.findAll();
     }
 
-    public List<Gainer> readAllGainers()
-    {
-        return this.gainerRepository.findAll();
-    }
-
     public List<Payee> readAllPayees()
     {
         return this.payeeRepository.findAll();
@@ -86,11 +68,6 @@ public class TransactionService
     public Optional<Transaction> readTransactionById(int id)
     {
         return this.repository.findById(id);
-    }
-
-    public Optional<Gainer> readGainerById(int id)
-    {
-        return this.gainerRepository.findById(id);
     }
 
     public Optional<Payee> readPayeeById(int id)
@@ -106,11 +83,6 @@ public class TransactionService
     public List<PayeeDTO> readAllPayeesDto()
     {
         return readAllPayees().stream().map(PayeeDTO::new).collect(Collectors.toList());
-    }
-
-    public List<GainerDTO> readAllGainersDto()
-    {
-        return readAllGainers().stream().map(GainerDTO::new).collect(Collectors.toList());
     }
 
     public List<Transaction> readTransactionsByPositionId(Integer id)

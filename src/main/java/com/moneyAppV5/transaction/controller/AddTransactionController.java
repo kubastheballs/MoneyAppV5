@@ -2,6 +2,7 @@ package com.moneyAppV5.transaction.controller;
 
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.service.AccountService;
+import com.moneyAppV5.bill.dto.BillDTO;
 import com.moneyAppV5.budget.controller.BudgetViewController;
 import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.budget.service.BudgetService;
@@ -41,13 +42,13 @@ public class AddTransactionController
     @GetMapping()
     String showAddTransaction(Model model, @PathVariable Integer hash)
     {
-        var dto = new TransactionDTO();
+        var dto = new BillDTO();
         var budgetDto = new BudgetDTO(this.budgetService.readBudgetByHash(hash));
 
-        dto.setMonth(budgetDto.getMonth());
-        dto.setYear(budgetDto.getYear());
+//        dto.setMonth(budgetDto.getMonth());
+//        dto.setYear(budgetDto.getYear());
 
-        model.addAttribute("transaction", dto);
+        model.addAttribute("bill", dto);
         model.addAttribute("budgetHash", hash);
         model.addAttribute("budget", budgetDto.toBudget());
 
@@ -55,7 +56,7 @@ public class AddTransactionController
     }
 
     @PostMapping()
-    String addTransaction(@ModelAttribute("transaction") @Valid TransactionDTO current, BindingResult bindingResult, Model model, @PathVariable Integer hash)
+    String addTransaction(@ModelAttribute("bill") @Valid BillDTO current, BindingResult bindingResult, Model model, @PathVariable Integer hash)
     {
 
         if (bindingResult.hasErrors())
