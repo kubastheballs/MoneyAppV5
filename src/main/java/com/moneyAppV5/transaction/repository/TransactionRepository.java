@@ -51,4 +51,6 @@ public interface TransactionRepository
     List<Transaction> findTransactionsBySubCategoryId(Integer subCatId);
 
     List<Transaction> findTransactionsByTypeName(String t);
+
+    List<Integer> findCategoriesIdByBillId(int billId);
 }

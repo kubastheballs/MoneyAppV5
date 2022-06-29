@@ -333,6 +333,16 @@ public class BudgetService
         return this.positionsRepository.findByHashAndCategoryId(hash, category.getId());
     }
 
+    public List<BudgetPosition> readPositionsByBudgetHashAndCategories(int hash, List<Integer> categoriesIds)
+    {
+        var positions = new ArrayList<BudgetPosition>();
+
+        for (int id : categoriesIds)
+            positions.add(this.positionsRepository.findByHashAndCategoryId(hash, id));
+
+        return positions;
+    }
+
     public Integer readNewestBudgetHash()
     {
         return this.repository.findNewestBudgetHash().orElse(null);

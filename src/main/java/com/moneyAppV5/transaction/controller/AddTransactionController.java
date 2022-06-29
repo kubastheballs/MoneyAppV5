@@ -3,6 +3,7 @@ package com.moneyAppV5.transaction.controller;
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.service.AccountService;
 import com.moneyAppV5.bill.dto.BillDTO;
+import com.moneyAppV5.bill.service.BillService;
 import com.moneyAppV5.budget.controller.BudgetViewController;
 import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.budget.service.BudgetService;
@@ -10,7 +11,6 @@ import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.service.CategoryService;
 import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Role;
-import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,15 +24,17 @@ import java.util.List;
 @RequestMapping("/budgetView/{hash}/addTransaction")
 public class AddTransactionController
 {
-    TransactionService service;
-    CategoryService categoryService;
-    AccountService accountService;
-    BudgetService budgetService;
-    BudgetViewController viewController;
+    private BillService billService;
+    private TransactionService transactionService;
+    private CategoryService categoryService;
+    private AccountService accountService;
+    private BudgetService budgetService;
+    private BudgetViewController viewController;
 
-    public AddTransactionController(TransactionService service, CategoryService categoryService, AccountService accountService,
-                                    BudgetService budgetService, BudgetViewController viewController) {
-        this.service = service;
+    public AddTransactionController(TransactionService transactionService, CategoryService categoryService, AccountService accountService,
+                                    BudgetService budgetService, BudgetViewController viewController, BillService billService) {
+        this.billService = billService;
+        this.transactionService = transactionService;
         this.categoryService = categoryService;
         this.accountService = accountService;
         this.budgetService = budgetService;
@@ -52,44 +54,43 @@ public class AddTransactionController
         model.addAttribute("budgetHash", hash);
         model.addAttribute("budget", budgetDto.toBudget());
 
-        return "addTransaction";
+        return "addTransactions";
     }
 
     @PostMapping()
-    String addTransaction(@ModelAttribute("bill") @Valid BillDTO current, BindingResult bindingResult, Model model, @PathVariable Integer hash)
+    String addBill(@ModelAttribute("bill") @Valid BillDTO current, BindingResult bindingResult, Model model, @PathVariable Integer hash)
     {
 
         if (bindingResult.hasErrors())
         {
             model.addAttribute("message", "Błędne dane!");
 
-            return "addTransaction";
+            return "addTransactions";
         }
 
-        var dto = new TransactionDTO();
         var budget = this.budgetService.readBudgetByHash(hash);
+//TODO tu będzie lista pozycji na podstawie transakcji w danym rachunku
 
-        dto.setMonth(budget.getMonth());
-        dto.setYear(budget.getYear());
+        var bill =  this.billService.createBill(current);
 
-        var position = this.budgetService.readPositionByBudgetHashAndCategory(hash, current.getCategory());
+        var positions = this.budgetService.readPositionsByBudgetHashAndCategories(hash,
+                this.transactionService.readCategoriesIdsByBillId(bill.getId()));
 
-        var transaction =  this.service.createTransaction(current);
+        bill.setBudget(budget);
+//        hidden?
+        bill.setBudgetPositions(positions);
 
-        transaction.setBudget(budget);
-        transaction.setBudgetPosition(position);
+        this.accountService.changeBalanceByAccountId(bill.getAccount().getId(), current.sumTransactions());
 
-        this.accountService.changeBalanceByAccountId(transaction.getAccount().getId(), transaction.getAmount(), transaction.getCategory().getType());
-
-        model.addAttribute("transaction", dto);
+        model.addAttribute("bill", new BillDTO());
         model.addAttribute("budgetHash", hash);
         model.addAttribute("accountsList", getAccounts());
         model.addAttribute("categoriesList", getCategories());
-        model.addAttribute("isPaidList", getIsPaidList());
-        model.addAttribute("forWhomList", getForWhomList());
-        model.addAttribute("message", "Dodano transakcję!");
+        model.addAttribute("payeesList", getIsPaidList());
+        model.addAttribute("gainersList", getForWhomList());
+        model.addAttribute("message", "Dodano rachunek!");
 
-        return "addTransaction";
+        return "addTransactions";
     }
 
 //    @GetMapping(value ="redirect:/budgetView/{id}", params="return")
@@ -119,12 +120,12 @@ public class AddTransactionController
     @ModelAttribute("isPaidList")
     List<Payee> getIsPaidList()
     {
-        return this.service.readPayeesByRole(Role.IS_PAID);
+        return this.transactionService.readPayeesByRole(Role.IS_PAID);
     }
 
     @ModelAttribute("forWhomList")
     List<Payee> getForWhomList()
     {
-        return this.service.readPayeesByRole(Role.IS_FOR);
+        return this.transactionService.readPayeesByRole(Role.IS_FOR);
     }
 }

@@ -1,8 +1,12 @@
 package com.moneyAppV5.bill.repository;
 
-import org.springframework.stereotype.Repository;
+import com.moneyAppV5.bill.Bill;
 
-@Repository
+import java.util.List;
+
 public interface BillRepository
 {
+    Bill save(Bill bill);
+
+
 }

@@ -58,6 +58,11 @@ public class AccountService
         return readAllAccounts().stream().map(AccountDTO::new).collect(Collectors.toList());
     }
 
+    public void changeBalanceByAccountId(Integer id, double amount)
+    {
+        this.repository.changeBalance(id, amount);
+    }
+
     public void changeBalanceByAccountId(Integer id, double amount, Type type)
     {
         if (type.equals(Type.EXPENSE))

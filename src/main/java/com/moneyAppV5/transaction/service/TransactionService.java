@@ -251,4 +251,9 @@ public class TransactionService
     {
         return this.repository.findTransactionsByTypeName(t);
     }
+
+    public List<Integer> readCategoriesIdsByBillId(int billId)
+    {
+        return this.repository.findCategoriesIdByBillId(billId);
+    }
 }
