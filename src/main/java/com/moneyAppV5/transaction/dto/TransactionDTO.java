@@ -33,7 +33,6 @@ public class TransactionDTO
     private int month;
     private int year;
 
-
      public TransactionDTO()
     {
     }
@@ -41,7 +40,7 @@ public class TransactionDTO
     public TransactionDTO(Transaction transaction)
     {
         this.day = transaction.getBill().getDay();
-//        this.month = transaction.getBill().getgetMonth();
+//        this.month = transaction.getBill().getMonth();
         this.year = transaction.getBill().getBudget().getYear();
         this.date = createDateString(this.day, this.month, this.year);
 //        this.account = transaction.getAccount();
@@ -208,78 +207,6 @@ public class TransactionDTO
         this.description = description;
     }
 
-//    public int getAccountId()
-//    {
-//        return accountId;
-//    }
-//
-//    void setAccountId(int accountId)
-//    {
-//        this.accountId = accountId;
-//    }
-//
-//    public int getCategoryId()
-//    {
-//        return categoryId;
-//    }
-//
-//    void setCategoryId(int categoryId)
-//    {
-//        this.categoryId = categoryId;
-//    }
-
-//    public int getPayeeId()
-//    {
-//        return payeeId;
-//    }
-//
-//    void setPayeeId(int payeeId)
-//    {
-//        this.payeeId = payeeId;
-//    }
-//
-//    public int getGainerId()
-//    {
-//        return gainerId;
-//    }
-//
-//    void setGainerId(int gainerId)
-//    {
-//        this.gainerId = gainerId;
-//    }
-//
-//    public Account getAccount() {
-//        return account;
-//    }
-//
-//    public void setAccount(Account account) {
-//        this.account = account;
-//    }
-//
-//    public Category getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(Category category) {
-//        this.category = category;
-//    }
-//
-//    public Payee getIsPaid() {
-//        return isPaid;
-//    }
-//
-//    public void setIsPaid(Payee isPaid) {
-//        this.isPaid = isPaid;
-//    }
-//
-//    public Payee getForWhom() {
-//        return forWhom;
-//    }
-//
-//    public void setForWhom(Payee forWhom) {
-//        this.forWhom = forWhom;
-//    }
-
     public int getDay() {
         return day;
     }
@@ -303,22 +230,6 @@ public class TransactionDTO
     public void setYear(int year) {
         this.year = year;
     }
-
-//    public Budget getBudget() {
-//        return budget;
-//    }
-//
-//    public void setBudget(Budget budget) {
-//        this.budget = budget;
-//    }
-//
-//    public BudgetPosition getBudgetPosition() {
-//        return budgetPosition;
-//    }
-//
-//    public void setBudgetPosition(BudgetPosition budgetPosition) {
-//        this.budgetPosition = budgetPosition;
-//    }
 
     public Integer getHash() {
         return hash;

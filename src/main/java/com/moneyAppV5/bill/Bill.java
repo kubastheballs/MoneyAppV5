@@ -16,6 +16,7 @@ public class Bill
 {
 //    TODO placeholder dla rachunku (do przejścia na model rachunek - transakcje)
 //    TODO czy rachunek powinien mieć przypisany typ? bo to albo wydatki albo dochody
+//    albo przynajmniej zaznaczenie w html i wtedy sortowanie kategorii tylko dla danego typiu
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

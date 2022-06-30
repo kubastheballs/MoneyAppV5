@@ -1,10 +1,9 @@
 package com.moneyAppV5.transaction;
 
+import com.moneyAppV5.bill.Bill;
 import com.moneyAppV5.transaction.dto.PayeeDTO;
-import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,10 +18,10 @@ public class Payee
     @Enumerated(EnumType.STRING)
     private Role role;
     private String description;
-    @OneToMany(mappedBy = "isPaid")
-    private Set<Transaction> isPaidTransactions;
-    @OneToMany(mappedBy = "forWhom")
-    private Set<Transaction> forWhomTransactions;
+    @OneToMany(mappedBy = "payee")
+    private Set<Bill> payeeBills;
+    @OneToMany(mappedBy = "gainer")
+    private Set<Transaction> gainerTransactions;
     private Integer hash;
 
     @Override
@@ -70,22 +69,22 @@ public class Payee
         this.description = description;
     }
 
-    public Set<Transaction> getIsPaidTransactions()
+    public Set<Bill> getPayeeBills()
     {
-        return isPaidTransactions;
+        return payeeBills;
     }
 
-    public void setIsPaidTransactions(Set<Transaction> transactions)
+    public void setPayeeBills(Set<Bill> bills)
     {
-        this.isPaidTransactions = transactions;
+        this.payeeBills = bills;
     }
 
-    public Set<Transaction> getForWhomTransactions() {
-        return forWhomTransactions;
+    public Set<Transaction> getGainerTransactions() {
+        return gainerTransactions;
     }
 
-    public void setForWhomTransactions(Set<Transaction> forWhomTransactions) {
-        this.forWhomTransactions = forWhomTransactions;
+    public void setGainerTransactions(Set<Transaction> forWhomTransactions) {
+        this.gainerTransactions = forWhomTransactions;
     }
 
     public Integer getHash() {

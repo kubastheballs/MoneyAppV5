@@ -1,15 +1,11 @@
 package com.moneyAppV5.transaction;
 
-import com.moneyAppV5.account.Account;
 import com.moneyAppV5.bill.Bill;
-import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -33,8 +29,8 @@ public class Transaction
 //    @JoinColumn(name = "is_paid_id")
 //    private Payee isPaid;
     @ManyToOne
-    @JoinColumn(name = "for_whom_id")
-    private Payee forWhom;
+    @JoinColumn(name = "gainer_id")
+    private Payee gainer;
     private String description;
 //    @ManyToOne
 //    @JoinColumn(name = "budget_id")
@@ -75,7 +71,7 @@ public class Transaction
     @Override
     public int hashCode()
     {
-        return Objects.hash(this.amount, this.category, this.forWhom, this.bill);
+        return Objects.hash(this.amount, this.category, this.gainer, this.bill);
     }
 
     public int getId()
@@ -126,12 +122,12 @@ public class Transaction
 //        this.isPaid = isPaid;
 //    }
 
-    public Payee getForWhom() {
-        return forWhom;
+    public Payee getGainer() {
+        return gainer;
     }
 
-    public void setForWhom(Payee forWhom) {
-        this.forWhom = forWhom;
+    public void setGainer(Payee forWhom) {
+        this.gainer = forWhom;
     }
 
     public String getDescription()

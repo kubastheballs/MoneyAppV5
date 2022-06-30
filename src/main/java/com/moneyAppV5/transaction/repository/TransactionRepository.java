@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface TransactionRepository
 {
     List<Transaction> findAll();
-    List<Transaction> findByDates(LocalDate start, LocalDate end);
+//    List<Transaction> findByDates(LocalDate start, LocalDate end);
     List<Transaction> findByPayeeId(Integer id);
 //    List<Transaction> findByGainerId(Integer id);
     List<Transaction> findTransactionsByPositionId(Integer id);
@@ -26,9 +26,9 @@ public interface TransactionRepository
 
     boolean existsById(Integer id);
 
-    void updateBudgetDetailsInTransaction(int id, int positionId, int budgetId);
+    void updateBudgetDetailsInTransaction(Integer id, Integer positionId, Integer budgetId);
 
-    double sumActualExpensesByMainCategoryIdAndBudgetId(int mainId, int budgetId);
+    double sumActualExpensesByMainCategoryIdAndBudgetId(Integer mainId, Integer budgetId);
 
     Optional<Double> sumTransactionsByAccountIdAndMonthAndType(Integer accountId, Integer m, Integer y, String type);
     Optional<Double> sumTransactionsByAccountIdAndType(Integer accountId, String type);
@@ -52,5 +52,5 @@ public interface TransactionRepository
 
     List<Transaction> findTransactionsByTypeName(String t);
 
-    List<Integer> findCategoriesIdByBillId(int billId);
+    List<Integer> findCategoriesIdByBillId(Integer billId);
 }
