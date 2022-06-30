@@ -2,17 +2,15 @@ package com.moneyAppV5.account.service;
 
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.dto.AccountDTO;
-import com.moneyAppV5.account.dto.AccountTransactionsSumDataDTO;
 import com.moneyAppV5.account.repository.AccountRepository;
+import com.moneyAppV5.bill.dto.BillDTO;
 import com.moneyAppV5.budget.service.BudgetService;
 import com.moneyAppV5.category.Type;
-import com.moneyAppV5.transaction.dto.TransactionDTO;
 import com.moneyAppV5.transaction.service.TransactionService;
 import com.moneyAppV5.utils.UtilService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -113,29 +111,28 @@ public class AccountService
 
     public AccountDTO readAccountAsDto(Account a)
     {
-        var account = new AccountDTO(a);
-
-        account.setTransactions(this.transactionService.readTransactionsByAccountIdAsDto(a.getId()));
-
         var income = Type.INCOME;
         var expense = Type.EXPENSE;
 
         var month = LocalDate.now().getMonthValue();
         var year = LocalDate.now().getYear();
 
-        account.setActualMonthBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month, year), a.getId()));
-        account.setActualMonthMinusOneBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month - 1, year), a.getId()));
-        account.setActualMonthMinusTwoBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month - 2, year), a.getId()));
-
-        account.setActualYearIncome(this.utilService.sumByListAndTypeAndYear(account.getTransactions(), income, year));
-        account.setActualYearExpense(this.utilService.sumByListAndTypeAndYear(account.getTransactions(), expense, year));
-        account.setActualYearBalance(account.getActualYearIncome() - account.getActualYearExpense());
-
-        account.setOverallIncome(this.utilService.sumByListAndType(account.getTransactions(), income));
-        account.setOverallExpense(this.utilService.sumByListAndType(account.getTransactions(), expense));
-        account.setOverallBalance(account.getOverallIncome() - account.getOverallExpense());
-
-        return account;
+        return new AccountDTO.AccountDtoBuilder()
+                .buildName(a.getName())
+                .buildDescription(a.getDescription())
+                .buildActualBalance(a.getActualBalance())
+//                TODO tu zdaje się będzei blokował brak konstruktora?
+                .buildBills(a.getBills().stream().map(BillDTO::new).collect(Collectors.toList()))
+                .buildActualMonthBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month, year), a.getId()))
+                .buildActualMonthMinusOneBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month - 1, year), a.getId()))
+                .buildActualMonthMinusTwoBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month - 2, year), a.getId()))
+                .buildActualYearIncome(this.utilService.sumBySetAndTypeAndYear(a.getBills(), income, year))
+                .buildActualYearExpense(this.utilService.sumBySetAndTypeAndYear(a.getBills(), expense, year))
+                .buildActualYearBalance()
+                .buildOverallIncome(this.utilService.sumBySetAndType(a.getBills(), income))
+                .buildOverallExpense(this.utilService.sumBySetAndType(a.getBills(), expense))
+                .buildOverallBalance()
+                .build();
     }
 
 

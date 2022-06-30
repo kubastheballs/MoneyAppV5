@@ -1,24 +1,19 @@
 package com.moneyAppV5.bill.dto;
 
-import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.dto.AccountDTO;
 import com.moneyAppV5.bill.Bill;
-import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.category.dto.CategoryDTO;
-import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.PayeeDTO;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BillDTO
 {
@@ -32,7 +27,17 @@ public class BillDTO
 
     public BillDTO()
     {
-
+    }
+    
+    public BillDTO(Bill bill)
+    {
+        this.day = bill.getDay();
+        this.payee = bill.getPayee().toDto();
+        this.account = bill.getAccount().toDto();
+        this.budget = bill.getBudget().toDto();
+        this.transactions = bill.getTransactions().stream().map(TransactionDTO::new).collect(Collectors.toList());
+        this.hash = bill.getHash();
+        this.sum = sumTransactions();
     }
 
     private BillDTO(BillDtoBuilder builder)

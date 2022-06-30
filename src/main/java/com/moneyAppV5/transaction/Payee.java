@@ -1,6 +1,10 @@
 package com.moneyAppV5.transaction;
 
+import com.moneyAppV5.transaction.dto.PayeeDTO;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -90,5 +94,18 @@ public class Payee
 
     public void setHash(Integer hash) {
         this.hash = hash;
+    }
+
+    public PayeeDTO toDto()
+    {
+        var payee = new PayeeDTO();
+        payee.setName(this.name);
+        payee.setRole(this.role);
+        payee.setDescription(this.description);
+//        TODO - podział na dwie listy czy złączenie?
+//        payee.setTransactionsDto(this.transactions);
+        payee.setHash(this.hash);
+
+        return payee;
     }
 }

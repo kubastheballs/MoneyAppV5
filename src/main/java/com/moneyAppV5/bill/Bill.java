@@ -15,6 +15,7 @@ import java.util.Set;
 public class Bill
 {
 //    TODO placeholder dla rachunku (do przejścia na model rachunek - transakcje)
+//    TODO czy rachunek powinien mieć przypisany typ? bo to albo wydatki albo dochody
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

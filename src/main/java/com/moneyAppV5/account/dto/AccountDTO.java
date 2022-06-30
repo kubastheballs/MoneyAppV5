@@ -1,6 +1,8 @@
 package com.moneyAppV5.account.dto;
 
 import com.moneyAppV5.account.Account;
+import com.moneyAppV5.bill.Bill;
+import com.moneyAppV5.bill.dto.BillDTO;
 import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
@@ -18,7 +20,7 @@ public class AccountDTO
     private LocalDate deadline;
     private double target;
     private double actualBalance;
-    private List<TransactionDTO> transactions;
+    private List<BillDTO> bills;
     private BudgetDTO actualMonthBudget;
     private BudgetDTO actualMonthMinusOneBudget;
     private BudgetDTO actualMonthMinusTwoBudget;
@@ -76,6 +78,35 @@ public class AccountDTO
         return dtos;
     }
 
+    private AccountDTO(AccountDtoBuilder builder)
+    {
+        this.name = builder.name;
+        this.description = builder.description;
+        this.deadline = builder.deadline;
+        this.target = builder.target;
+        this.actualBalance = builder.actualBalance;
+        this.bills = builder.bills;
+        this.actualMonthBudget = builder.actualMonthBudget;
+        this.actualMonthMinusOneBudget = builder.actualMonthMinusOneBudget;
+        this.actualMonthMinusTwoBudget = builder.actualMonthMinusTwoBudget;
+        this.actualMonthIncome = builder.actualMonthIncome;
+        this.actualMonthExpense = builder.actualMonthExpense;
+        this.actualMonthBalance = builder.actualMonthBalance;
+        this.actualMonthMinusOneIncome = builder.actualMonthMinusOneIncome;
+        this.actualMonthMinusOneExpense = builder.actualMonthMinusOneExpense;
+        this.actualMonthMinusOneBalance = builder.actualMonthMinusOneBalance;
+        this.actualMonthMinusTwoIncome = builder.actualMonthMinusTwoIncome;
+        this.actualMonthMinusTwoExpense = builder.actualMonthMinusTwoExpense;
+        this.actualMonthMinusTwoBalance = builder.actualMonthMinusTwoBalance;
+        this.actualYearIncome = builder.actualYearIncome;
+        this.actualYearExpense = builder.actualYearExpense;
+        this.actualYearBalance = builder.actualYearBalance;
+        this.overallIncome = builder.overallIncome;
+        this.overallExpense = builder.overallExpense;
+        this.overallBalance = builder.overallBalance;
+        this.hash = builder.hash;
+    }
+
 
     public Account toAccount()
     {
@@ -84,21 +115,21 @@ public class AccountDTO
         result.setName(this.name);
         result.setActualBalance(this.actualBalance);
         result.setDescription(this.description);
-        if (this.transactions != null)
-            result.setTransactions(dtoToTransactions(this.transactions));
+        if (this.bills != null)
+            result.setBills(toBills(this.bills));
         result.setHash(result.hashCode());
 
         return result;
     }
 
-    Set<Transaction> dtoToTransactions(List<TransactionDTO> dtos)
+    Set<Bill> toBills(List<BillDTO> list)
     {
-        Set<Transaction> transactions = new HashSet<>();
+        Set<Bill> bills = new HashSet<>();
 
-        for (TransactionDTO t : dtos)
-        transactions.add(t.toTransaction());
+        for (BillDTO b : list)
+        bills.add(b.toBill());
 
-        return transactions;
+        return bills;
     }
 
     public String getName() {
@@ -125,14 +156,14 @@ public class AccountDTO
         this.actualBalance = actualBalance;
     }
 
-    public List<TransactionDTO> getTransactions()
+    public List<BillDTO> getBills()
     {
-        return transactions;
+        return bills;
     }
 
-    public void setTransactions(List<TransactionDTO> transactions)
+    public void setBills(List<BillDTO> bills)
     {
-        this.transactions = transactions;
+        this.bills = bills;
     }
 
     public Integer getHash() {
@@ -306,5 +337,308 @@ public class AccountDTO
 
     public void setActualMonthMinusTwoBudget(BudgetDTO actualMonthMinusTwoBudget) {
         this.actualMonthMinusTwoBudget = actualMonthMinusTwoBudget;
+    }
+
+    public static class AccountDtoBuilder
+    {
+        private String name;
+        private String description;
+        private LocalDate deadline;
+        private double target;
+        private double actualBalance;
+        private List<BillDTO> bills;
+        private BudgetDTO actualMonthBudget;
+        private BudgetDTO actualMonthMinusOneBudget;
+        private BudgetDTO actualMonthMinusTwoBudget;
+        private double actualMonthIncome;
+        private double actualMonthExpense;
+        private double actualMonthBalance;
+        private double actualMonthMinusOneIncome;
+        private double actualMonthMinusOneExpense;
+        private double actualMonthMinusOneBalance;
+        private double actualMonthMinusTwoIncome;
+        private double actualMonthMinusTwoExpense;
+        private double actualMonthMinusTwoBalance;
+        private double actualYearIncome;
+        private double actualYearExpense;
+        private double actualYearBalance;
+        private double overallIncome;
+        private double overallExpense;
+        private double overallBalance;
+        private int hash;
+
+//        TODO dorobić buildIncome/Expense na podstawie budżetu a nie paramtru
+
+        public AccountDtoBuilder buildName(String name)
+        {
+            this.name = name;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildDescription(String description)
+        {
+            this.description = description;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildDeadline(LocalDate deadline)
+        {
+            this.deadline = deadline;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildTarget(double target)
+        {
+            this.target = target;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualBalance(double actualBalance)
+        {
+            this.actualBalance = actualBalance;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildBills(List<BillDTO> bills)
+        {
+            this.bills = bills;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthBudget(BudgetDTO actualMonthBudget)
+        {
+            this.actualMonthBudget = actualMonthBudget;
+            
+            this.actualMonthIncome = this.actualMonthBudget.getActualIncomes();
+            this.actualMonthExpense = this.actualMonthBudget.getActualExpenses();
+            this.actualMonthBalance = this.actualMonthIncome - this.actualMonthExpense;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusOneBudget(BudgetDTO actualMonthMinusOneBudget)
+        {
+            this.actualMonthMinusOneBudget = actualMonthMinusOneBudget;
+
+            this.actualMonthMinusOneIncome = this.actualMonthMinusOneBudget.getActualIncomes();
+            this.actualMonthMinusOneExpense = this.actualMonthMinusOneBudget.getActualExpenses();
+            this.actualMonthMinusOneBalance = this.actualMonthMinusOneIncome - this.actualMonthMinusOneExpense;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusTwoBudget(BudgetDTO actualMonthMinusTwoBudget)
+        {
+            this.actualMonthMinusTwoBudget = actualMonthMinusTwoBudget;
+
+            this.actualMonthMinusTwoIncome = this.actualMonthMinusTwoBudget.getActualIncomes();
+            this.actualMonthMinusTwoExpense = this.actualMonthMinusTwoBudget.getActualExpenses();
+            this.actualMonthMinusTwoBalance = this.actualMonthMinusTwoIncome - this.actualMonthMinusTwoExpense;
+
+            return this;
+        }
+        
+
+        public AccountDtoBuilder buildActualMonthIncome(double income)
+        {
+            this.actualMonthIncome = income;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthIncome()
+        {
+            this.actualMonthIncome = this.actualMonthBudget.getActualIncomes();
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthExpense(double expense)
+        {
+            this.actualMonthExpense = expense;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthExpense()
+        {
+            this.actualMonthExpense = this.actualMonthBudget.getActualExpenses();
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthBalance(double balance)
+        {
+            this.actualMonthBalance = balance;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthBalance()
+        {
+            this.actualMonthBalance = this.actualMonthIncome - this.actualMonthExpense;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusOneIncome(double income)
+        {
+            this.actualMonthMinusOneIncome = income;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusOneIncome()
+        {
+            this.actualMonthMinusOneIncome = this.actualMonthMinusOneBudget.getActualIncomes();
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusOneExpense(double expense)
+        {
+            this.actualMonthMinusOneExpense = expense;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusOneExpense()
+        {
+            this.actualMonthMinusOneExpense = this.actualMonthMinusOneBudget.getActualExpenses();
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusOneBalance(double balance)
+        {
+            this.actualMonthMinusOneBalance = balance;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusOneBalance()
+        {
+            this.actualMonthMinusOneBalance = this.actualMonthMinusOneIncome - this.actualMonthMinusOneExpense;
+
+            return this;
+        }
+
+
+        public AccountDtoBuilder buildActualMonthMinusTwoIncome(double income)
+        {
+            this.actualMonthMinusTwoIncome = income;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusTwoIncome()
+        {
+            this.actualMonthMinusTwoIncome = this.actualMonthMinusTwoBudget.getActualIncomes();
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusTwoExpense(double expense)
+        {
+            this.actualMonthMinusTwoExpense = expense;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusTwoExpense()
+        {
+            this.actualMonthMinusTwoExpense = this.actualMonthMinusTwoBudget.getActualExpenses();
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusTwoBalance(double balance)
+        {
+            this.actualMonthMinusTwoBalance = balance;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualMonthMinusTwoBalance()
+        {
+            this.actualMonthMinusTwoBalance = this.actualMonthMinusTwoIncome - this.actualMonthMinusTwoExpense;
+
+            return this;
+        }
+
+
+        public AccountDtoBuilder buildActualYearIncome(double income)
+        {
+            this.actualYearIncome = income;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualYearExpense(double expense)
+        {
+            this.actualYearExpense = expense;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualYearBalance(double balance)
+        {
+            this.actualYearBalance = balance;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildActualYearBalance()
+        {
+            this.actualYearBalance = this.actualYearIncome - this.actualYearExpense;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildOverallIncome(double income)
+        {
+            this.overallIncome = income;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildOverallExpense(double expense)
+        {
+            this.overallExpense = expense;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildOverallBalance(double balance)
+        {
+            this.overallBalance = balance;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildOverallBalance()
+        {
+            this.overallBalance = this.overallIncome - this.overallExpense;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildHash(int hash)
+        {
+            this.hash = hash;
+
+            return this;
+        }
+
+        public AccountDTO build()
+        {
+            return new AccountDTO(this);
+        }
     }
 }

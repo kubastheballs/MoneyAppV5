@@ -29,11 +29,6 @@ public class TransactionDTO
     private BudgetDTO budget;
     private BudgetPositionDTO budgetPosition;
 
-//    private int accountId;
-//    private int categoryId;
-//    private int payeeId;
-//    private int gainerId;
-
     private int day;
     private int month;
     private int year;
@@ -154,7 +149,7 @@ public class TransactionDTO
 //        result.setForWhom(this.forWhom);
         result.setDescription(this.description);
 //        result.setBudget(this.budget);
-        result.setHash(result.hashCode());
+        result.setHash(this.hash);
 
         return result;
     }

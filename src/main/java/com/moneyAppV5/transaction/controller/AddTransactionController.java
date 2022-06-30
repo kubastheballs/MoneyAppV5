@@ -78,7 +78,7 @@ public class AddTransactionController
 
         bill.setBudget(budget);
 //        hidden?
-        bill.setBudgetPositions(positions);
+//        bill.setBudgetPositions(positions);
 
         this.accountService.changeBalanceByAccountId(bill.getAccount().getId(), current.sumTransactions());
 

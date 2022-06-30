@@ -1,11 +1,13 @@
 package com.moneyAppV5.budget;
 
+import com.moneyAppV5.bill.Bill;
 import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.transaction.Transaction;
 
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -19,7 +21,7 @@ class Budget
     private int month;
     private int year;
     @OneToMany(mappedBy = "budget")
-    private Set<Transaction> transactions;
+    private Set<Bill> bills;
     @OneToMany(mappedBy = "budget")
     private Set<BudgetPosition> incomes;
     @OneToMany(mappedBy = "budget")
@@ -42,7 +44,7 @@ class Budget
         this.id = builder.id;
         this.month = builder.month;
         this.year = builder.year;
-        this.transactions = builder.transactions;
+        this.bills = builder.bills;
         this.incomes = builder.incomes;
         this.expenses = builder.expenses;
         this.description = builder.description;
@@ -109,12 +111,12 @@ class Budget
         this.description = description;
     }
 
-    public Set<Transaction> getTransactions() {
-        return transactions;
+    public Set<Bill> getBills() {
+        return bills;
     }
 
-    public void setTransactions(Set<Transaction> transactions) {
-        this.transactions = transactions;
+    public void setBills(Set<Bill> bills) {
+        this.bills = bills;
     }
 
     public Integer getHash() {
@@ -125,12 +127,26 @@ class Budget
         this.hash = hash;
     }
 
+    public BudgetDTO toDto()
+    {
+        return new BudgetDTO.BudgetDtoBuilder()
+                .buildMonth(this.month)
+                .buildYear(this.year)
+                .buildName()
+                .buildIncomesDto(this.incomes.stream().map(BudgetPosition::toDto).collect(Collectors.toList()))
+                .buildExpensesDto(this.expenses.stream().map(BudgetPosition::toDto).collect(Collectors.toList()))
+                .buildDescription(this.description)
+                .buildHash(this.hash)
+                .build();
+//                TODO póki co jest bez bills
+    }
+
     public static class BudgetBuilder
     {
         private int id;
         private int month;
         private int year;
-        private Set<Transaction> transactions;
+        private Set<Bill> bills;
         private Set<BudgetPosition> incomes;
         private Set<BudgetPosition> expenses;
         private String description;
@@ -157,9 +173,9 @@ class Budget
             return this;
         }
 
-        public BudgetBuilder buildTransactions(Set<Transaction> transactions)
+        public BudgetBuilder buildBills(Set<Bill> bills)
         {
-            this.transactions = transactions;
+            this.bills = bills;
 
             return this;
         }

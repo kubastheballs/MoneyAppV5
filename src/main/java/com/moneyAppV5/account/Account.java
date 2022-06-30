@@ -1,5 +1,8 @@
 package com.moneyAppV5.account;
 
+import com.moneyAppV5.account.dto.AccountDTO;
+import com.moneyAppV5.bill.Bill;
+import com.moneyAppV5.bill.dto.BillDTO;
 import com.moneyAppV5.transaction.Transaction;
 
 import javax.persistence.*;
@@ -7,6 +10,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "accounts")
@@ -20,7 +24,7 @@ public class Account
     private LocalDate deadline;
     private double target;
     @OneToMany(mappedBy = "account")
-    private Set<Transaction> transactions;
+    private Set<Bill> bills;
     private double initBalance;
     @OneToMany(mappedBy = "account")
     private Set<MonthBalance> monthBalances;
@@ -38,7 +42,7 @@ public class Account
         this.name = name;
         this.actualBalance = actualBalance;
         this.initBalance = actualBalance;
-        this.transactions = new HashSet<>();
+        this.bills = new HashSet<>();
     }
 
     public Account(String name, String description, double actualBalance) {
@@ -46,7 +50,7 @@ public class Account
         this.description = description;
         this.actualBalance = actualBalance;
         this.initBalance = actualBalance;
-        this.transactions = new HashSet<>();
+        this.bills = new HashSet<>();
     }
 
 //    TODO problem braku id w dto obejść zapisywaniem hashcode w bazie?
@@ -106,14 +110,22 @@ public class Account
         this.target = target;
     }
 
-    public Set<Transaction> getTransactions()
-    {
-        return transactions;
+//    public Set<Transaction> getTransactions()
+//    {
+//        return transactions;
+//    }
+//
+//    public void setTransactions(Set<Transaction> transactions)
+//    {
+//        this.transactions = transactions;
+
+
+    public Set<Bill> getBills() {
+        return bills;
     }
 
-    public void setTransactions(Set<Transaction> transactions)
-    {
-        this.transactions = transactions;
+    public void setBills(Set<Bill> bills) {
+        this.bills = bills;
     }
 
     public double getInitBalance()
@@ -160,9 +172,20 @@ public class Account
         this.description = toUpdate.getDescription();
         this.deadline = toUpdate.getDeadline();
         this.target = toUpdate.getTarget();
-        this.transactions = toUpdate.getTransactions();
+        this.bills = toUpdate.getBills();
         this.initBalance = toUpdate.getInitBalance();
         this.monthBalances = toUpdate.getMonthBalances();
         this.actualBalance = toUpdate.getActualBalance();
+    }
+
+    public AccountDTO toDto() {
+
+        return new AccountDTO.AccountDtoBuilder()
+                .buildName(this.name)
+                .buildDescription(this.description)
+                .buildBills(this.bills.stream().map(BillDTO::new).collect(Collectors.toList()))
+                .buildActualBalance(this.actualBalance)
+                .buildHash(this.hash)
+                .build();
     }
 }

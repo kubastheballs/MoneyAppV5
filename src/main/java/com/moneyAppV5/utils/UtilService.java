@@ -1,11 +1,14 @@
 package com.moneyAppV5.utils;
 
+import com.moneyAppV5.bill.Bill;
 import com.moneyAppV5.category.Type;
+import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UtilService
@@ -59,6 +62,18 @@ public class UtilService
         return sum;
     }
 
+    public double sumBySetAndTypeAndYear(Set<Bill> bills, Type type, int year)
+    {
+        double sum = 0;
+//TODO wyniesienie warunku na rok do pierwszej pętli?
+        for (Bill b : bills)
+            for (Transaction t : b.getTransactions())
+                if ((t.getCategory().getType()).equals(type) && b.getBudget().getYear() == year)
+                    sum += t.getAmount();
+
+        return sum;
+    }
+
     public double sumByListAndType(List<TransactionDTO> transactions, Type type)
     {
         double sum = 0;
@@ -66,6 +81,18 @@ public class UtilService
         for (TransactionDTO t : transactions)
             if ((t.getCategory().getType()).equals(type))
                 sum += t.getAmount();
+
+        return sum;
+    }
+
+    public double sumBySetAndType(Set<Bill> bills, Type type)
+    {
+        double sum = 0;
+
+        for (Bill b : bills)
+            for (Transaction t : b.getTransactions())
+                if ((t.getCategory().getType()).equals(type))
+                    sum += t.getAmount();
 
         return sum;
     }
