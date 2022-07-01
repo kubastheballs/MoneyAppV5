@@ -53,7 +53,6 @@ public class Account
         this.bills = new HashSet<>();
     }
 
-//    TODO problem braku id w dto obejść zapisywaniem hashcode w bazie?
     @Override
     public int hashCode()
     {

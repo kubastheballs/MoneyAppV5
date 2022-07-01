@@ -377,8 +377,6 @@ public class AccountDTO
         private double overallBalance;
         private int hash;
 
-//        TODO dorobić buildIncome/Expense na podstawie budżetu a nie paramtru
-
         public AccountDtoBuilder buildName(String name)
         {
             this.name = name;

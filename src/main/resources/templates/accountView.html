@@ -46,26 +46,26 @@
             <tr>
             <tr>
                 <td></td>
-            <td th:if="${actualBudgets.actual.month != 0}">
+            <td th:if="${actualBudgets.actual.hash != null}">
                 <a th:href="@{/budgetView/{budgetHash}(budgetHash=${actualBudgets.actual.hash})}"
                    th:text="${actualBudgets.actual.name}"></a>
             </td>
-            <td th:if="${actualBudgets.actual.month == 0}">
-                <label>n/d</label>
+            <td th:if="${actualBudgets.actual.hash == null}">
+                <label th:text="${actualBudgets.actual.name}"></label>
             </td>
-            <td th:if="${actualBudgets.actualMinusOne.month != 0}">
+            <td th:if="${actualBudgets.actualMinusOne.hash != null}">
                 <a th:href="@{/budgetView/{budgetHash}(budgetHash=${actualBudgets.actualMinusOne.hash})}"
                    th:text="${actualBudgets.actualMinusOne.name}"></a>
             </td>
-            <td th:if="${actualBudgets.actualMinusOne.month == 0}">
-                <label>n/d</label>
+            <td th:if="${actualBudgets.actualMinusOne.hash == null}">
+                <label th:text="${actualBudgets.actualMinusOne.name}"></label>
             </td>
-            <td th:if="${actualBudgets.actualMinusTwo.month != 0}">
+            <td th:if="${actualBudgets.actualMinusTwo.hash != null}">
                 <a th:href="@{/budgetView/{budgetHash}(budgetHash=${actualBudgets.actualMinusTwo.hash})}"
                    th:text="${actualBudgets.actualMinusTwo.name}"></a>
             </td>
-            <td th:if="${actualBudgets.actualMinusTwo.month == 0}">
-                <label>n/d</label>
+            <td th:if="${actualBudgets.actualMinusTwo.hash == null}">
+                <label th:text="${actualBudgets.actualMinusTwo.name}"></label>
             </td>
                 <!--            TODO roczny i ogólny-->
                 <td></td>

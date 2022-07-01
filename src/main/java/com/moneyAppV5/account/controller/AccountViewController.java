@@ -38,7 +38,6 @@ public class AccountViewController
         model.addAttribute("message", String.format("Konto: %s", result.getName()));
         model.addAttribute("account", result);
 
-        //        TODO dopracować przypadek braku budżetu -> powinno wyswietlić n/d
         model.addAttribute("actualBudgets", this.budgetService.readActualBudgetsWrapper(this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
 
         var transactions = this.transactionService.readTransactionsByAccountId(account.getId());
