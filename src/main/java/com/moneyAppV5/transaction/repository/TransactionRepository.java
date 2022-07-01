@@ -26,7 +26,7 @@ public interface TransactionRepository
 
     boolean existsById(Integer id);
 
-    void updateBudgetDetailsInTransaction(Integer id, Integer positionId, Integer budgetId);
+    void updateBudgetDetailsInTransaction(Integer id, Integer positionId);
 
     double sumActualExpensesByMainCategoryIdAndBudgetId(Integer mainId, Integer budgetId);
 

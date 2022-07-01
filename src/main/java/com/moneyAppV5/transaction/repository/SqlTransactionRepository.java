@@ -49,12 +49,12 @@ interface SqlTransactionRepository extends TransactionRepository, JpaRepository<
     @Query(value = "select * from TRANSACTIONS inner join bills on TRANSACTIONS.BILL_ID = bills.ID where " +
             "ACCOUNT_ID = :accountId", nativeQuery = true)
     List<Transaction> findTransactionsByAccountId(Integer accountId);
-//TODO
+//TODO wyniesienie budgetId do billRepo i dodanie stosownej metody w wywołaniu
     @Override
     @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "update TRANSACTIONS set BUDGET_POSITION_ID = :positionId, BUDGET_ID = :budgetId where id = :id")
-    void updateBudgetDetailsInTransaction(Integer id, Integer positionId, Integer budgetId);
+    @Query(nativeQuery = true, value = "update TRANSACTIONS set BUDGET_POSITION_ID = :positionId where id = :id")
+    void updateBudgetDetailsInTransaction(Integer id, Integer positionId);
 
     @Override
     @Query(nativeQuery = true, value = "select sum (amount) from transactions inner join categories" +

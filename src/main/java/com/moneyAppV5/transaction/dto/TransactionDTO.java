@@ -40,14 +40,14 @@ public class TransactionDTO
     public TransactionDTO(Transaction transaction)
     {
         this.day = transaction.getBill().getDay();
-//        this.month = transaction.getBill().getMonth();
+        this.month = transaction.getBill().getBudget().getMonth();
         this.year = transaction.getBill().getBudget().getYear();
         this.date = createDateString(this.day, this.month, this.year);
 //        this.account = transaction.getAccount();
         this.amount = transaction.getAmount();
 //        this.category = transaction.getCategory();
 //        this.isPaid = transaction.getIsPaid();
-//        this.forWhom = transaction.getForWhom();
+        this.gainer = transaction.getGainer().toDto();
         this.description = transaction.getDescription();
         this.hash = transaction.getHash();
     }
@@ -72,7 +72,7 @@ public class TransactionDTO
         this.date = createDateString(day, month, year);
 //        this.account = account;
         this.amount = amount;
-//        this.category = category;
+        this.category = category.toDto();
 //        this.isPaid = isPaid;
 //        this.forWhom = forWhom;
         this.description = description;
@@ -335,6 +335,10 @@ public class TransactionDTO
 
         public TransactionDtoBuilder buildDate(int day, int month, int year)
         {
+            this.day = day;
+            this.month = month;
+            this.year = year;
+
             this.date = String.format("%s/%s/%s", day, month, year);
 
             return this;

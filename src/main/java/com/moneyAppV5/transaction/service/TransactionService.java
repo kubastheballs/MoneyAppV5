@@ -102,7 +102,7 @@ public class TransactionService
 
     public void updateBudgetDataInTransaction(int id, BudgetPosition pos)
     {
-        this.repository.updateBudgetDetailsInTransaction(id, pos.getId(), pos.getBudget().getId());
+        this.repository.updateBudgetDetailsInTransaction(id, pos.getId());
     }
 
     public List<Payee> readPayeesByRole(Role role)

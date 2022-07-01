@@ -21,6 +21,7 @@ public class AccountDTO
     private double target;
     private double actualBalance;
     private List<BillDTO> bills;
+    private List<TransactionDTO> transactions;
     private BudgetDTO actualMonthBudget;
     private BudgetDTO actualMonthMinusOneBudget;
     private BudgetDTO actualMonthMinusTwoBudget;
@@ -164,6 +165,14 @@ public class AccountDTO
     public void setBills(List<BillDTO> bills)
     {
         this.bills = bills;
+    }
+
+    public List<TransactionDTO> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<TransactionDTO> transactions) {
+        this.transactions = transactions;
     }
 
     public Integer getHash() {
@@ -347,6 +356,7 @@ public class AccountDTO
         private double target;
         private double actualBalance;
         private List<BillDTO> bills;
+        private List<TransactionDTO> transactions;
         private BudgetDTO actualMonthBudget;
         private BudgetDTO actualMonthMinusOneBudget;
         private BudgetDTO actualMonthMinusTwoBudget;
@@ -407,6 +417,13 @@ public class AccountDTO
         public AccountDtoBuilder buildBills(List<BillDTO> bills)
         {
             this.bills = bills;
+
+            return this;
+        }
+
+        public AccountDtoBuilder buildTransactions(List<TransactionDTO> transactions)
+        {
+            this.transactions = transactions;
 
             return this;
         }

@@ -213,8 +213,23 @@ public class BillDTO
 
             return this;
         }
-
+//TODO czy tak naprawdę to jest potrzebne?
         public BillDtoBuilder buildSum(List<TransactionDTO> transactions)
+        {
+            double sum = 0;
+
+            for (TransactionDTO t : transactions)
+            {
+                if ((t.getCategory().getType()).equals(Type.EXPENSE))
+                    sum -= t.getAmount();
+                else
+                    sum += t.getAmount();
+            }
+
+            return this;
+        }
+
+        public BillDtoBuilder buildSum()
         {
             double sum = 0;
 

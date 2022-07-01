@@ -18,10 +18,10 @@ public class AccountViewController
     private final AccountService service;
     private final BudgetService budgetService;
     private final TransactionService transactionService;
-
     private final UtilService utilService;
 
-    public AccountViewController(AccountService service, BudgetService budgetService, TransactionService transactionService, UtilService utilService)
+    public AccountViewController(AccountService service, BudgetService budgetService, TransactionService transactionService,
+                                 UtilService utilService)
     {
         this.service = service;
         this.budgetService = budgetService;
@@ -38,7 +38,7 @@ public class AccountViewController
         model.addAttribute("message", String.format("Konto: %s", result.getName()));
         model.addAttribute("account", result);
 
-        //        TODO dopracować przypadek braku budżetu
+        //        TODO dopracować przypadek braku budżetu -> powinno wyswietlić n/d
         model.addAttribute("actualBudgets", this.budgetService.readActualBudgetsWrapper(this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
 
         var transactions = this.transactionService.readTransactionsByAccountId(account.getId());
@@ -48,5 +48,4 @@ public class AccountViewController
 
         return "accountView";
     }
-
 }

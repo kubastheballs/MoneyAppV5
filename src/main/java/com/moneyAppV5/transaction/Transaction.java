@@ -1,8 +1,13 @@
 package com.moneyAppV5.transaction;
 
+import com.moneyAppV5.account.dto.AccountDTO;
 import com.moneyAppV5.bill.Bill;
 import com.moneyAppV5.budget.BudgetPosition;
+import com.moneyAppV5.budget.dto.BudgetDTO;
+import com.moneyAppV5.budget.dto.BudgetPositionDTO;
 import com.moneyAppV5.category.Category;
+import com.moneyAppV5.category.dto.CategoryDTO;
+import com.moneyAppV5.transaction.dto.PayeeDTO;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import javax.persistence.*;
@@ -205,5 +210,21 @@ public class Transaction
 
     public void setBill(Bill bill) {
         this.bill = bill;
+    }
+
+    public TransactionDTO toDto()
+    {
+        return new TransactionDTO.TransactionDtoBuilder()
+                .buildDate(this.bill.getDay(), this.bill.getBudget().getMonth(), this.bill.getBudget().getYear())
+                .buildAccount(this.bill.getAccount().toDto())
+                .buildAmount(this.amount)
+                .buildCategory(this.category.toDto())
+                .buildPayee(this.bill.getPayee().toDto())
+                .buildGainer(this.gainer.toDto())
+                .buildDescription(this.description)
+                .buildHash(this.hash)
+                .buildBudget(this.bill.getBudget().toDto())
+                .buildBudgetPosition(this.budgetPosition.toDto())
+                .build();
     }
 }

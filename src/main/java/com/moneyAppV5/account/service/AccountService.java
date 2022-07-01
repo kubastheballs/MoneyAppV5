@@ -3,6 +3,7 @@ package com.moneyAppV5.account.service;
 import com.moneyAppV5.account.Account;
 import com.moneyAppV5.account.dto.AccountDTO;
 import com.moneyAppV5.account.repository.AccountRepository;
+import com.moneyAppV5.bill.Bill;
 import com.moneyAppV5.bill.dto.BillDTO;
 import com.moneyAppV5.budget.service.BudgetService;
 import com.moneyAppV5.category.Type;
@@ -53,7 +54,7 @@ public class AccountService
 
     public List<AccountDTO> readAllAccountsDTO()
     {
-        return readAllAccounts().stream().map(AccountDTO::new).collect(Collectors.toList());
+        return readAllAccounts().stream().map(Account::toDto).collect(Collectors.toList());
     }
 
     public void changeBalanceByAccountId(Integer id, double amount)
@@ -121,8 +122,8 @@ public class AccountService
                 .buildName(a.getName())
                 .buildDescription(a.getDescription())
                 .buildActualBalance(a.getActualBalance())
-//                TODO tu zdaje się będzei blokował brak konstruktora?
-                .buildBills(a.getBills().stream().map(BillDTO::new).collect(Collectors.toList()))
+                .buildBills(a.getBills().stream().map(Bill::toDto).collect(Collectors.toList()))
+                .buildTransactions(this.transactionService.readTransactionsByAccountIdAsDto(a.getId()))
                 .buildActualMonthBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month, year), a.getId()))
                 .buildActualMonthMinusOneBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month - 1, year), a.getId()))
                 .buildActualMonthMinusTwoBudget(this.budgetService.readBudgetOnlyWithActualByAccountIdAndMonthAsDto(this.utilService.checkMonthValue(month - 2, year), a.getId()))
@@ -134,7 +135,6 @@ public class AccountService
                 .buildOverallBalance()
                 .build();
     }
-
 
     public double sumAllAccountsBalances()
     {

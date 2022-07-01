@@ -1,14 +1,21 @@
 package com.moneyAppV5.bill;
 
 import com.moneyAppV5.account.Account;
+import com.moneyAppV5.account.dto.AccountDTO;
+import com.moneyAppV5.bill.dto.BillDTO;
 import com.moneyAppV5.budget.Budget;
+import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Transaction;
+import com.moneyAppV5.transaction.dto.PayeeDTO;
+import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
   @Table(name = "bills")
@@ -94,5 +101,18 @@ public class Bill
     public int hashCode()
     {
         return Objects.hash(this.id, this.day, this.payee, this.account, this.budget);
+    }
+
+    public BillDTO toDto()
+    {
+        return new BillDTO.BillDtoBuilder()
+                .buildDay(this.day)
+                .buildPayee(this.payee.toDto())
+                .buildAccount(this.account.toDto())
+                .buildBudget(this.budget.toDto())
+                .buildTransactions(this.transactions.stream().map(Transaction::toDto).collect(Collectors.toList()))
+                .buildHash(this.hash)
+                .buildSum()
+                .build();
     }
 }
