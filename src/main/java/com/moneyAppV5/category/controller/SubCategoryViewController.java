@@ -35,7 +35,6 @@ public class SubCategoryViewController
 
         model.addAttribute("subCategory", this.service.readSubCategoryByHashAsDto(hash));
 
-        //        TODO dopracować przypadek braku budżetu - póki co ogarnięte na poziomie html
         model.addAttribute("actualBudgets", this.budgetService.readActualBudgetsWrapper(this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
 
         var transactions = this.transactionService.readTransactionsBySubCategoryId(subCat.getId());

@@ -1,8 +1,11 @@
 package com.moneyAppV5.category;
 
+import com.moneyAppV5.category.dto.MainCategoryDTO;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "main_categories")
@@ -12,7 +15,6 @@ public class MainCategory
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String mainCategory;
-////    private String description;
     @OneToMany(mappedBy = "mainCategory")
     private Set<Category> categories;
     @OneToMany(mappedBy = "subCategory")
@@ -53,17 +55,6 @@ public class MainCategory
     {
         this.mainCategory = mainCategory;
     }
-//
-//    public String getDescription()
-//    {
-//        return description;
-//    }
-//
-//    public void setDescription(String description)
-//    {
-//        this.description = description;
-//    }
-
 
     public Set<Category> getCategories() {
         return categories;
@@ -87,5 +78,16 @@ public class MainCategory
 
     public void setHash(Integer hash) {
         this.hash = hash;
+    }
+
+    public MainCategoryDTO toDto()
+    {
+        var main = new MainCategoryDTO();
+
+        main.setMainCategory(this.mainCategory);
+        main.setSubCategories(this.subCategories.stream().map(SubCategory::toDto).collect(Collectors.toList()));
+        main.setHash(this.hash);
+
+        return main;
     }
 }

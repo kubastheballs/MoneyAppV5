@@ -118,7 +118,7 @@ public class AccountDTO
         result.setDescription(this.description);
         if (this.bills != null)
             result.setBills(toBills(this.bills));
-        result.setHash(result.hashCode());
+        result.setHash(this.hash);
 
         return result;
     }

@@ -2,7 +2,6 @@ package com.moneyAppV5.budget;
 
 import com.moneyAppV5.bill.Bill;
 import com.moneyAppV5.budget.dto.BudgetDTO;
-import com.moneyAppV5.transaction.Transaction;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -135,10 +134,10 @@ class Budget
                 .buildName()
                 .buildIncomesDto(this.incomes.stream().map(BudgetPosition::toDto).collect(Collectors.toList()))
                 .buildExpensesDto(this.expenses.stream().map(BudgetPosition::toDto).collect(Collectors.toList()))
+                .buildTransactionsDtoFromBillsDto(this.bills.stream().map(Bill::toDto).collect(Collectors.toList()))
                 .buildDescription(this.description)
                 .buildHash(this.hash)
                 .build();
-//                TODO póki co jest bez bills
     }
 
     public static class BudgetBuilder

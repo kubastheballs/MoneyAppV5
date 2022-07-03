@@ -81,18 +81,6 @@ public class CategoryDTO
         return result;
     }
 
-//    TODO czy to lepiej wyciągać z bazy tworząc stronę?
-
-//    List<TransactionDTO> transactionsToDtos(Set<Transaction> transactions)
-//    {
-//        List<TransactionDTO> dtos = new ArrayList<>();
-//
-//        for (Transaction t : transactions)
-//            dtos.add(new TransactionDTO(t));
-//
-//        return dtos;
-//    }
-
     public MainCategory getMainCategory() {
         return mainCategory;
     }

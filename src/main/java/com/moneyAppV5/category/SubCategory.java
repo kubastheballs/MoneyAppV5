@@ -1,5 +1,7 @@
 package com.moneyAppV5.category;
 
+import com.moneyAppV5.category.dto.SubCategoryDTO;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -92,5 +94,16 @@ public class SubCategory
 
     public void setHash(Integer hash) {
         this.hash = hash;
+    }
+
+    public SubCategoryDTO toDto()
+    {
+        var sub = new SubCategoryDTO();
+
+        sub.setSubCategory(this.subCategory);
+        sub.setMainCategory(this.mainCategory.toDto());
+        sub.setHash(this.hash);
+
+        return sub;
     }
 }

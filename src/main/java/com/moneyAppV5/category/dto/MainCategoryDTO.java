@@ -17,7 +17,7 @@ public class MainCategoryDTO
 
     private ActualDataWrapperDTO wrapper;
 
-    MainCategoryDTO()
+    public MainCategoryDTO()
     {
     }
 

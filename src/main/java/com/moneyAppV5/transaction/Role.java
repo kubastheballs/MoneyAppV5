@@ -2,9 +2,10 @@ package com.moneyAppV5.transaction;
 
 public enum Role
 {
-//    TODO jak to zgrabnie nazwać po polsku? - czy dodać trzecią rolę "płaci mi?" czy zmienić nazwę "płacę mu"
-    IS_PAID("Kontrahent"),
-    IS_FOR("Beneficjent");
+    PAYEE("Kontrahent"),
+    GAINER("Beneficjent"),
+//    TODO ładna nazwa?
+    BOTH("Obustronny");
 
     private String name;
 

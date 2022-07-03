@@ -6,19 +6,15 @@ import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.Category;
 import com.moneyAppV5.category.MainCategory;
 import com.moneyAppV5.category.Type;
-import com.moneyAppV5.transaction.Gainer;
 import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Role;
 import com.moneyAppV5.transaction.Transaction;
-import com.moneyAppV5.transaction.dto.GainerDTO;
 import com.moneyAppV5.transaction.dto.PayeeDTO;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
-import com.moneyAppV5.transaction.repository.GainerRepository;
 import com.moneyAppV5.transaction.repository.PayeeRepository;
 import com.moneyAppV5.transaction.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -161,16 +157,6 @@ public class TransactionService
     public double sumTransactionsByPositionAndMonth(BudgetPosition position, int month, int year)
     {
         return this.repository.sumTransactionsByPositionIdAndMonth(position.getId(), month, year).orElse(0.0);
-    }
-
-    public double sumTransactionsByPositionAndQuarter(BudgetPosition position, int month, int year)
-    {
-//        TODO jak przekazać drugi warunek brzegowy aktualnego kwartału
-//        TODO switch na wartość miesiąca? i zwraca pierwszy miesiąc kwartału?
-//        jeśli kwartał jest istotny to można by dodać kolumne w bazie
-//        return this.repository.sumTransactionsByPositionIdAndQuarter(position.getId(), month, year);
-//        TODO tymczasowe żeby nie wywalało błędu
-        return 0;
     }
 
     public double sumTransactionsByPositionAndYear(BudgetPosition position, int year) {

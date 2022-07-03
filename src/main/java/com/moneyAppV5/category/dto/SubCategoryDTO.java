@@ -9,15 +9,13 @@ import java.util.List;
 public class SubCategoryDTO
 {
     private String subCategory;
-//    private String description;
-//    private MainCategory mainCategory;
     private MainCategoryDTO mainCategory;
     private Integer hash;
     private List<TransactionDTO> transactions;
 
     private ActualDataWrapperDTO wrapper;
 
-    SubCategoryDTO()
+    public SubCategoryDTO()
     {
     }
 
@@ -25,7 +23,6 @@ public class SubCategoryDTO
     {
         this.subCategory = subCategory.getSubCategory();
         this.mainCategory = new MainCategoryDTO(subCategory.getMainCategory());
-//        this.mainCategory = subCategory.getMainCategory();
         this.hash = subCategory.getHash();
     }
 

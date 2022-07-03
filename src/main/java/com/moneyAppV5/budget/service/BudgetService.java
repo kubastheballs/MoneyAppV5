@@ -342,7 +342,7 @@ public class BudgetService
 
         return positions;
     }
-
+//TODO obługa null?
     public Integer readNewestBudgetHash()
     {
         return this.repository.findNewestBudgetHash().orElse(null);
@@ -350,10 +350,6 @@ public class BudgetService
 
     public double sumTransactionsByPositionAndMonth(BudgetPosition position, int month, int year) {
         return this.transactionService.sumTransactionsByPositionAndMonth(position, month, year);
-    }
-
-    public double sumTransactionsByPositionAndQuarter(BudgetPosition position, int month, int year) {
-        return this.transactionService.sumTransactionsByPositionAndQuarter(position, month, year);
     }
 
     public double sumTransactionsByPositionAndYear(BudgetPosition position, int year) {

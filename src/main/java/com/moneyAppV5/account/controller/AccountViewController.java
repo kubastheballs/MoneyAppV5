@@ -45,6 +45,11 @@ public class AccountViewController
         model.addAttribute("budgetStats", new BudgetStatsWrapperDTO(this.budgetService.readBudgetsWithMaxMinTransactionCountsByListAsDto(transactions),
                 this.budgetService.readBudgetsWithMaxMinTransactionSumsByListAsDto(transactions)));
 
+
+        System.out.println();
+        System.out.println("konto");
+        System.out.println(result.toString());
+
         return "accountView";
     }
 }

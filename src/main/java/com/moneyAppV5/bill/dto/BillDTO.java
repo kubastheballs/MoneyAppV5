@@ -5,14 +5,11 @@ import com.moneyAppV5.bill.Bill;
 import com.moneyAppV5.budget.dto.BudgetDTO;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.category.dto.CategoryDTO;
-import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.PayeeDTO;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BillDTO
@@ -25,10 +22,6 @@ public class BillDTO
     private int hash;
     private double sum;
 
-    public BillDTO()
-    {
-    }
-    
     public BillDTO(Bill bill)
     {
         this.day = bill.getDay();
@@ -58,7 +51,7 @@ public class BillDTO
         bill.setPayee(this.payee.toPayee());
         bill.setAccount(this.account.toAccount());
         bill.setBudget(this.budget.toBudget());
-        bill.setTransactions(toTransactions(this.transactions));
+        bill.setTransactions(this.transactions.stream().map(TransactionDTO::toTransaction).collect(Collectors.toSet()));
         bill.setHash(this.hash);
 
         return bill;
@@ -143,16 +136,6 @@ public class BillDTO
             categories.add(t.getCategory());
 
         return categories;
-    }
-
-    private Set<Transaction> toTransactions(List<TransactionDTO> transactions)
-    {
-        var result = new HashSet<Transaction>();
-
-        for (TransactionDTO t : transactions)
-            result.add(t.toTransaction());
-
-        return result;
     }
 
     public static class BillDtoBuilder

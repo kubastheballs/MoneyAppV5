@@ -207,15 +207,9 @@ public class CategoryService
 
     public MainCategoryDTO readMainCategoryAsDto(MainCategory main)
     {
-        var mainCat = new MainCategoryDTO(main);
+        var mainCat = main.toDto();
 
-        mainCat.setSubCategories(readSubCategoriesByMainCategoryId(main.getId()).stream().map(SubCategoryDTO::new).collect(Collectors.toList()));
-//TODO dlaczego wyrzuca numberformat exception?
-        //        mainCat.setSubCategoriesDto(main.getSubCategories().stream().map(SubCategoryDTO::new).collect(Collectors.toList()));
-        var transactions = this.transactionService.readTransactionsByMainCategoryIdAsDto(main.getId());
-        mainCat.setTransactions(transactions);
-
-        mainCat.setWrapper(setActualDataWrapperDto(transactions));
+        mainCat.setWrapper(setActualDataWrapperDto(mainCat.getTransactions()));
 
         return mainCat;
     }
@@ -241,7 +235,7 @@ public class CategoryService
 
     public SubCategoryDTO readSubCategoryAsDto(SubCategory sub)
     {
-        var subCat = new SubCategoryDTO(sub);
+        var subCat = sub.toDto();
 
 //TODO dlaczego wyrzuca numberformat exception?
         //        mainCat.setSubCategoriesDto(main.getSubCategories().stream().map(SubCategoryDTO::new).collect(Collectors.toList()));

@@ -11,8 +11,8 @@
 <body>
 <!--/*@thymesVar id="message" type="java.lang.String"*/-->
 <h1 th:if="${message != null}" th:text="${message}"></h1>
-<!--/*@thymesVar id="transaction" type="com.moneyAppV5.transaction.dto.TransactionDTO"*/-->
-<!--/*@thymesVar id="bill" type="com.moneyAppV5.bill.dto.BillDTO"*/-->
+<!--/*@thymesVar id="transaction" type="com.moneyAppV5.transaction.Transaction"*/-->
+<!--/*@thymesVar id="bill" type="com.moneyAppV5.bill.dto.BillWriteModel"*/-->
 <!--/*@thymesVar id="payee" type="com.moneyAppV5.transaction.Payee"*/-->
 <!--/*@thymesVar id="account" type="com.moneyAppV5.account.Account"*/-->
 <!--/*@thymesVar id="category" type="com.moneyAppV5.category.Category"*/-->
@@ -29,35 +29,41 @@
         <label>Konto
             <select th:field="${bill.account}">
                 <option value="0">Proszę wybrać konto</option>
-                <option th:each="account : ${accountsList}" th:value="${account.id}" th:text="${account.name}"></option>
+                <option th:each="account : ${accountsList}" th:value="${account.id}" th:text="${account.name}" ></option>
             </select>
         </label>
         <label>Kontrahent:
-            <select name="pays" th:field="${bill.payee}">
+            <select name="payees" th:field="${bill.payee}">
                 <option value="0">Proszę wybrać </option>
-                <option th:each="payee : ${isPaidList}" th:value="${payee.id}" th:text="${payee.name}"></option>
+                <option th:each="payee : ${payeesList}" th:value="${payee.id}" th:text="${payee.name}"></option>
             </select>
 
         </label>
-        <label>Kwota [zł]
-            <input type="number" step="0.01" th:field="${transaction.amount}" />
-        </label>
-        <label>Kategoria transakcji
-                    <select name="cat" th:field="${transaction.category}" >
-                        <option value="0">Proszę wybrać kategorię</option>
-                        <option th:each="category : ${categoriesList}" th:value="${category.id}" th:text="${category.category}"></option>
-                    </select>
-        </label>
-        <label>Dla:
-            <select name="whoms" th:field="${transaction.gainer}" >
-                <option value="0">Proszę wybrać</option>
-                <option th:each="payee : ${forWhomList}" th:value="${payee.id}" th:text="${payee.name}"></option>
-            </select>
-        </label>
+        <fieldset th:each="transaction, i : *{transactions}">
+            <legend>Transakcja w rachunku</legend>
+            <label>Kwota [zł]
+                <input type="number" step="0.01" th:field="*{transactions[__${i.index}__].amount}" />
+            </label>
+            <label>Kategoria transakcji
+                <select name="cat" th:field="*{transactions[__${i.index}__].category}" >
+                    <option value="0">Proszę wybrać kategorię</option>
+                    <option th:each="category : ${categoriesList}" th:value="${category.id}" th:text="${category.category}"></option>
+                </select>
+            </label>
+            <label>Dla:
+                <select name="gainers" th:field="*{transactions[__${i.index}__].gainer}" >
+                    <option value="0">Proszę wybrać</option>
+                    <option th:each="payee : ${gainersList}" th:value="${payee.id}" th:text="${payee.name}"></option>
+                </select>
+            </label>
 
-        <label>Opis transakcji
-            <input type="text" th:field="${transaction.description}" />
-        </label>
+            <label>Opis transakcji
+                <input type="text" th:field="*{transactions[__${i.index}__].description}" />
+            </label>
+        </fieldset>
+        <div>
+            <button type="submit" name="addTransaction">+</button>
+        </div>
     </fieldset>
     <p>
         <button type="submit">Dodaj</button>

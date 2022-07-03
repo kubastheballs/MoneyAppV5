@@ -37,7 +37,6 @@ public class MainCategoryViewController
 
         model.addAttribute("mainCat", main);
 
-//        TODO dopracować przypadek braku budżetu
         model.addAttribute("actualBudgets", this.budgetService.readActualBudgetsWrapper(this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
 
         var transactions = this.transactionService.readTransactionsByMainCategoryId(mainCat.getId());

@@ -35,7 +35,6 @@ public class TypeViewController
 
         model.addAttribute("typeDto", typeDto);
 
-        //        TODO dopracować przypadek braku budżetu
         model.addAttribute("actualBudgets", this.budgetService.readActualBudgetsWrapper(this.utilService.getActualMonthValue(), this.utilService.getActualYear()));
 
         var transactions = this.transactionService.readTransactionsByTypeName(type);

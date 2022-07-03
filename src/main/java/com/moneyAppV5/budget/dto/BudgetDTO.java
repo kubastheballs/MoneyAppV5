@@ -1,7 +1,7 @@
 package com.moneyAppV5.budget.dto;
 
+import com.moneyAppV5.bill.dto.BillDTO;
 import com.moneyAppV5.budget.Budget;
-import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import java.time.Month;
@@ -26,8 +26,8 @@ public class BudgetDTO
     private List<BudgetPositionDTO> incomesDto;
     private List<BudgetPositionDTO> expensesDto;
     private List<TransactionDTO> transactionsDto;
-    private List<BudgetPosition> incomes;
-    private List<BudgetPosition> expenses;
+    private List<BillDTO> billsDto;
+
     private String description;
     private Integer hash;
 
@@ -39,8 +39,6 @@ public class BudgetDTO
         this.year = year;
         setMonthName(month);
         setName(month, year);
-        this.incomes = new ArrayList<>();
-        this.expenses = new ArrayList<>();
     }
 
     BudgetDTO(int month, int year, String description) {
@@ -51,15 +49,6 @@ public class BudgetDTO
         this.description = description;
     }
 
-    BudgetDTO(int month, int year, List<BudgetPosition> incomes, List<BudgetPosition> expenses, String description) {
-        this.month = month;
-        this.year = year;
-        setMonthName(month);
-        setName(month, year);
-        this.incomes = incomes;
-        this.expenses = expenses;
-        this.description = description;
-    }
 
     public BudgetDTO(Budget budget) {
         this.month = budget.getMonth();
@@ -88,22 +77,13 @@ public class BudgetDTO
         this.incomesDto = builder.incomesDto;
         this.expensesDto = builder.expensesDto;
         this.transactionsDto = builder.transactionsDto;
-        this.incomes = builder.incomes;
-        this.expenses = builder.expenses;
+        this.billsDto = builder.billsDto;
         this.description = builder.description;
         this.hash = builder.hash;
     }
 
     public Budget toBudget()
     {
-//        var result = new Budget();
-//        result.setMonth(this.month);
-//        result.setYear(this.year);
-////        result.setIncomes(new HashSet<>(this.incomes));
-////        result.setExpenses(new HashSet<>(this.expenses));
-//        result.setDescription(this.description);
-//        result.setHash(result.hashCode());
-
         return new Budget.BudgetBuilder()
                 .buildMonth(this.month)
                 .buildYear(this.year)
@@ -160,21 +140,6 @@ public class BudgetDTO
 //        this.year = year;
 //    }
 
-    public List<BudgetPosition> getIncomes() {
-        return incomes;
-    }
-
-    public void setIncomes(List<BudgetPosition> incomes) {
-        this.incomes = incomes;
-    }
-
-    public List<BudgetPosition> getExpenses() {
-        return expenses;
-    }
-
-    public void setExpenses(List<BudgetPosition> expenses) {
-        this.expenses = expenses;
-    }
 
 
 //    public Set<BudgetPosition> getIncomes() {
@@ -319,8 +284,7 @@ public class BudgetDTO
         private List<BudgetPositionDTO> incomesDto;
         private List<BudgetPositionDTO> expensesDto;
         private List<TransactionDTO> transactionsDto;
-        private List<BudgetPosition> incomes;
-        private List<BudgetPosition> expenses;
+        private List<BillDTO> billsDto;
         private String description;
         private Integer hash;
 
@@ -422,6 +386,13 @@ public class BudgetDTO
             return this;
         }
 
+        public BudgetDtoBuilder buildBillsDto(List<BillDTO> billsDto)
+        {
+            this.billsDto = billsDto;
+
+            return this;
+        }
+
         public BudgetDtoBuilder buildTransactionsDto(List<TransactionDTO> transactionsDto)
         {
             this.transactionsDto = transactionsDto;
@@ -429,17 +400,23 @@ public class BudgetDTO
             return this;
         }
 
-        public BudgetDtoBuilder buildIncomes(List<BudgetPosition> incomes)
+        public BudgetDtoBuilder buildTransactionsDto()
         {
-            this.incomes = incomes;
+            var transactions = new ArrayList<TransactionDTO>();
+
+            for (BillDTO b : this.billsDto)
+                transactions.addAll(b.getTransactions());
+
+            this.transactionsDto = transactions;
 
             return this;
         }
 
-        public BudgetDtoBuilder buildIncomeExpenses(List<BudgetPosition> expenses)
+        public BudgetDtoBuilder buildTransactionsDtoFromBillsDto(List<BillDTO> billsDto)
         {
-            this.expenses = expenses;
-        
+            for (BillDTO b : this.billsDto)
+                this.transactionsDto.addAll(b.getTransactions());
+
             return this;
         }
 
