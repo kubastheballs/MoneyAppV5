@@ -36,6 +36,7 @@ class Budget
     {
         this.month = month;
         this.year = year;
+        this.hash = hashCode();
     }
 
     private Budget(BudgetBuilder builder)

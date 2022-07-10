@@ -7,6 +7,7 @@ import com.moneyAppV5.transaction.dto.TransactionDTO;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BudgetDTO
 {
@@ -39,6 +40,7 @@ public class BudgetDTO
         this.year = year;
         setMonthName(month);
         setName(month, year);
+        setHash(hashCode());
     }
 
     BudgetDTO(int month, int year, String description) {
@@ -46,6 +48,7 @@ public class BudgetDTO
         this.year = year;
         setMonthName(month);
         setName(month, year);
+        setHash(hashCode());
         this.description = description;
     }
 
@@ -90,6 +93,12 @@ public class BudgetDTO
                 .buildDescription(this.description)
                 .buildHash(this.hash)
                 .build();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.month, this.year);
     }
 
     public int getMonth() {

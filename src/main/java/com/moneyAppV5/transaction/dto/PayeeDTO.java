@@ -4,7 +4,7 @@ import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Role;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 public class PayeeDTO
 {
@@ -23,6 +23,7 @@ public class PayeeDTO
     {
         this.name = name;
         this.role = role;
+        this.hash = hashCode();
     }
 
     PayeeDTO(String name, Role role, String description)
@@ -30,6 +31,7 @@ public class PayeeDTO
         this.name = name;
         this.role = role;
         this.description = description;
+        this.hash = hashCode();
     }
 
 
@@ -53,6 +55,12 @@ public class PayeeDTO
         result.setHash(result.hashCode());
 
         return result;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.name, this.role);
     }
 
     public String getName() {

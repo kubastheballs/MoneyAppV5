@@ -1,6 +1,7 @@
 package com.moneyAppV5.transaction.service;
 
 import com.moneyAppV5.account.Account;
+import com.moneyAppV5.bill.Bill;
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.budget.BudgetPosition;
 import com.moneyAppV5.category.Category;
@@ -241,5 +242,23 @@ public class TransactionService
     public List<Integer> readCategoriesIdsByBillId(int billId)
     {
         return this.repository.findCategoriesIdByBillId(billId);
+    }
+
+    public void createTransactions(List<Transaction> transactions)
+    {
+        for (Transaction t : transactions)
+            this.repository.save(t);
+    }
+
+    public void createTransactionsFromBill(List<Transaction> transactions, Bill bill)
+    {
+        for (Transaction t : transactions)
+        {
+            t.setBill(bill);
+            t.setHash(t.hashCode());
+
+            this.repository.save(t);
+        }
+
     }
 }

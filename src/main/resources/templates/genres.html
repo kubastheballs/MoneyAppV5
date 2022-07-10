@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_black.css">
+</head>
+<body>
+<main>
+    <!--/*@thymesVar id="genre" type="com.moneyAppV5.product.dto.GenreDTO"*/-->
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <h2 th:if="${message != null}" th:text="${message}"></h2>
+    <form action="#" method="post" th:action="@{/genres}" th:object="${genre}">
+        <fieldset>
+            <label>Nazwa
+                <input th:field="*{name}">
+            </label>
+            <label>Opis
+                <input th:field="*{description}">
+            </label>
+            <button type="submit">Dodaj</button>
+            <button type="reset">Wyczyść</button>
+        </fieldset>
+    </form>
+    <a th:href="@{/moneys}">Strona główna</a>
+</main>
+
+</body>
+</html>

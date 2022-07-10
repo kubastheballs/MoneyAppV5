@@ -1,12 +1,14 @@
 package com.moneyAppV5.bill.dto;
 
 import com.moneyAppV5.account.Account;
+import com.moneyAppV5.bill.Bill;
 import com.moneyAppV5.budget.Budget;
 import com.moneyAppV5.category.Type;
 import com.moneyAppV5.transaction.Payee;
 import com.moneyAppV5.transaction.Transaction;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +20,8 @@ public class BillWriteModel
     private Budget budget;
     private List<Transaction> transactions = new ArrayList<>();
     private int hash;
+
+
 
     public BillWriteModel()
     {
@@ -87,13 +91,28 @@ public class BillWriteModel
         return sum;
     }
 
+    public Bill toBill()
+    {
+        var bill = new Bill();
+
+        bill.setDay(this.day);
+        bill.setPayee(this.payee);
+        bill.setAccount(this.account);
+        bill.setBudget(this.budget);
+        bill.setTransactions(new HashSet<>(this.transactions));
+        bill.setHash(bill.hashCode());
+
+        return bill;
+    }
+
     public BillDTO toDto()
     {
         return new BillDTO.BillDtoBuilder()
                 .buildDay(this.day)
                 .buildPayee(this.payee.toDto())
                 .buildAccount(this.account.toDto())
-                .buildBudget(this.budget.toDto())
+//                TODO przy obecnym modelu formularza nie ma podanego budżetu
+//                .buildBudget(this.budget.toDto())
                 .buildTransactions(this.transactions.stream().map(Transaction::toDto).collect(Collectors.toList()))
                 .buildHash(this.hash)
                 .buildSum()

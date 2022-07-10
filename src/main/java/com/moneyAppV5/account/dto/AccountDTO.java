@@ -4,11 +4,9 @@ import com.moneyAppV5.account.Account;
 import com.moneyAppV5.bill.Bill;
 import com.moneyAppV5.bill.dto.BillDTO;
 import com.moneyAppV5.budget.dto.BudgetDTO;
-import com.moneyAppV5.transaction.Transaction;
 import com.moneyAppV5.transaction.dto.TransactionDTO;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,16 +67,6 @@ public class AccountDTO
         this.hash = account.getHash();
     }
 
-    private List<TransactionDTO> transactionsToDto(Set<Transaction> list)
-    {
-        List<TransactionDTO> dtos = new ArrayList<>();
-
-        for (Transaction t : list)
-            dtos.add(new TransactionDTO(t));
-
-        return dtos;
-    }
-
     private AccountDTO(AccountDtoBuilder builder)
     {
         this.name = builder.name;
@@ -128,7 +116,7 @@ public class AccountDTO
         Set<Bill> bills = new HashSet<>();
 
         for (BillDTO b : list)
-        bills.add(b.toBill());
+            bills.add(b.toBill());
 
         return bills;
     }
