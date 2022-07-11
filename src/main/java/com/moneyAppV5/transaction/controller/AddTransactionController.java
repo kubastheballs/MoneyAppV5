@@ -87,7 +87,6 @@ public class AddTransactionController
         current.getTransactions().add(new Transaction());
 
         model.addAttribute("bill", current);
-//        model.addAttribute("budgetHash", hash);
 
         return "addTransactions";
     }

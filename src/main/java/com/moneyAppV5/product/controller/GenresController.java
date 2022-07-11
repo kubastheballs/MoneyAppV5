@@ -53,6 +53,7 @@ public class GenresController
         this.productService.createGenre(current);
 
         model.addAttribute("genre", new GenreDTO());
+        model.addAttribute("message", "Dodano!");
 
         return "genres";
     }
